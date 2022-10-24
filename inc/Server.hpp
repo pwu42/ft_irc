@@ -6,30 +6,32 @@
 
 /* defines */
 
-#define BUF_SIZE 512
+#define BUF_SIZE 8192
 
-/* utils */
-
-void handler(int signo);
-
-/* Server class */
+extern bool serv_on;
 
 class Server
 {
 private:
-	const int _port;
-	const std::string _pass;
-	char _buffer[BUF_SIZE];
+	const int Port;
+	const std::string Pass;
+	char Buffer[BUF_SIZE];
 
-	int _server_sock;
-	struct sockaddr_in _address;
-	socklen_t _address_len;
+	int ServerSock;
+	struct sockaddr_in Address;
+	socklen_t AddrLength;
 
-	int _client_sock;
+	int ClientSock;
 
 public:
 	Server(int port, std::string pass);
 	~Server();
 
-	void run();
+	void Run();
+
+private:
+	void InitSocket();
+	void Exit(bool ex = false, std::string msg = "");
 };
+
+void handler(int signo);

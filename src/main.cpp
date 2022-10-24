@@ -6,10 +6,9 @@ int main(int ac, char **av)
 
 	if (ac != 3)
 	{
-		std::cerr << "usage: ./ircserv <port> <password>\n";
+		std::cerr << "usage: ./ircserv port password\n";
 		return 1;
 	}
-	std::cerr << "Server is starting ...\n";
 	try
 	{
 		server = new Server(atoi(av[1]), std::string(av[2]));
@@ -21,7 +20,7 @@ int main(int ac, char **av)
 	}
 	try
 	{
-		server->run();
+		server->Run();
 	}
 	catch(const std::exception& e)
 	{

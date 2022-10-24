@@ -1,6 +1,7 @@
 CXX			:= c++
 CXXFLAGS	:= -Wall -Wextra -Werror -std=c++98 -g
 NAME		:= ircserv
+ARG			:= 6666 password
 
 INC			:= -Iinc
 SRC			:= $(addprefix src/, \
@@ -40,6 +41,6 @@ v: all
 		--track-fds=yes \
 		--show-leak-kinds=all \
 		--show-reachable=yes \
-	./$(NAME) 6666 a
+	./$(NAME) $(ARG)
 
 .PHONY: all clean fclean re

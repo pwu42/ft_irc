@@ -1,16 +1,16 @@
 #pragma once
 
-#include <sys/socket.h>
-#include <netdb.h>
 #include <csignal>
-#include <poll.h>
-#include <unistd.h>
-#include <fcntl.h>
-
 #include <cstdlib>
+#include <cstring>
+
+#include <fcntl.h>
+#include <netdb.h>
+#include <poll.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
 #include <iostream>
 #include <string>
 
 #include "../inc/Server.hpp"
-
-extern bool serv_on;
