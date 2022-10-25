@@ -20,7 +20,7 @@ int main(int ac, char **av)
 	}
 	try
 	{
-		server->Run();
+		server->run();
 	}
 	catch(const std::exception& e)
 	{

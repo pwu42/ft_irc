@@ -3,35 +3,43 @@
 /* includes */
 
 #include "ft_irc.hpp"
+#include "Client.hpp"
 
 /* defines */
 
 #define BUF_SIZE 8192
 
-extern bool serv_on;
+extern bool on;
 
 class Server
 {
 private:
-	const int Port;
-	const std::string Pass;
-	char Buffer[BUF_SIZE];
+	const int port;
+	const std::string pass;
 
-	int ServerSock;
-	struct sockaddr_in Address;
-	socklen_t AddrLength;
+	char buffer[BUF_SIZE + 1];
+	std::string message;
 
-	int ClientSock;
+	int serverSock;
+	struct sockaddr_in address;
+	socklen_t addrLength;
+
+	int clientSock;
+	Client client;
 
 public:
 	Server(int port, std::string pass);
 	~Server();
 
-	void Run();
+	void run();
 
 private:
-	void InitSocket();
-	void Exit(bool ex = false, std::string msg = "");
+	void initSocket();
+
+	int readMessage();
+	void parseMessage();
+
+	void exit(bool ex = false, std::string msg = "");
 };
 
 void handler(int signo);

@@ -7,6 +7,8 @@ INC			:= -Iinc
 SRC			:= $(addprefix src/, \
 					main.cpp \
 					Server.cpp \
+					Client.cpp \
+					Command.cpp \
 				)
 
 OBJ_DIR	:= ./obj

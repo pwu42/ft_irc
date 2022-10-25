@@ -12,5 +12,9 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <map>
 
-#include "../inc/Server.hpp"
+#include "Server.hpp"
+#include "Client.hpp"
+#include "Command.hpp"

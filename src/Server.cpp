@@ -1,84 +1,107 @@
 #include "../inc/Server.hpp"
 
-bool serv_on = false;
+bool on = false;
 
 Server::Server(int port, std::string pass):
-	Port(port),
-	Pass(pass),
-	ServerSock(-2),
-	ClientSock(-2)
+	port(port),
+	pass(pass),
+	message(""),
+	serverSock(-2),
+	clientSock(-2)
 {
 	std::cerr << " o0o0o0o Server is starting o0o0o0o\n";
-	signal(SIGINT, handler);
+	// signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
-	InitSocket();
-	serv_on = true;
+	initSocket();
+	on = true;
 }
 
 Server::~Server()
 {
-	Exit();
+	exit();
 }
 
 void handler(int signo)
 {
 	if (signo == SIGINT || signo == SIGQUIT)
-		serv_on = false;
+		on = false;
 }
 
-void Server::Run()
+int Server::readMessage()
 {
-	int ret;
+	int readCount;
 
+	while (message.find('\n') == std::string::npos)
+	{
+		if ((readCount = recv(clientSock, buffer, BUF_SIZE, 0)) < 0)
+			exit(true, "Error\nrecv()");
+		buffer[readCount] = 0;
+		message += buffer;
+		if (readCount == 0)
+		{
+			std::cerr << "Client has left\n";
+			return 1;
+		}
+	}
+	message.erase(message.find('\n'));
+	if (message.length() > 510)
+	{
+		message.erase(510);
+	}
+	message += "\r\n";
+	return 0;
+}
+
+void Server::parseMessage()
+{
+	Command command(message);
+}
+
+void Server::run()
+{
 	std::cerr << "Waiting for client to connect ... ";
-
-	if ((ClientSock = accept(ServerSock, reinterpret_cast<struct sockaddr *>(&Address), &AddrLength)) < 0)
-		Exit(true, "Error\naccept()");
+	if ((clientSock = accept(serverSock, reinterpret_cast<struct sockaddr *>(&address), &addrLength)) < 0)
+		exit(true, "Error\naccept()");
 
 	std::cerr << "Done\n";
 
 	do
 	{
-		if ((ret = recv(ClientSock, Buffer, BUF_SIZE, 0)) < 0)
-			Exit(true, "Error\nrecv()");
-		if (ret <= 0)
-		{
-			std::cerr << "Client has left\n";
-			break;
-		}
-		// parsing, replying, etc
-		send(ClientSock, Buffer, strlen(Buffer), 0); // receive command here
-	} while (serv_on == true);
+		if (readMessage() == 1)
+			return;
+		parseMessage();
+		send(clientSock, message.c_str(), message.length(), 0); // receive command here
+		message.clear();
+	} while (on == true);
 }
 
-void Server::InitSocket()
+void Server::initSocket()
 {
 	int opt = 1;
 
 	std::cerr << "Creating socket ... ";
-	if ((ServerSock = socket(AF_INET, SOCK_STREAM/* | SOCK_NONBLOCK*/, 6)) < 0)
-		Exit(true, "Error\nsocket()");
-	if (setsockopt(ServerSock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
-		Exit(true, "Error\nsetsockopt()");
-	
-	Address.sin_family = AF_INET;
-	Address.sin_addr.s_addr = INADDR_ANY;
-	Address.sin_port = htons(Port);
-	AddrLength = sizeof(Address);
-	if (bind(ServerSock, reinterpret_cast<struct sockaddr *>(&Address), AddrLength) < 0)
-		Exit(true, "Error\nbind()");
-	if (listen(ServerSock, 4) < 0)
-		Exit(true, "Error\nlisten()");
+	if ((serverSock = socket(AF_INET, SOCK_STREAM/* | SOCK_NONBLOCK*/, 6)) < 0)
+		exit(true, "Error\nsocket()");
+	if (setsockopt(serverSock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+		exit(true, "Error\nsetsockopt()");
+	address.sin_family = AF_INET;
+	address.sin_addr.s_addr = INADDR_ANY;
+	address.sin_port = htons(port);
+	addrLength = sizeof(address);
+	if (bind(serverSock, reinterpret_cast<struct sockaddr *>(&address), addrLength) < 0)
+		exit(true, "Error\nbind()");
+	if (listen(serverSock, 4) < 0)
+		exit(true, "Error\nlisten()");
 
 	std::cerr << "Done\n";
 }
 
-void Server::Exit(bool ex, std::string msg)
+void Server::exit(bool except, std::string msg)
 {
-	if (ServerSock > 0)
-		close(ServerSock);
-	if (ClientSock > 0)
-		close(ClientSock);
-	if (ex == true)
+	if (clientSock > 0)
+		close(clientSock);
+	if (serverSock > 0)
+		close(serverSock);
+	if (except == true)
 		throw std::runtime_error(msg.c_str());
 }
