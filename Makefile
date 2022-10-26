@@ -8,7 +8,7 @@ SRC			:= $(addprefix src/, \
 					main.cpp \
 					Server.cpp \
 					Client.cpp \
-					Command.cpp \
+					SplitMsg.cpp \
 				)
 
 OBJ_DIR	:= ./obj

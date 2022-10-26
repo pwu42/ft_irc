@@ -1,13 +1,10 @@
 #pragma once
 
-/* includes */
-
-#include <string>
+#include "ft_irc.hpp"
 
 class Client
 {
 private:
-	// bool hasPass;
 	std::string nickname;
 	std::string username;
 

@@ -1,9 +1,10 @@
-#include "../inc/Command.hpp"
+#include "SplitMsg.hpp"
 
-Command::Command(std::string message):
+SplitMsg::SplitMsg(std::string message):
 	command(),
 	params()
 {
+	message.erase(0, message.find_first_not_of(" "));
 	size_t pos = message.find_first_of(" \r\n");
 
 	command = message.substr(0, pos);
@@ -12,8 +13,8 @@ Command::Command(std::string message):
 	pos = message.find_first_not_of(" \r\n", pos);
 	if (pos == std::string::npos)
 		return;
-	findParams(message.substr(pos));
-	
+	setParams(message.substr(pos));
+
 	std::cerr << "params:" << params.size() << "\n";
 	for (std::vector<std::string>::iterator it = params.begin(); it < params.end(); it++)
 	{
@@ -21,11 +22,11 @@ Command::Command(std::string message):
 	}
 }
 
-Command::~Command()
+SplitMsg::~SplitMsg()
 {
 }
 
-void Command::findParams(std::string message)
+void SplitMsg::setParams(std::string message)
 {
 	while (message.size())
 	{

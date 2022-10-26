@@ -1,11 +1,10 @@
-#include "../inc/Server.hpp"
+#include "Server.hpp"
 
 bool on = false;
 
 Server::Server(int port, std::string pass):
 	port(port),
 	pass(pass),
-	message(""),
 	serverSock(-2),
 	clientSock(-2)
 {
@@ -27,9 +26,10 @@ void handler(int signo)
 		on = false;
 }
 
-int Server::readMessage()
+int Server::readMessage(std::string & message)
 {
-	int readCount;
+	char buffer[BUF_SIZE + 1];
+	ssize_t readCount;
 
 	while (message.find('\n') == std::string::npos)
 	{
@@ -52,9 +52,11 @@ int Server::readMessage()
 	return 0;
 }
 
-void Server::parseMessage()
+void Server::exeMessage(SplitMsg & message)
 {
-	Command command(message);
+	std::string command = message.getCommand();
+
+
 }
 
 void Server::run()
@@ -67,11 +69,13 @@ void Server::run()
 
 	do
 	{
-		if (readMessage() == 1)
+		std::string message;
+		if (readMessage(message) == 1)
 			return;
-		parseMessage();
-		send(clientSock, message.c_str(), message.length(), 0); // receive command here
-		message.clear();
+
+		SplitMsg command(message);
+
+		send(clientSock, message.c_str(), message.length(), 0);
 	} while (on == true);
 }
 

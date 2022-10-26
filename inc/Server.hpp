@@ -4,6 +4,7 @@
 
 #include "ft_irc.hpp"
 #include "Client.hpp"
+#include "SplitMsg.hpp"
 
 /* defines */
 
@@ -16,9 +17,6 @@ class Server
 private:
 	const int port;
 	const std::string pass;
-
-	char buffer[BUF_SIZE + 1];
-	std::string message;
 
 	int serverSock;
 	struct sockaddr_in address;
@@ -36,8 +34,8 @@ public:
 private:
 	void initSocket();
 
-	int readMessage();
-	void parseMessage();
+	int readMessage(std::string & message);
+	void exeMessage(SplitMsg & message);
 
 	void exit(bool ex = false, std::string msg = "");
 };

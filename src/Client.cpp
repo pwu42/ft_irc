@@ -1,7 +1,6 @@
-#include "../inc/Client.hpp"
+#include "Client.hpp"
 
 Client::Client():
-	// hasPass(false),
 	nickname(""),
 	username("")
 {

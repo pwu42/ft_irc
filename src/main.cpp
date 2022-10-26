@@ -1,4 +1,5 @@
-#include "../inc/ft_irc.hpp"
+#include "ft_irc.hpp"
+#include "Server.hpp"
 
 int main(int ac, char **av)
 {
@@ -25,6 +26,8 @@ int main(int ac, char **av)
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
+		delete server;
+		return 1;
 	}
 	delete server;
 	return 0;
