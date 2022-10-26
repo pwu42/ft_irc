@@ -14,3 +14,7 @@
 #include <string>
 #include <vector>
 #include <map>
+
+#define CLIENT_HAS_PASS 1
+#define CLIENT_HAS_NICK 2
+#define CLIENT_HAS_USER 4

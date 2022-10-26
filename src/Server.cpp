@@ -56,7 +56,6 @@ void Server::exeMessage(SplitMsg & message)
 {
 	std::string command = message.getCommand();
 
-
 }
 
 void Server::run()
@@ -73,8 +72,8 @@ void Server::run()
 		if (readMessage(message) == 1)
 			return;
 
-		SplitMsg command(message);
-
+		SplitMsg split(message);
+		exeMessage(split);
 		send(clientSock, message.c_str(), message.length(), 0);
 	} while (on == true);
 }

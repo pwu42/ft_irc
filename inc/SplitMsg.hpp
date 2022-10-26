@@ -12,8 +12,8 @@ public:
 	SplitMsg(std::string message);
 	~SplitMsg();
 
-	std::string & getCommand() { return command; };
-	std::vector<std::string> & getParams() { return params; };
+	std::string & getCommand() { return command; }
+	std::vector<std::string> & getParams() { return params; }
 
 private:
 	void setParams(std::string message);
