@@ -5,9 +5,13 @@
 class Command
 {
 private:
-	std::vector<std::string> av;
+	std::string command;
+	std::vector<std::string> params;
 
 public:
 	Command(std::string message);
 	~Command();
+
+private:
+	void findParams(std::string message);
 };
