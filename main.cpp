@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <string>
+#define BUFF_SIZE 1024
 // int main(int argc, char **argv)
 // {
 // 	if (argc != 3)
@@ -43,12 +44,34 @@ int main()
 		return (std::cout << "Error : bind" << std::endl, 1);
 	if (listen(fd, 123) < 0)
 		return (std::cout << "Error : listen" << std::endl, 1);
+
 	int client;
 	if ((client = accept(fd, (struct sockaddr *) &addr, &addr_len)) < 0)
-		return (std::cout << "Error : listen" << std::endl, 1);
-		// accept
+		return (std::cout << "Error : accept" << std::endl, 1);
+	if (client)
+		std::cout << "accept a new user" << std::endl;
 
+	char *buffer[BUFF_SIZE];
+	std::string msg = "Salut vous\r\n";
+	while (1)
+	{
+		if (recv(client, buffer, BUFF_SIZE, 0) < 0)
+		{
+			 std::cout << "Error : recv" << std::endl, 1;
+			 break;
+		}
+		if (send(client, msg.c_str(), msg.size(), 0) < 0)
+		{
+			std::cout << "Error : send" << std::endl, 1;
+			break;
+		}
+		// poll
+	}
+
+	close(client);
 	close(fd);
-	// loop
 	// close
 }
+// nc localhost 1667
+
+// ./proxy.sh 4243 irc.ircube.org 6667
