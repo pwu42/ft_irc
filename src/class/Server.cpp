@@ -11,6 +11,7 @@ Server::Server(int port, std::string pass):
 {
 	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
 	getHostInfo();
+	initReplies();
 	// signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	initSocket();
@@ -56,12 +57,17 @@ int Server::readMessage(Client * sender, std::string & message)
 
 void Server::exeMessage(Client * sender, SplitMsg & message)
 {
+	if (message.getParams().size() > 15)
+		return;
+
 	std::string command = message.getCommand();
 
 	if (command == std::string("PASS"))
-		return cmdPass(sender, message.getParams());
+		cmdPass(sender, message.getParams());
 	else if (command == std::string("NICK"))
-		return cmdNick(sender, message.getParams());
+		cmdNick(sender, message.getParams());
+	else if (command == std::string("USER"))
+		cmdUser(sender, message.getParams());
 }
 
 void Server::run()
@@ -107,6 +113,17 @@ void Server::getHostInfo()
 	std::cerr << "Done\t\t; Server IP address is : " << ip << '\n';
 }
 
+void Server::initReplies()
+{
+	replies.insert(std::make_pair("431", ":No nickname given\r\n"));
+	replies.insert(std::make_pair("432", ":Erroneous nickname\r\n"));
+	replies.insert(std::make_pair("433", ":Nickname is already in use\r\n"));
+	replies.insert(std::make_pair("451", ":You have not registered\r\n"));
+	replies.insert(std::make_pair("461", ":Not enough parameters\r\n"));
+	replies.insert(std::make_pair("462", ":Unauthorized command (already registered)\r\n"));
+	replies.insert(std::make_pair("464", ":Password incorrect\r\n"));
+}
+
 void Server::initSocket()
 {
 	int opt = 1;
@@ -126,6 +143,12 @@ void Server::initSocket()
 		exit(true, "Error\nlisten()");
 
 	std::cerr << "Done\n";
+}
+
+ssize_t Server::sendNumeric(Client * target, std::string numeric, std::string param1, std::string param2)
+{
+	std::string reply = ":" + hostname + " " + numeric + " " + target->getNick() + " " + param1 + param2 + replies[numeric];
+	return send(target->getSock(), reply.c_str(), reply.length(), 0);
 }
 
 void Server::exit(bool except, std::string msg)

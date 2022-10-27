@@ -12,7 +12,7 @@ private:
 	int sock;
 
 public:
-	Client(int fd, std::string nick = "");
+	Client(int fd, std::string nick = "*");
 	~Client();
 
 	void setPass();

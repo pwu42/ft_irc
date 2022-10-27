@@ -21,6 +21,8 @@ private:
 	std::string hostname;
 	std::string ip;
 
+	std::map<std::string, std::string> replies;
+
 	int serverSock;
 	struct sockaddr_in address;
 	socklen_t addrLength;
@@ -37,6 +39,7 @@ private:
 	Server();
 	Server(Server const & x);
 
+	void initReplies();
 	void getHostInfo();
 	void initSocket();
 
@@ -45,11 +48,10 @@ private:
 
 	void cmdPass(Client * sender, std::vector<std::string> & params);
 	void cmdNick(Client * sender, std::vector<std::string> & params);
-	void nickReply(Client * sender, std::string & newNick);
 	void cmdUser(Client * sender, std::vector<std::string> & params);
 
+	ssize_t sendNumeric(Client * target, std::string reply, std::string param1 = "", std::string param2 = "");
 	void exit(bool ex = false, std::string msg = "");
 };
 
 void handler(int signo);
-ssize_t sendNumeric(int fd, std::string reply, std::string param1 = "", std::string param2 = "");
