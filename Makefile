@@ -5,10 +5,19 @@ ARG			:= 6666 password
 
 INC			:= -Iinc
 SRC			:= $(addprefix src/, \
+					$(addprefix class/, \
+						Server.cpp \
+						Client.cpp \
+						SplitMsg.cpp \
+					) \
+					$(addprefix commands/, \
+						pass.cpp \
+						nick.cpp \
+					) \
+					$(addprefix utils/, \
+						sendNumeric.cpp \
+					) \
 					main.cpp \
-					Server.cpp \
-					Client.cpp \
-					SplitMsg.cpp \
 				)
 
 OBJ_DIR	:= ./obj

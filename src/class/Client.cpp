@@ -1,9 +1,10 @@
 #include "Client.hpp"
 
-Client::Client():
+Client::Client(int fd, std::string nick):
 	status(0),
-	nickname(""),
-	username("")
+	nickname(nick),
+	username(""),
+	sock(fd)
 {
 }
 
@@ -26,4 +27,9 @@ void Client::setUser(std::string newUser)
 {
 	username = newUser;
 	status |= CLIENT_HAS_USER;
+}
+
+void Client::setSock(int fd)
+{
+	sock = fd;
 }

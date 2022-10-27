@@ -5,10 +5,12 @@ bool on = false;
 Server::Server(int port, std::string pass):
 	port(port),
 	pass(pass),
-	serverSock(-2),
-	clientSock(-2)
+	hostname(""),
+	ip(""),
+	serverSock(-2)
 {
-	std::cerr << " o0o0o0o Server is starting o0o0o0o\n";
+	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
+	getHostInfo();
 	// signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	initSocket();
@@ -26,14 +28,14 @@ void handler(int signo)
 		on = false;
 }
 
-int Server::readMessage(std::string & message)
+int Server::readMessage(Client * sender, std::string & message)
 {
 	char buffer[BUF_SIZE + 1];
 	ssize_t readCount;
 
 	while (message.find('\n') == std::string::npos)
 	{
-		if ((readCount = recv(clientSock, buffer, BUF_SIZE, 0)) < 0)
+		if ((readCount = recv(sender->getSock(), buffer, BUF_SIZE, 0)) < 0)
 			exit(true, "Error\nrecv()");
 		buffer[readCount] = 0;
 		message += buffer;
@@ -52,30 +54,57 @@ int Server::readMessage(std::string & message)
 	return 0;
 }
 
-void Server::exeMessage(SplitMsg & message)
+void Server::exeMessage(Client * sender, SplitMsg & message)
 {
 	std::string command = message.getCommand();
 
+	if (command == std::string("PASS"))
+		return cmdPass(sender, message.getParams());
+	else if (command == std::string("NICK"))
+		return cmdNick(sender, message.getParams());
 }
 
 void Server::run()
 {
+	int clientSock;
+
 	std::cerr << "Waiting for client to connect ... ";
 	if ((clientSock = accept(serverSock, reinterpret_cast<struct sockaddr *>(&address), &addrLength)) < 0)
 		exit(true, "Error\naccept()");
+	Client client(clientSock);
+	clients.insert(std::make_pair(clientSock, &client));
 
 	std::cerr << "Done\n";
 
 	do
 	{
 		std::string message;
-		if (readMessage(message) == 1)
+		if (readMessage(clients[clientSock], message) == 1)
 			return;
 
 		SplitMsg split(message);
-		exeMessage(split);
-		send(clientSock, message.c_str(), message.length(), 0);
+		exeMessage(clients[clientSock], split);
 	} while (on == true);
+}
+
+void Server::getHostInfo()
+{
+	char host[256];
+	char *ip_buffer;
+	struct hostent *host_entry;
+	int host_name;
+
+	std::cerr << "Retrieving host info ... ";
+	if ((host_name = gethostname(host, sizeof(host))) < 0)
+		exit(true, "Error\ngethostname()");
+	if ((host_entry = gethostbyname(host)) == NULL)
+		exit(true, "Error\ngethostbyname()");
+	ip_buffer = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0]));
+
+	hostname = host;
+	ip = ip_buffer;
+
+	std::cerr << "Done\t\t; Server IP address is : " << ip << '\n';
 }
 
 void Server::initSocket()
@@ -101,8 +130,9 @@ void Server::initSocket()
 
 void Server::exit(bool except, std::string msg)
 {
-	if (clientSock > 0)
-		close(clientSock);
+	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++)
+		if (it->first > 0)
+			close(it->first);
 	if (serverSock > 0)
 		close(serverSock);
 	if (except == true)
