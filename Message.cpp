@@ -50,22 +50,53 @@ void Message::setReply(std::string const &reply)
 
 bool Message::receiveMsg()
 {
-	char *buffer[BUFF_SIZE];
-	if (recv(_socket, buffer, BUFF_SIZE, 0) < 0)
+	char buffer[BUFF_SIZE];
+	int cmdlen;
+	bzero(buffer, BUFF_SIZE);
+	if ((cmdlen = recv(_socket, buffer, BUFF_SIZE, 0)) < 0)
 	{
 		 std::cout << "Error : recv" << std::endl;
 		 return (true);
 	}
+	// buffer[cmdlen] = '\0';
+	_message = buffer;
 	return (false);
 }
+
 bool Message::sendMsg()
 {
+	_parseMsg();
 	if (send(_socket, _reply.c_str(), _reply.size(), MSG_DONTWAIT) < 0)
 	{
 		std::cout << "Error : send" << std::endl;
 		return (true);
 	}
 	return (false);
+}
+bool Message::_parseMsg()
+{
+	std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
+
+	size_t res  = _message.find(" ");
+	res = (res < _message.size()) ? res : _message.size();
+	_command = _message.substr(0, res);
+	std::cout << "Command == "<< _command << std::endl;
+
+	res  = _message.find(" :");
+	res = (res < _message.size()) ? res : _message.size();
+	_args = _message.substr(_command.size(), res);
+	std::cout << "Args == "<< _args << std::endl;
+
+
+	// _args = _message.substr(_command.size(), _message.find(" :"));
+
+	if (res != _message.size())
+		_message = _message.substr(res + 2 , _message.size());
+	else
+	 	_message = "";
+	std::cout << "Message == "<< _message << std::endl;
+
+	return (true);
 }
 
 Message::~Message()

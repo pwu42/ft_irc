@@ -3,7 +3,7 @@
 User::User()
 {
 	_sock = -1;
-	_nick = "";
+	_nick = "*";
 	_addr = "";
 	_username = "";
 }

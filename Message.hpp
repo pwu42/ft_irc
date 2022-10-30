@@ -23,6 +23,7 @@ class Message
 		std::string _args;
 		std::string _message;
 		std::string _reply;
+		bool _parseMsg();
 
 	public :
 		Message(int socket);
@@ -39,7 +40,7 @@ class Message
 
 		bool receiveMsg();
 		bool sendMsg();
-		
+
 		~Message();
 };
 
