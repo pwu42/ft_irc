@@ -23,7 +23,7 @@ class Message
 		std::string _args;
 		std::string _message;
 		std::string _reply;
-		bool _parseMsg();
+		bool _parseReceive();
 
 	public :
 		Message(int socket);
@@ -33,8 +33,8 @@ class Message
 		std::string getMessage() const ;
 		std::string getReply() const ;
 
-		void setCommand(std::string const &command);
-		void setArgs(std::string const &args);
+		// void setCommand(std::string const &command);
+		// void setArgs(std::string const &args);
 		void setMessage(std::string const &message);
 		void setReply(std::string const &reply);
 

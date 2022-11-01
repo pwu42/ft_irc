@@ -27,20 +27,19 @@ std::string Message::getReply() const
 	return (_reply);
 }
 
-void Message::setCommand(std::string const &command)
-{
-	_command = command;
-}
+// void Message::setCommand(std::string const &command)
+// {
+// 	_command = command;
+// }
 
-void Message::setArgs(std::string const &args)
-{
-	_args = args;
-}
+// void Message::setArgs(std::string const &args)
+// {
+// 	_args = args;
+// }
 
 void Message::setMessage(std::string const &message)
 {
 	_message = message;
-
 }
 
 void Message::setReply(std::string const &reply)
@@ -58,14 +57,13 @@ bool Message::receiveMsg()
 		 std::cout << "Error : recv" << std::endl;
 		 return (true);
 	}
-	// buffer[cmdlen] = '\0';
 	_message = buffer;
+	_parseReceive();
 	return (false);
 }
 
 bool Message::sendMsg()
 {
-	_parseMsg();
 	if (send(_socket, _reply.c_str(), _reply.size(), MSG_DONTWAIT) < 0)
 	{
 		std::cout << "Error : send" << std::endl;
@@ -73,29 +71,27 @@ bool Message::sendMsg()
 	}
 	return (false);
 }
-bool Message::_parseMsg()
+
+bool Message::_parseReceive()
 {
-	std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
+	// std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
 
 	size_t res  = _message.find(" ");
 	res = (res < _message.size()) ? res : _message.size();
 	_command = _message.substr(0, res);
-	std::cout << "Command == "<< _command << std::endl;
+	// std::cout << "Command == "<< _command << std::endl;
+	_message = _message.substr(_command.size(), _message.size());
 
 	res  = _message.find(" :");
 	res = (res < _message.size()) ? res : _message.size();
-	_args = _message.substr(_command.size(), res);
-	std::cout << "Args == "<< _args << std::endl;
-
-
-	// _args = _message.substr(_command.size(), _message.find(" :"));
+	_args = _message.substr(0, res);
+	// std::cout << "Args == "<< _args << std::endl;
 
 	if (res != _message.size())
 		_message = _message.substr(res + 2 , _message.size());
 	else
 	 	_message = "";
-	std::cout << "Message == "<< _message << std::endl;
-
+	// std::cout << "Message == "<< _message << std::endl;
 	return (true);
 }
 

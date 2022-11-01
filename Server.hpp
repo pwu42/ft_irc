@@ -12,9 +12,12 @@
 #include <iostream>
 #include <string>
 #include "User.hpp"
+#include "Message.hpp"
 
 class Server
 {
+	// std::map<std::string, User *> _users;
+	// typedef std::string (*FPTR)(Message, User &);
 private:
 	const std::string _port;
 	const std::string _pass;
@@ -22,12 +25,13 @@ private:
 	int _sock;
 	struct sockaddr_in _address;
 	socklen_t _addrLenght;
-	// std::map<std::string, User *> _users;
+	typedef std::string (*FPTR)(Message);
+	std::map<std::string, FPTR> _commands;
 	User _client;
 
 public:
 	Server(std::string port, std::string pass);
-
+	std::string usecmd(Message msg);
 	void ReceiveUser();
 	int getSock() const;
 	User getClient() const;
@@ -35,6 +39,7 @@ public:
 
 	~Server();
 
+	// std::string usecmd(Message msg, User &user);
 };
 
 #endif
