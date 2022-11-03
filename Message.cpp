@@ -3,9 +3,7 @@
 
 Message::Message(int socket) : _socket(socket) , _reply("Salut vous \r\n")
 {
-
 }
-
 
 std::string Message::getCommand() const
 {
@@ -72,7 +70,7 @@ bool Message::sendMsg()
 	return (false);
 }
 
-bool Message::_parseReceive()
+void Message::_parseReceive()
 {
 	// std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
 
@@ -92,7 +90,6 @@ bool Message::_parseReceive()
 	else
 	 	_message = "";
 	// std::cout << "Message == "<< _message << std::endl;
-	return (true);
 }
 
 Message::~Message()

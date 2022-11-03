@@ -34,12 +34,10 @@ Server::Server(std::string port, std::string pass) : _port(port) , _pass(pass)
 	}
 
 	std::cout << "Success creating server" << std::endl;
+	// _setCommands();
 }
 
-std::string CmdNick(Message msg)
-{
-	return (msg.getCommand());
-}
+
 void Server::ReceiveUser()
 {
 	_client.setSock(accept(_sock, (struct sockaddr *) &_address, &_addrLenght));
@@ -47,11 +45,11 @@ void Server::ReceiveUser()
 		std::cout << "Error : accept" << std::endl;
 }
 
-std::string Server::usecmd(Message msg)
-{
-	std::string reply = _commands[msg.getCommand()](msg);
-	return(reply);
-}
+// std::string Server::usecmd(Message msg)
+// {
+// 	std::string reply = _commands[msg.getCommand()](msg);
+// 	return(reply);
+// }
 
 User Server::getClient() const
 {

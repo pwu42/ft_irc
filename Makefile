@@ -15,7 +15,7 @@ vpath %.cpp $(foreach dir, $(SRC_DIR), $(dir):)
 vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 
 ##List every .c found inside SRC_DIR
-SRC = main.cpp  Server.cpp User.cpp Message.cpp
+SRC = main.cpp  Server.cpp User.cpp Message.cpp  numerics.cpp pass.cpp initcmds.cpp nick.cpp
 
 ##List every .h found inside INC_DIR
 INC =

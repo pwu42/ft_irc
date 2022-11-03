@@ -14,10 +14,11 @@
 #include "User.hpp"
 #include "Message.hpp"
 
+// typedef std::string (*FPTR)(Message);
+
 class Server
 {
 	// std::map<std::string, User *> _users;
-	// typedef std::string (*FPTR)(Message, User &);
 private:
 	const std::string _port;
 	const std::string _pass;
@@ -25,18 +26,20 @@ private:
 	int _sock;
 	struct sockaddr_in _address;
 	socklen_t _addrLenght;
-	typedef std::string (*FPTR)(Message);
-	std::map<std::string, FPTR> _commands;
 	User _client;
+	// std::map<std::string, FPTR> _commands;
+	// std::string _rpl_welcome(Message msg);
+	// std::string _cmdNick(Message msg);
+	// std::string _cmdPass(Message msg);
+	// void _setCommands();
 
 public:
 	Server(std::string port, std::string pass);
-	std::string usecmd(Message msg);
+	// std::string usecmd(Message msg);
 	void ReceiveUser();
 	int getSock() const;
 	User getClient() const;
 	int getClientSock() const;
-
 	~Server();
 
 	// std::string usecmd(Message msg, User &user);
