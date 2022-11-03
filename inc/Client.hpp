@@ -8,6 +8,7 @@ private:
 	unsigned char status;
 	std::string nickname;
 	std::string username;
+	std::string fullname;
 
 	int sock;
 
@@ -17,8 +18,9 @@ public:
 
 	void setPass();
 	void setNick(std::string newNick);
-	void setUser(std::string newUser);
+	void setUser(std::string newUser, std::string fullName);
 	void setSock(int fd);
+	void signUp();
 
 	unsigned char getStatus() { return status; }
 	std::string & getNick() { return nickname; }

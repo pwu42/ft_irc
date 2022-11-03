@@ -43,6 +43,9 @@ fclean: clean
 re: fclean
 	make all
 
+exe: all
+	./$(NAME) $(ARG)
+
 v: all
 	@valgrind \
 		--leak-check=full \

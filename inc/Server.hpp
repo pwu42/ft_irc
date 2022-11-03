@@ -20,6 +20,8 @@ private:
 
 	std::string hostname;
 	std::string ip;
+	std::string creationDate;
+	size_t fdLimit;
 
 	std::map<std::string, std::string> replies;
 
@@ -37,10 +39,12 @@ public:
 
 private:
 	Server();
-	Server(Server const & x);
+	Server(const Server & x);
 
 	void initReplies();
 	void getHostInfo();
+	void getTime();
+	void getLimits();
 	void initSocket();
 
 	int readMessage(Client * sender, std::string & message);
@@ -51,6 +55,7 @@ private:
 	void cmdUser(Client * sender, std::vector<std::string> & params);
 
 	ssize_t sendNumeric(Client * target, std::string reply, std::string param1 = "", std::string param2 = "");
+	void welcome(Client * target);
 	void exit(bool ex = false, std::string msg = "");
 };
 

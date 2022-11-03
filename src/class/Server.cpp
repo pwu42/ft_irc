@@ -5,15 +5,13 @@ bool on = false;
 Server::Server(int port, std::string pass):
 	port(port),
 	pass(pass),
-	hostname(""),
-	ip(""),
 	serverSock(-2)
 {
 	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
-	getHostInfo();
 	initReplies();
-	// signal(SIGINT, handler);
-	signal(SIGQUIT, handler);
+	getHostInfo();
+	getTime();
+	getLimits();
 	initSocket();
 	on = true;
 }
@@ -37,7 +35,7 @@ int Server::readMessage(Client * sender, std::string & message)
 	while (message.find('\n') == std::string::npos)
 	{
 		if ((readCount = recv(sender->getSock(), buffer, BUF_SIZE, 0)) < 0)
-			exit(true, "Error\nrecv()");
+			exit(true, "recv()");
 		buffer[readCount] = 0;
 		message += buffer;
 		if (readCount == 0)
@@ -48,9 +46,7 @@ int Server::readMessage(Client * sender, std::string & message)
 	}
 	message.erase(message.find('\n'));
 	if (message.length() > 510)
-	{
 		message.erase(510);
-	}
 	message += "\r\n";
 	return 0;
 }
@@ -76,7 +72,7 @@ void Server::run()
 
 	std::cerr << "Waiting for client to connect ... ";
 	if ((clientSock = accept(serverSock, reinterpret_cast<struct sockaddr *>(&address), &addrLength)) < 0)
-		exit(true, "Error\naccept()");
+		exit(true, "accept()");
 	Client client(clientSock);
 	clients.insert(std::make_pair(clientSock, &client));
 
@@ -93,26 +89,6 @@ void Server::run()
 	} while (on == true);
 }
 
-void Server::getHostInfo()
-{
-	char host[256];
-	char *ip_buffer;
-	struct hostent *host_entry;
-	int host_name;
-
-	std::cerr << "Retrieving host info ... ";
-	if ((host_name = gethostname(host, sizeof(host))) < 0)
-		exit(true, "Error\ngethostname()");
-	if ((host_entry = gethostbyname(host)) == NULL)
-		exit(true, "Error\ngethostbyname()");
-	ip_buffer = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0]));
-
-	hostname = host;
-	ip = ip_buffer;
-
-	std::cerr << "Done\t\t; Server IP address is : " << ip << '\n';
-}
-
 void Server::initReplies()
 {
 	replies.insert(std::make_pair("431", ":No nickname given\r\n"));
@@ -124,23 +100,68 @@ void Server::initReplies()
 	replies.insert(std::make_pair("464", ":Password incorrect\r\n"));
 }
 
+void Server::getHostInfo()
+{
+	char host[256];
+	char *ip_buffer;
+	struct hostent *host_entry;
+	int host_name;
+
+	std::cerr << "Retrieving host info ... ";
+	if ((host_name = gethostname(host, sizeof(host))) < 0)
+		exit(true, "gethostname()");
+	if ((host_entry = gethostbyname(host)) == NULL)
+		exit(true, "gethostbyname()");
+	ip_buffer = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0]));
+
+	hostname = host;
+	ip = ip_buffer;
+	if (hostname.length() > 63)
+		hostname = ip;
+
+	std::cerr << "Done\n Host:\t" << hostname << "\n IP:\t" << ip << '\n';
+}
+
+void Server::getTime()
+{
+	time_t t;
+	struct tm * timeinfo;
+
+	time(&t);
+	timeinfo = localtime(&t);
+	creationDate = asctime(timeinfo);
+	creationDate.erase(creationDate.end() - 1);
+}
+
+void Server::getLimits()
+{
+	struct rlimit limits;
+
+	std::cerr << "Retrieving additional info ... ";
+	if (getrlimit(RLIMIT_NOFILE, &limits) < 0)
+		exit(true, "getrlimit()");
+	fdLimit = limits.rlim_cur;
+
+	std::cerr << "Done\n";
+}
+
 void Server::initSocket()
 {
 	int opt = 1;
 
 	std::cerr << "Creating socket ... ";
-	if ((serverSock = socket(AF_INET, SOCK_STREAM/* | SOCK_NONBLOCK*/, 6)) < 0)
-		exit(true, "Error\nsocket()");
+	if ((serverSock = socket(AF_INET, SOCK_STREAM/*  | SOCK_NONBLOCK */, 6)) < 0)
+		exit(true, "socket()");
 	if (setsockopt(serverSock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
-		exit(true, "Error\nsetsockopt()");
+		exit(true, "setsockopt()");
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(port);
 	addrLength = sizeof(address);
 	if (bind(serverSock, reinterpret_cast<struct sockaddr *>(&address), addrLength) < 0)
-		exit(true, "Error\nbind()");
+		exit(true, "bind()");
 	if (listen(serverSock, 4) < 0)
-		exit(true, "Error\nlisten()");
+		exit(true, "listen()");
 
 	std::cerr << "Done\n";
 }
@@ -148,7 +169,24 @@ void Server::initSocket()
 ssize_t Server::sendNumeric(Client * target, std::string numeric, std::string param1, std::string param2)
 {
 	std::string reply = ":" + hostname + " " + numeric + " " + target->getNick() + " " + param1 + param2 + replies[numeric];
-	return send(target->getSock(), reply.c_str(), reply.length(), 0);
+	return send(target->getSock(), reply.c_str(), std::min(size_t(512),reply.length()), 0);
+}
+
+void Server::welcome(Client * target)
+{
+	std::string reply = "Welcome to the Internet Relay Network " + target->getNick() + "!" + target->getUser() + "@" + hostname + "\r\n";
+	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
+
+	reply = "Your host is " + hostname + ", running version 0\r\n";
+	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
+
+	reply = "This server was created " + creationDate + "\r\n";
+	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
+
+	reply = hostname + " 0 o ov\r\n";
+	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
+
+	target->signUp();
 }
 
 void Server::exit(bool except, std::string msg)
@@ -159,5 +197,8 @@ void Server::exit(bool except, std::string msg)
 	if (serverSock > 0)
 		close(serverSock);
 	if (except == true)
+	{
+		std::cerr << "Error\n";
 		throw std::runtime_error(msg.c_str());
+	}
 }

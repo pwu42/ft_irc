@@ -3,7 +3,6 @@
 Client::Client(int fd, std::string nick):
 	status(0),
 	nickname(nick),
-	username(""),
 	sock(fd)
 {
 }
@@ -23,13 +22,19 @@ void Client::setNick(std::string newNick)
 	status |= CLIENT_HAS_NICK;
 }
 
-void Client::setUser(std::string newUser)
+void Client::setUser(std::string newUser, std::string newFullName)
 {
 	username = newUser;
+	fullname = newFullName;
 	status |= CLIENT_HAS_USER;
 }
 
 void Client::setSock(int fd)
 {
 	sock = fd;
+}
+
+void Client::signUp()
+{
+	status |= CLIENT_REGISTER;
 }

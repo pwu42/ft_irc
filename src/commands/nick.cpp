@@ -26,10 +26,9 @@ void nickReply(Client * sender, std::string & newNick, std::string & hostname)
 		reply += ":" + sender->getNick();
 		if (sender->getStatus() & CLIENT_HAS_USER)
 			reply += "!" + sender->getUser() + "@" + hostname;
-		reply += " ";
+		reply += " NICK " + newNick + "\r\n";
+		send(sender->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
 	}
-	reply += "NICK " + newNick + "\r\n";
-	send(sender->getSock(), reply.c_str(), reply.length(), 0);
 	sender->setNick(newNick);
 }
 
@@ -45,4 +44,6 @@ void Server::cmdNick(Client * sender, std::vector<std::string> & params)
 		sendNumeric(sender, ERR_NICKNAMEINUSE, params[0] + " ");
 	else
 		nickReply(sender, params[0], hostname);
+	if (sender->getStatus() == 7)
+		welcome(sender);
 }
