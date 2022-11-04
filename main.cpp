@@ -24,7 +24,6 @@ int main(int argc, char **argv)
 	if (argc != 3)
 		return 0;
 	Server mine(argv[1], argv[2]);
-
 	mine.ReceiveUser();
 	Message newmsg(mine.getClientSock());
 	while (error == false)

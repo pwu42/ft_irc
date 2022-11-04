@@ -6,7 +6,7 @@ static bool isValidNick(std::string)
 }
 
 // repasse a l'opt msg +user
-void Server::_cmdNick(Message msg)
+void Server::_cmdNick(Message &msg)
 {
 	if (!isValidNick(msg.getArgs()))
 	{

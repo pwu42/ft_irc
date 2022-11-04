@@ -4,7 +4,6 @@
 
 void Server::_setCommands()
 {
-
 	_commands["001"] = &Server::_rpl_welcome;
 	_commands["NICK"] = &Server::_cmdNick;
 	_commands["PASS"] = &Server::_cmdPass;
@@ -53,16 +52,13 @@ void Server::ReceiveUser()
 		std::cout << "Error : accept" << std::endl;
 }
 
-void Server::usecmd(Message msg)
+void Server::usecmd(Message &msg)
 {
-	std::cout << _commands["001"] << std::endl;
-	std::cout << &Server::_rpl_welcome << std::endl;
-	std::cout << _commands["PASS"] << std::endl;
-	std::cout << &Server::_cmdPass << std::endl;
-	std::cout << _commands["NICK"] << std::endl;
-	std::cout << &Server::_cmdNick << std::endl;
-	// this->_commands[msg.getCommand()](msg);
-	// _commands["001"](msg);
+
+	if (_commands.count(msg.getCommand()) == 0)
+		std::cout << "Command not found : " << msg.getCommand() << std::endl;
+	else
+		(this->*_commands[msg.getCommand()])(msg);
 }
 
 User Server::getClient() const

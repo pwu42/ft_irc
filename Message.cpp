@@ -75,7 +75,7 @@ void Message::_parseReceive()
 	// std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
 
 	size_t res  = _message.find(" ");
-	res = (res < _message.size()) ? res : _message.size();
+	res = (res < _message.size()) ? res : _message.size() - 1;
 	_command = _message.substr(0, res);
 	// std::cout << "Command == "<< _command << std::endl;
 	_message = _message.substr(_command.size(), _message.size());
