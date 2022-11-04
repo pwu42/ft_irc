@@ -1,7 +1,7 @@
-#include "Commands.hpp"
+#include "Server.hpp"
 
-std::string rpl_welcome(Message msg, User &client) // 001
+void Server::_rpl_welcome(Message msg) // 001
 {
 	(void)msg;
-	return ("001 " + client.getNick() + " :Welcome to the bIRCher Network, " + client.getNick() + "\r\n");
+	msg.setReply("001 " + _client.getNick() + " :Welcome to the bIRCher Network, " + _client.getNick() + "\r\n");
 }

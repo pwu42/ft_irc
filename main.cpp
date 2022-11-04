@@ -14,14 +14,12 @@
 #include "Server.hpp"
 #include "User.hpp"
 #include "Message.hpp"
-#include "Commands.hpp"
 
 #define BUFF_SIZE 1024
 
 int main(int argc, char **argv)
 {
 	bool error = false;
-	std::map<std::string, FPTR> commands;
 
 	if (argc != 3)
 		return 0;
@@ -34,7 +32,7 @@ int main(int argc, char **argv)
 		error = newmsg.receiveMsg();
 		if (!error)
 		{
-			// newmsg.setReply(mine.usecmd(newmsg));
+			mine.usecmd(newmsg);
 			error = newmsg.sendMsg();
 		}
 	}

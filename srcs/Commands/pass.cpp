@@ -1,8 +1,8 @@
-#include "Commands.hpp"
+#include "Server.hpp"
 
-std::string cmdPass(Message msg, User &client)
+void Server::_cmdPass(Message msg)
 {
-	if (_password != msg.getArgs())
-		return ("464 "+ client.getNick() + " :Password incorrect.\r\n");
-	return ("");
+	if (_pass != msg.getArgs())
+		msg.setReply("464 "+ _client.getNick() + " :Password incorrect.\r\n");
+	msg.setReply("");
 }
