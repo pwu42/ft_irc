@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 		error = newmsg.receiveMsg();
 		if (!error)
 		{
-			mine.usecmd(newmsg);
+			// mine.usecmd(newmsg);
 			error = newmsg.sendMsg();
 		}
 	}

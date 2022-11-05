@@ -72,24 +72,26 @@ bool Message::sendMsg()
 
 void Message::_parseReceive()
 {
-	// std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
+	char *tmp;
+	char *str = (char *)_message.c_str();
 
-	size_t res  = _message.find(" ");
-	res = (res < _message.size()) ? res : _message.size() - 1;
-	_command = _message.substr(0, res);
-	// std::cout << "Command == "<< _command << std::endl;
-	_message = _message.substr(_command.size(), _message.size());
-
-	res  = _message.find(" :");
-	res = (res < _message.size()) ? res : _message.size();
-	_args = _message.substr(0, res);
-	// std::cout << "Args == "<< _args << std::endl;
-
-	if (res != _message.size())
-		_message = _message.substr(res + 2 , _message.size());
+	// _args = "";
+	_command = std::strtok(str, " ");
+	while ((tmp = std::strtok(NULL, " ")) && !(tmp[0] == ':'))
+	{
+		std::cout << tmp << '\n';
+		_args += tmp; //vector ou untruc ta vue
+	}
+ 	if (tmp)
+		_message = tmp;
 	else
-	 	_message = "";
-	// std::cout << "Message == "<< _message << std::endl;
+		_message = "";
+
+	std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
+
+	std::cout << "Command == "<< _command << std::endl;
+	std::cout << "Args == "<< _args << std::endl;
+	std::cout << "Message == "<< _message << std::endl;
 }
 
 Message::~Message()

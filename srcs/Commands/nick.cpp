@@ -1,7 +1,23 @@
 #include "Server.hpp"
 
-static bool isValidNick(std::string)
+//  booucle de find
+// static bool isValidNick(std::string nickname, char *tofind)
+static bool isValidNick(std::string nickname)
 {
+	if ((nickname.c_str())[0] == '$' ||
+		(nickname.c_str())[0] == ':' ||
+		(nickname.c_str())[0] == '#' ||
+		(nickname.c_str())[0] == '&')
+		{return (false);}
+
+	if (nickname.find(" ") != std::string::npos ||
+		nickname.find(",") != std::string::npos ||
+		nickname.find(".") != std::string::npos ||
+		nickname.find("?") != std::string::npos ||
+		nickname.find("!") != std::string::npos ||
+		nickname.find("@") != std::string::npos ||
+		nickname.find("*") != std::string::npos)
+		{return (false);}
 	return (true);
 }
 

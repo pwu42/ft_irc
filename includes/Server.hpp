@@ -43,7 +43,7 @@ public:
 	int getClientSock() const;
 	~Server();
 
-	// std::string usecmd(Message msg, User &user);
+	// std::string usecmd(Message &msg, User &user);
 };
 
 #endif
