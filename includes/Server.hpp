@@ -24,6 +24,8 @@ enum e_rpl
 	ERR_ALREADYREGISTERED = 462,
 	ERR_PASSWDMISMATCH = 464
 };
+
+// add enum status sur client
 // typedef void (Server::FPTR)(Message);
 class Server
 {
@@ -36,7 +38,7 @@ private:
 	int _sock;
 	struct sockaddr_in _address;
 	socklen_t _addrLenght;
-	
+
 	void _rpl_welcome(Message &msg);
 
 	void _err_noNicknameGiven(Message &msg);
@@ -48,10 +50,14 @@ private:
 
 	std::map<std::string, void (Server::*)(Message &)> _commands;
 	std::map<unsigned int, void (Server::*)(Message &)> _reply;
-	void callReply(unsigned int rpl_number, Message &msg);
 	User _client;
+
 	void _cmdNick(Message &msg);
 	void _cmdPass(Message &msg);
+	void _cmdPing(Message &msg);
+	void _cmdPong(Message &msg);
+
+	void callReply(unsigned int rpl_number, Message &msg);
 	void _setCommands();
 	void _setReply();
 

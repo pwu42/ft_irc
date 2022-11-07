@@ -6,6 +6,8 @@ void Server::_setCommands()
 {
 	_commands["NICK"] = &Server::_cmdNick;
 	_commands["PASS"] = &Server::_cmdPass;
+	_commands["PING"] = &Server::_cmdPing;
+	_commands["PONG"] = &Server::_cmdPong;
 }
 
 void Server::_setReply()

@@ -74,11 +74,16 @@ void Message::_parseReceive()
 {
 	std::cout << "Message is :   " << _message << std::endl;
 	char *tmp;
+	char *tmp2;
 	std::string cpy(_message.c_str());
 	char *str = (char *)cpy.c_str();
 // find \r\n ou \n et mettre dans str _message str jusqua \r\n
 	if (cpy.size())
-		_command = std::strtok(str, " \r\n");
+	{
+		if ((tmp2 = std::strtok(str, " \r\n")))
+			_command = tmp2;
+	}
+
 	if (!_args.empty())
 		_args.clear();
 	while ((tmp = std::strtok(NULL, " \r\n")) && !(tmp[0] == ':'))
