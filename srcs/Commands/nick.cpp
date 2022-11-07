@@ -23,12 +23,12 @@ void Server::_cmdNick(Message &msg)
 {
 	if ((msg.getArgs()).empty() == true)
 	{
-		msg.setReply("431 " + _client.getNick() + " :No nickname given.\r\n");
+		callReply(ERR_NONICKNAMEGIVEN, msg);
 		return;
 	}
 	else if (!isValidNick((msg.getArgs())[0]))
 	{
-		msg.setReply("432 " + _client.getNick() + " " + (msg.getArgs())[0] + "  :Erroneous nickname.\r\n");
+		callReply(ERR_ERRONEUSNICKNAME, msg);
 		return;
 	}
 	_client.setNick((msg.getArgs())[0]);

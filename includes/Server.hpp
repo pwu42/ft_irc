@@ -14,11 +14,20 @@
 #include "User.hpp"
 #include "Message.hpp"
 // class Server;
-
+enum e_rpl
+{
+	RPL_WELCOME = 001,
+	ERR_NONICKNAMEGIVEN = 431,
+	ERR_ERRONEUSNICKNAME = 432,
+	ERR_NICKNAMEINUSE = 433,
+	ERR_NEEDMOREPARAMS = 461,
+	ERR_ALREADYREGISTERED = 462,
+	ERR_PASSWDMISMATCH = 464
+};
 // typedef void (Server::FPTR)(Message);
 class Server
 {
-	// std::map<std::string, User *> _users;
+	// std::map<int sock, User *> _users;
 	// typedef void (Server::*Fonct)(Message);
 private:
 	const std::string _port;
@@ -27,12 +36,24 @@ private:
 	int _sock;
 	struct sockaddr_in _address;
 	socklen_t _addrLenght;
-	std::map<std::string, void (Server::*)(Message &)> _commands;
-	User _client;
+	
 	void _rpl_welcome(Message &msg);
+
+	void _err_noNicknameGiven(Message &msg);
+	void _err_erroneusNickname(Message &msg);
+	void _err_nicknameInUse(Message &msg);
+	void _err_needMoreParams(Message &msg);
+	void _err_alreadyRegistered(Message &msg);
+	void _err_passwdMisMatch(Message &msg);
+
+	std::map<std::string, void (Server::*)(Message &)> _commands;
+	std::map<unsigned int, void (Server::*)(Message &)> _reply;
+	void callReply(unsigned int rpl_number, Message &msg);
+	User _client;
 	void _cmdNick(Message &msg);
 	void _cmdPass(Message &msg);
 	void _setCommands();
+	void _setReply();
 
 public:
 	Server(std::string port, std::string pass);

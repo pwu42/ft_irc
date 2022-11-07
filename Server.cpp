@@ -4,9 +4,19 @@
 
 void Server::_setCommands()
 {
-	_commands["001"] = &Server::_rpl_welcome;
 	_commands["NICK"] = &Server::_cmdNick;
 	_commands["PASS"] = &Server::_cmdPass;
+}
+
+void Server::_setReply()
+{
+	_reply[RPL_WELCOME] = &Server::_rpl_welcome;
+	_reply[ERR_NONICKNAMEGIVEN] = &Server::_err_noNicknameGiven;
+	_reply[ERR_ERRONEUSNICKNAME] = &Server::_err_erroneusNickname;
+	_reply[ERR_NICKNAMEINUSE] = &Server::_err_nicknameInUse;
+	_reply[ERR_NEEDMOREPARAMS] = &Server::_err_needMoreParams;
+	_reply[ERR_ALREADYREGISTERED] = &Server::_err_alreadyRegistered;
+	_reply[ERR_PASSWDMISMATCH] = &Server::_err_passwdMisMatch;
 }
 
 Server::Server(std::string port, std::string pass) : _port(port) , _pass(pass)
@@ -41,6 +51,7 @@ Server::Server(std::string port, std::string pass) : _port(port) , _pass(pass)
 	}
 	std::cout << "Success creating server" << std::endl;
 	_setCommands();
+	_setReply();
 }
 
 
@@ -58,6 +69,14 @@ void Server::usecmd(Message &msg)
 		std::cout << "Command not found : " << msg.getCommand() << std::endl;
 	else
 		(this->*_commands[msg.getCommand()])(msg);
+}
+
+void Server::callReply(unsigned int rpl_number, Message &msg)
+{
+	if (_reply.count(rpl_number) == 0)
+		std::cout << "Reply not found : " << rpl_number << std::endl;
+	else
+		(this->*_reply[rpl_number])(msg);
 }
 
 User Server::getClient() const

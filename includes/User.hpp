@@ -15,6 +15,9 @@
 # include <map>
 # include <string>
 
+// add enum status sur client
+
+
 class User
 {
 	private :
