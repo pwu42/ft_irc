@@ -12,7 +12,7 @@ bool nickIsValid(std::string & nick)
 bool nickExists(std::map<int, Client *> & clients, std::string & nick)
 {
 	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++)
-		if (it->second->getNick() == nick)
+		if (std::equal(nick.begin(), nick.end(), it->second->getNick().begin()))
 			return true;
 	return false;
 }

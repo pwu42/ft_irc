@@ -32,7 +32,7 @@ private:
 	std::map<int, Client *> clients;
 
 public:
-	Server(int port, std::string pass);
+	Server(int port, const std::string & pass);
 	~Server();
 
 	void run();
@@ -54,9 +54,9 @@ private:
 	void cmdNick(Client * sender, std::vector<std::string> & params);
 	void cmdUser(Client * sender, std::vector<std::string> & params);
 
-	ssize_t sendNumeric(Client * target, std::string reply, std::string param1 = "", std::string param2 = "");
+	ssize_t sendNumeric(Client * target, const std::string & numeric, const std::string & param1 = "", const std::string & param2 = "");
 	void welcome(Client * target);
-	void exit(bool ex = false, std::string msg = "");
+	void exit(bool ex = false, const std::string & msg = "");
 };
 
 void handler(int signo);

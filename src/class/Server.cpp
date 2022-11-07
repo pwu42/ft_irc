@@ -2,16 +2,21 @@
 
 bool on = false;
 
-Server::Server(int port, std::string pass):
+bool caseInsensComp(char a, char b)
+{
+	return std::toupper(a) == std::toupper(b);
+}
+
+Server::Server(int port, const std::string & pass):
 	port(port),
 	pass(pass),
 	serverSock(-2)
 {
 	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
-	initReplies();
 	getHostInfo();
 	getTime();
 	getLimits();
+	initReplies();
 	initSocket();
 	on = true;
 }
@@ -56,13 +61,13 @@ void Server::exeMessage(Client * sender, SplitMsg & message)
 	if (message.getParams().size() > 15)
 		return;
 
-	std::string command = message.getCommand();
+	const std::string & command = message.getCommand();
 
-	if (command == std::string("PASS"))
+	if (std::equal(command.begin(), command.end(), "pass", caseInsensComp))
 		cmdPass(sender, message.getParams());
-	else if (command == std::string("NICK"))
+	else if (std::equal(command.begin(), command.end(), "nick", caseInsensComp))
 		cmdNick(sender, message.getParams());
-	else if (command == std::string("USER"))
+	else if (std::equal(command.begin(), command.end(), "user", caseInsensComp))
 		cmdUser(sender, message.getParams());
 }
 
@@ -91,13 +96,17 @@ void Server::run()
 
 void Server::initReplies()
 {
-	replies.insert(std::make_pair("431", ":No nickname given\r\n"));
-	replies.insert(std::make_pair("432", ":Erroneous nickname\r\n"));
-	replies.insert(std::make_pair("433", ":Nickname is already in use\r\n"));
-	replies.insert(std::make_pair("451", ":You have not registered\r\n"));
-	replies.insert(std::make_pair("461", ":Not enough parameters\r\n"));
-	replies.insert(std::make_pair("462", ":Unauthorized command (already registered)\r\n"));
-	replies.insert(std::make_pair("464", ":Password incorrect\r\n"));
+	replies[RPL_WELCOME] = "\r\n";
+	replies[RPL_YOURHOST] = ":Your host is " + hostname + ", running version 0\r\n";
+	replies[RPL_CREATED] = ":This server was created " + creationDate + "\r\n";
+	replies[RPL_MYINFO] = ':' + hostname + " 0 o ov\r\n";
+	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
+	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";
+	replies[ERR_NICKNAMEINUSE] = ":Nickname is already in use\r\n";
+	replies[ERR_NOTREGISTERED] = ":You have not registered\r\n";
+	replies[ERR_NEEDMOREPARAMS] = ":Not enough parameters\r\n";
+	replies[ERR_ALREADYREGISTERED] = ":Unauthorized command (already registered)\r\n";
+	replies[ERR_PASSWDMISMATCH] = ":Password incorrect\r\n";
 }
 
 void Server::getHostInfo()
@@ -166,7 +175,7 @@ void Server::initSocket()
 	std::cerr << "Done\n";
 }
 
-ssize_t Server::sendNumeric(Client * target, std::string numeric, std::string param1, std::string param2)
+ssize_t Server::sendNumeric(Client * target, const std::string & numeric, const std::string & param1, const std::string & param2)
 {
 	std::string reply = ":" + hostname + " " + numeric + " " + target->getNick() + " " + param1 + param2 + replies[numeric];
 	return send(target->getSock(), reply.c_str(), std::min(size_t(512),reply.length()), 0);
@@ -174,22 +183,15 @@ ssize_t Server::sendNumeric(Client * target, std::string numeric, std::string pa
 
 void Server::welcome(Client * target)
 {
-	std::string reply = "Welcome to the Internet Relay Network " + target->getNick() + "!" + target->getUser() + "@" + hostname + "\r\n";
-	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
-
-	reply = "Your host is " + hostname + ", running version 0\r\n";
-	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
-
-	reply = "This server was created " + creationDate + "\r\n";
-	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
-
-	reply = hostname + " 0 o ov\r\n";
-	send(target->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
+	sendNumeric(target, RPL_WELCOME, ":Welcome to the Internet Relay Network " + target->getNick() + "!" + target->getUser() + "@" + hostname);
+	sendNumeric(target, RPL_YOURHOST);
+	sendNumeric(target, RPL_CREATED);
+	sendNumeric(target, RPL_MYINFO);
 
 	target->signUp();
 }
 
-void Server::exit(bool except, std::string msg)
+void Server::exit(bool except, const std::string & msg)
 {
 	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++)
 		if (it->first > 0)

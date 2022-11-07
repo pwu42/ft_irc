@@ -13,12 +13,12 @@ private:
 	int sock;
 
 public:
-	Client(int fd, std::string nick = "*");
+	Client(int fd, const std::string & nick = "*");
 	~Client();
 
 	void setPass();
-	void setNick(std::string newNick);
-	void setUser(std::string newUser, std::string fullName);
+	void setNick(const std::string & newNick);
+	void setUser(const std::string & newUser, const std::string & fullName);
 	void setSock(int fd);
 	void signUp();
 

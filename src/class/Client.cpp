@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-Client::Client(int fd, std::string nick):
+Client::Client(int fd, const std::string & nick):
 	status(0),
 	nickname(nick),
 	sock(fd)
@@ -16,13 +16,13 @@ void Client::setPass()
 	status |= CLIENT_HAS_PASS;
 }
 
-void Client::setNick(std::string newNick)
+void Client::setNick(const std::string & newNick)
 {
 	nickname = newNick;
 	status |= CLIENT_HAS_NICK;
 }
 
-void Client::setUser(std::string newUser, std::string newFullName)
+void Client::setUser(const std::string & newUser, const std::string & newFullName)
 {
 	username = newUser;
 	fullname = newFullName;
