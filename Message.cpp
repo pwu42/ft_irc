@@ -1,5 +1,5 @@
-#include "Message.hpp"
-#define BUFF_SIZE 1024
+# include "Message.hpp"
+# define BUFF_SIZE 1024
 
 Message::Message(int socket) : _socket(socket) , _reply("Salut vous \r\n")
 {
@@ -10,7 +10,7 @@ std::string Message::getCommand() const
 	return (_command);
 }
 
-std::string Message::getArgs() const
+std::vector<std::string> Message::getArgs() const
 {
 	return (_args);
 }
@@ -72,26 +72,30 @@ bool Message::sendMsg()
 
 void Message::_parseReceive()
 {
+	std::cout << "Message is :   " << _message << std::endl;
 	char *tmp;
-	char *str = (char *)_message.c_str();
-
-	// _args = "";
-	_command = std::strtok(str, " ");
-	while ((tmp = std::strtok(NULL, " ")) && !(tmp[0] == ':'))
-	{
-		std::cout << tmp << '\n';
-		_args += tmp; //vector ou untruc ta vue
-	}
+	std::string cpy(_message.c_str());
+	char *str = (char *)cpy.c_str();
+// find \r\n ou \n et mettre dans str _message str jusqua \r\n
+	if (cpy.size())
+		_command = std::strtok(str, " \r\n");
+	if (!_args.empty())
+		_args.clear();
+	while ((tmp = std::strtok(NULL, " \r\n")) && !(tmp[0] == ':'))
+		_args.push_back(tmp);
  	if (tmp)
-		_message = tmp;
+	{
+		_message = _message.substr(_message.find(" :")  + 2, _message.size() - 1);
+	}
 	else
 		_message = "";
 
-	std::cout << "--------------------------------" << _message << "-----------------------------------------------------"<< std::endl;
-
-	std::cout << "Command == "<< _command << std::endl;
-	std::cout << "Args == "<< _args << std::endl;
-	std::cout << "Message == "<< _message << std::endl;
+	// std::cout << "Command == "<< _command << std::endl;
+	// // std::cout << "Args == "<< _args << std::endl;
+	// for (int i = 0; i < _args.size(); i++) {
+	//    std::cout << "Args == "<< _args.at(i) << std::endl;
+   // }
+	// std::cout << "Message == "<< _message << std::endl;
 }
 
 Message::~Message()

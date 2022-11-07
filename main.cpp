@@ -1,21 +1,21 @@
 // #include <string>
-#include <csignal>
-#include <cstdlib>
-#include <cstring>
+# include <csignal>
+# include <cstdlib>
+# include <cstring>
 
-#include <fcntl.h>
-#include <netdb.h>
-#include <poll.h>
-#include <sys/socket.h>
-#include <unistd.h>
+# include <fcntl.h>
+# include <netdb.h>
+# include <poll.h>
+# include <sys/socket.h>
+# include <unistd.h>
 
-#include <iostream>
-#include <string>
-#include "Server.hpp"
-#include "User.hpp"
-#include "Message.hpp"
+# include <iostream>
+# include <string>
+# include "Server.hpp"
+# include "User.hpp"
+# include "Message.hpp"
 
-#define BUFF_SIZE 1024
+# define BUFF_SIZE 1024
 
 int main(int argc, char **argv)
 {
@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 		error = newmsg.receiveMsg();
 		if (!error)
 		{
-			// mine.usecmd(newmsg);
+			mine.usecmd(newmsg);
 			error = newmsg.sendMsg();
 		}
 	}

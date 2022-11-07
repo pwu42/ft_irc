@@ -1,6 +1,6 @@
-#include "Server.hpp"
-#define NB_CLIENT 123
-#define BUFF_SIZE 1024
+# include "Server.hpp"
+# define NB_CLIENT 123
+# define BUFF_SIZE 1024
 
 void Server::_setCommands()
 {
@@ -39,7 +39,6 @@ Server::Server(std::string port, std::string pass) : _port(port) , _pass(pass)
 		std::cout << "Error : listen" << std::endl;
 		return ;
 	}
-
 	std::cout << "Success creating server" << std::endl;
 	_setCommands();
 }

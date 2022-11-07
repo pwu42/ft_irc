@@ -1,4 +1,4 @@
-#include "Server.hpp"
+# include "Server.hpp"
 
 //  booucle de find
 // static bool isValidNick(std::string nickname, char *tofind)
@@ -8,28 +8,30 @@ static bool isValidNick(std::string nickname)
 		(nickname.c_str())[0] == ':' ||
 		(nickname.c_str())[0] == '#' ||
 		(nickname.c_str())[0] == '&')
-		{return (false);}
-
-	if (nickname.find(" ") != std::string::npos ||
-		nickname.find(",") != std::string::npos ||
-		nickname.find(".") != std::string::npos ||
-		nickname.find("?") != std::string::npos ||
-		nickname.find("!") != std::string::npos ||
-		nickname.find("@") != std::string::npos ||
-		nickname.find("*") != std::string::npos)
-		{return (false);}
+	{
+		return (false);
+	}
+	if (std::strcspn(nickname.c_str(), " ,.?!@*") != nickname.size())
+	{
+		return (false);
+	}
 	return (true);
 }
 
 // repasse a l'opt msg +user
 void Server::_cmdNick(Message &msg)
 {
-	if (!isValidNick(msg.getArgs()))
+	if ((msg.getArgs()).empty() == true)
 	{
-		msg.setReply("433 " + _client.getNick() + " " + msg.getArgs() + " :Nickname is already in use.\r\n");
+		msg.setReply("431 " + _client.getNick() + " :No nickname given.\r\n");
 		return;
 	}
-	_client.setNick(msg.getArgs());
+	else if (!isValidNick((msg.getArgs())[0]))
+	{
+		msg.setReply("432 " + _client.getNick() + " " + (msg.getArgs())[0] + "  :Erroneous nickname.\r\n");
+		return;
+	}
+	_client.setNick((msg.getArgs())[0]);
 	msg.setReply("");
 }
 

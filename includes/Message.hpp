@@ -1,18 +1,20 @@
-#ifndef MESSAGE_HPP
-#define MESSAGE_HPP
-#include <csignal>
-#include <cstdlib>
-#include <cstring>
+# ifndef MESSAGE_HPP
+# define MESSAGE_HPP
+# include <csignal>
+# include <cstdlib>
+# include <cstring>
 
-#include <fcntl.h>
-#include <netdb.h>
-#include <poll.h>
-#include <sys/socket.h>
-#include <unistd.h>
+# include <fcntl.h>
+# include <netdb.h>
+# include <poll.h>
+# include <sys/socket.h>
+# include <unistd.h>
 
-#include <iostream>
-#include <string>
+# include <iostream>
+# include <iomanip>
+# include <string>
 # include <map>
+# include <vector>
 # include <string>
 
 class Message
@@ -20,7 +22,7 @@ class Message
 	private :
 		int _socket;
 		std::string _command;
-		std::string _args;
+		std::vector<std::string> _args;
 		std::string _message;
 		std::string _reply;
 		void _parseReceive();
@@ -29,7 +31,7 @@ class Message
 		Message(int socket);
 
 		std::string getCommand() const ;
-		std::string getArgs() const ;
+		std::vector<std::string> getArgs() const ;
 		std::string getMessage() const ;
 		std::string getReply() const ;
 
