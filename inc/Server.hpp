@@ -28,6 +28,8 @@ private:
 	int serverSock;
 	struct sockaddr_in address;
 	socklen_t addrLength;
+	struct pollfd * fds;
+	size_t fdCount;
 
 	std::map<int, Client *> clients;
 
@@ -47,8 +49,10 @@ private:
 	void getLimits();
 	void initSocket();
 
-	int readMessage(Client * sender, std::string & message);
-	void exeMessage(Client * sender, SplitMsg & message);
+	void addNewClient();
+	void readClient(size_t index);
+	int readMessage(int fd, std::string & message);
+	void exeMessage(Client * sender, std::string & message);
 
 	void cmdPass(Client * sender, std::vector<std::string> & params);
 	void cmdNick(Client * sender, std::vector<std::string> & params);

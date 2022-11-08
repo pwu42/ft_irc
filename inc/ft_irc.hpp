@@ -12,6 +12,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <sys/resource.h>
+#include <errno.h>
 
 #include <iostream>
 #include <string>
