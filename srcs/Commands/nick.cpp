@@ -33,6 +33,8 @@ void Server::_cmdNick(Message &msg)
 	}
 	_client.setNick((msg.getArgs())[0]);
 	msg.setReply("");
+	if ((_client.getStatus()) & CLIENT_HAS_NICK & CLIENT_HAS_USER & CLIENT_HAS_PASS)
+		callReply(RPL_WELCOME, msg);
 }
 
 // change nick possible

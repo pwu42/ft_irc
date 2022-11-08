@@ -13,7 +13,7 @@
 #include <string>
 #include "User.hpp"
 #include "Message.hpp"
-// class Server;
+
 enum e_rpl
 {
 	RPL_WELCOME = 001,
@@ -25,7 +25,6 @@ enum e_rpl
 	ERR_PASSWDMISMATCH = 464
 };
 
-// add enum status sur client
 // typedef void (Server::FPTR)(Message);
 class Server
 {
