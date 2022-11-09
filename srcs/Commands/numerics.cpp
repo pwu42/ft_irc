@@ -40,3 +40,15 @@ void Server::_err_passwdMisMatch(Message &msg)
 	(void)msg;
 	msg.setReply("464 "+ _client.getNick() + " :Password incorrect.\r\n");
 }
+
+void Server::_rpl_youreOper(Message &msg)
+{
+	(void)msg;
+	msg.setReply("381 "+ _client.getNick() + " :You are now an IRC operator.\r\n");
+}
+
+void Server::_err_noOperHost(Message &msg)
+{
+	(void)msg;
+	msg.setReply("491 "+ _client.getNick() + " :No O-lines for your host.\r\n");
+}

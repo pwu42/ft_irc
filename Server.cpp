@@ -8,17 +8,20 @@ void Server::_setCommands()
 	_commands["PASS"] = &Server::_cmdPass;
 	_commands["PING"] = &Server::_cmdPing;
 	_commands["PONG"] = &Server::_cmdPong;
+	_commands["OPER"] = &Server::_cmdOper;
 }
 
 void Server::_setReply()
 {
 	_reply[RPL_WELCOME] = &Server::_rpl_welcome;
+	_reply[RPL_YOUREOPER] = &Server::_rpl_youreOper;
 	_reply[ERR_NONICKNAMEGIVEN] = &Server::_err_noNicknameGiven;
 	_reply[ERR_ERRONEUSNICKNAME] = &Server::_err_erroneusNickname;
 	_reply[ERR_NICKNAMEINUSE] = &Server::_err_nicknameInUse;
 	_reply[ERR_NEEDMOREPARAMS] = &Server::_err_needMoreParams;
 	_reply[ERR_ALREADYREGISTERED] = &Server::_err_alreadyRegistered;
 	_reply[ERR_PASSWDMISMATCH] = &Server::_err_passwdMisMatch;
+	_reply[ERR_NOOPERHOST] = &Server::_err_noOperHost;
 }
 
 Server::Server(std::string port, std::string pass) : _port(port) , _pass(pass)

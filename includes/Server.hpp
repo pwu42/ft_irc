@@ -1,28 +1,32 @@
 #ifndef SERVER_HPP
-#include <csignal>
-#include <cstdlib>
-#include <cstring>
+// #include <csignal>
+// #include <cstdlib>
+// #include <cstring>
+//
+// #include <fcntl.h>
+// #include <netdb.h>
+// #include <poll.h>
+// #include <sys/socket.h>
+// #include <unistd.h>
+//
+// #include <iostream>
+// #include <string>
 
-#include <fcntl.h>
-#include <netdb.h>
-#include <poll.h>
-#include <sys/socket.h>
-#include <unistd.h>
-
-#include <iostream>
-#include <string>
+#include "Irc.hpp"
 #include "User.hpp"
 #include "Message.hpp"
 
 enum e_rpl
 {
 	RPL_WELCOME = 001,
+	RPL_YOUREOPER = 381,
 	ERR_NONICKNAMEGIVEN = 431,
 	ERR_ERRONEUSNICKNAME = 432,
 	ERR_NICKNAMEINUSE = 433,
 	ERR_NEEDMOREPARAMS = 461,
 	ERR_ALREADYREGISTERED = 462,
-	ERR_PASSWDMISMATCH = 464
+	ERR_PASSWDMISMATCH = 464,
+	ERR_NOOPERHOST = 491
 };
 
 // typedef void (Server::FPTR)(Message);
@@ -39,6 +43,7 @@ private:
 	socklen_t _addrLenght;
 
 	void _rpl_welcome(Message &msg);
+	void _rpl_youreOper(Message &msg);
 
 	void _err_noNicknameGiven(Message &msg);
 	void _err_erroneusNickname(Message &msg);
@@ -46,6 +51,7 @@ private:
 	void _err_needMoreParams(Message &msg);
 	void _err_alreadyRegistered(Message &msg);
 	void _err_passwdMisMatch(Message &msg);
+	void _err_noOperHost(Message &msg);
 
 	std::map<std::string, void (Server::*)(Message &)> _commands;
 	std::map<unsigned int, void (Server::*)(Message &)> _reply;
@@ -55,6 +61,7 @@ private:
 	void _cmdPass(Message &msg);
 	void _cmdPing(Message &msg);
 	void _cmdPong(Message &msg);
+	void _cmdOper(Message &msg);
 
 	void callReply(unsigned int rpl_number, Message &msg);
 	void _setCommands();

@@ -55,6 +55,11 @@ bool Message::receiveMsg()
 		 std::cout << "Error : recv" << std::endl;
 		 return (true);
 	}
+	if (cmdlen == 0)
+	{
+		std::cout << "Client has leave" << std::endl;
+		return (true);
+	}
 	_message = buffer;
 	_parseReceive();
 	return (false);
@@ -78,12 +83,13 @@ void Message::_parseReceive()
 	std::string cpy(_message.c_str());
 	char *str = (char *)cpy.c_str();
 // find \r\n ou \n et mettre dans str _message str jusqua \r\n
+	_command = "";
+	_reply = "";
 	if (cpy.size())
 	{
 		if ((tmp2 = std::strtok(str, " \r\n")))
 			_command = tmp2;
 	}
-
 	if (!_args.empty())
 		_args.clear();
 	while ((tmp = std::strtok(NULL, " \r\n")) && !(tmp[0] == ':'))
