@@ -61,10 +61,13 @@ void Server::addNewClient()
 		if ((fd = accept(serverSock, reinterpret_cast<struct sockaddr *>(&address), &addrLength)) < 0)
 		{
 			if (errno != EAGAIN && errno != EWOULDBLOCK)
-			{
-				std::cerr << "Error: accept()\n";
-				on = false;
-			}
+				perror("accept()");
+			break;
+		}
+		if (fd == int(fdLimit - 1))
+		{
+			close(fd);
+			std::cerr << "Error: Too many connections\n";
 			break;
 		}
 		std::cerr << "New connection on socket " << fd << '\n';
@@ -86,7 +89,7 @@ int Server::readMessage(int fd, std::string & message)
 		if (readCount < 0)
 		{
 			if (errno != EAGAIN && errno != EWOULDBLOCK)
-				std::cerr << "Error: recv()\n";
+				perror("recv()");
 			return 1;
 		}
 		if (readCount == 0)
@@ -130,11 +133,11 @@ void Server::run()
 
 	do
 	{
-		std::cerr << "Waiting for client to connect ... \n";
+		std::cerr << "Waiting for clients to connect ... \n";
 		if ((ret = poll(fds, fdCount, -1)) < 0)
 		{
 			if (on == true)
-				std::cerr << "Error: poll()\n";
+				perror("poll()");
 			break;
 		}
 		currentSize = fdCount;
