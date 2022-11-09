@@ -64,3 +64,4 @@ private:
 };
 
 void handler(int signo);
+bool caseInsensEqual(const std::string & a, const std::string & b);

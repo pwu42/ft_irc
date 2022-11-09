@@ -27,6 +27,7 @@
 
 #define ALNUMSPHY "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789[]\\`_^{|}-"
 #define SPECIAL "[]\\`_^{|}"
+#define NULSPCRLFAT "\0\r\n @"
 
 #define RPL_WELCOME "001"
 #define RPL_YOURHOST "002"

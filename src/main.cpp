@@ -8,15 +8,7 @@ int main(int ac, char **av)
 		std::cerr << "usage: ./ircserv port password\n";
 		return 1;
 	}
-	try
-	{
-		Server server(atoi(av[1]), std::string(av[2]));
-		server.run();
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-		return 1;
-	}
+	Server server(atoi(av[1]), std::string(av[2]));
+	server.run();
 	return 0;
 }

@@ -2,9 +2,15 @@
 
 bool on = false;
 
-bool caseInsensComp(char a, char b)
+bool caseInsensEqual(const std::string & a, const std::string & b)
 {
-	return std::toupper(a) == std::toupper(b);
+	size_t size = a.size();
+	if (size != b.size())
+		return false;
+	for (size_t i = 0; i < size; i++)
+		if (std::tolower(a[i]) != std::tolower(b[i]))
+			return false;
+	return true;
 }
 
 Server::Server(int port, const std::string & pass):
@@ -19,6 +25,7 @@ Server::Server(int port, const std::string & pass):
 	getLimits();
 	initReplies();
 	initSocket();
+	// signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	on = true;
 }
@@ -39,7 +46,7 @@ void handler(int signo)
 {
 	if (signo == SIGINT || signo == SIGQUIT)
 	{
-		std::cerr << "Signal received\n";
+		std::cerr << "SignalInterrupt\n";
 		on = false;
 	}
 }
@@ -107,11 +114,11 @@ void Server::exeMessage(Client * sender, std::string & message)
 
 	const std::string & command = split.getCommand();
 
-	if (std::equal(command.begin(), command.end(), "pass", caseInsensComp))
+	if (caseInsensEqual(command, "pass"))
 		cmdPass(sender, split.getParams());
-	else if (std::equal(command.begin(), command.end(), "nick", caseInsensComp))
+	else if (caseInsensEqual(command, "nick"))
 		cmdNick(sender, split.getParams());
-	else if (std::equal(command.begin(), command.end(), "user", caseInsensComp))
+	else if (caseInsensEqual(command, "user"))
 		cmdUser(sender, split.getParams());
 }
 
@@ -120,8 +127,6 @@ void Server::run()
 	int ret;
 	size_t currentSize;
 	bool closeClient;
-	bool clientLeft = false;
-	std::string message;
 
 	do
 	{
@@ -146,6 +151,7 @@ void Server::run()
 			else
 			{
 				std::cerr << "Reading client socket " << fds[i].fd << '\n';
+				std::string message;
 				closeClient = false;
 				if (readMessage(fds[i].fd, message) == 1)
 					closeClient = true;
@@ -156,21 +162,7 @@ void Server::run()
 					delete clients[fds[i].fd];
 					clients.erase(fds[i].fd);
 					close(fds[i].fd);
-					fds[i].fd = -2;
-					clientLeft = true;
-				}
-			}
-		}
-		if (clientLeft)
-		{
-			clientLeft = false;
-			for (size_t i = 0; i < fdCount; i++)
-			{
-				if (fds[i].fd == -2)
-				{
-					for (size_t j = i; j < fdCount; j++)
-						fds[j].fd = fds[j + 1].fd;
-					--i;
+					fds[i].fd = fds[fdCount - 1].fd;
 					--fdCount;
 				}
 			}
