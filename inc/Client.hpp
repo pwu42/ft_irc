@@ -5,7 +5,7 @@
 class Client
 {
 private:
-	unsigned char status;
+	unsigned int status;
 	std::string nickname;
 	std::string username;
 	std::string fullname;
@@ -22,7 +22,7 @@ public:
 	void setSock(int fd);
 	void signUp();
 
-	unsigned char getStatus() { return status; }
+	unsigned int getStatus() { return status; }
 	std::string & getNick() { return nickname; }
 	std::string & getUser() { return username; }
 	int getSock() { return sock; }

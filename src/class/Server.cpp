@@ -133,7 +133,8 @@ void Server::run()
 		std::cerr << "Waiting for client to connect ... \n";
 		if ((ret = poll(fds, fdCount, -1)) < 0)
 		{
-			std::cerr << "Error: poll()\n";
+			if (on == true)
+				std::cerr << "Error: poll()\n";
 			break;
 		}
 		currentSize = fdCount;

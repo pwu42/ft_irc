@@ -20,10 +20,13 @@
 #include <map>
 #include <algorithm>
 
-#define CLIENT_HAS_PASS 1
-#define CLIENT_HAS_NICK 2
-#define CLIENT_HAS_USER 4
-#define CLIENT_REGISTER 8
+enum clientStatus
+{
+	CLIENT_HAS_PASS = 1,
+	CLIENT_HAS_NICK = 2,
+	CLIENT_HAS_USER = 4,
+	CLIENT_REGISTER = 8
+};
 
 #define ALNUMSPHY "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789[]\\`_^{|}-"
 #define SPECIAL "[]\\`_^{|}"
