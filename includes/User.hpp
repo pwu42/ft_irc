@@ -24,7 +24,8 @@ enum e_status
  	CLIENT_HAS_NICK = 2,
  	CLIENT_HAS_USER = 4,
 	CLIENT_REGISTER = 8,
- 	CLIENT_IS_SERV_OPS = 16
+ 	CLIENT_IS_SERV_OPS = 16,
+	CLIENT_HAS_LEFT = 32
 };
 
 class User

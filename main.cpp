@@ -33,10 +33,16 @@ int main(int argc, char **argv)
 		{
 			mine.usecmd(newmsg);
 			error = newmsg.sendMsg();
+			// if (!((mine.getClient()).getStatus() & CLIENT_HAS_LEFT))
+			// {
+			// 	std::cout << "I got through this " << '\n';
+			// 	break;
+			// }
 		}
 	}
 }
 // nc localhost 1667
+// !(((mine.getClient()).getStatus()) & CLIENT_HAS_LEFT)
 
 // ./proxy.sh 4243 irc.ircube.org 6667
 // /connect localhost 4243

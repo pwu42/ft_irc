@@ -7,3 +7,4 @@ void Server::_cmdPing(Message &msg)
 	else
 		msg.setReply("PONG " + (msg.getArgs())[0] + "\r\n");
 }
+// done

@@ -1,7 +1,6 @@
 # include "Server.hpp"
 
-void Server::_cmdPong(Message &msg)
+void Server::_cmdPart(Message &msg)
 {
 	msg.setReply("");
 }
-// done

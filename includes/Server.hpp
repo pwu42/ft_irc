@@ -62,6 +62,10 @@ private:
 	void _cmdPing(Message &msg);
 	void _cmdPong(Message &msg);
 	void _cmdOper(Message &msg);
+	void _cmdQuit(Message &msg);
+	void _cmdJoin(Message &msg);
+	void _cmdPart(Message &msg);
+	void _cmdList(Message &msg);
 
 	void callReply(unsigned int rpl_number, Message &msg);
 	void _setCommands();

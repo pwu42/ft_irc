@@ -9,6 +9,10 @@ void Server::_setCommands()
 	_commands["PING"] = &Server::_cmdPing;
 	_commands["PONG"] = &Server::_cmdPong;
 	_commands["OPER"] = &Server::_cmdOper;
+	_commands["QUIT"] = &Server::_cmdQuit;
+	_commands["JOIN"] = &Server::_cmdJoin;
+	_commands["PART"] = &Server::_cmdPart;
+	_commands["LIST"] = &Server::_cmdList;
 }
 
 void Server::_setReply()

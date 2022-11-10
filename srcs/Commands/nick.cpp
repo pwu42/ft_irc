@@ -1,6 +1,7 @@
 # include "Server.hpp"
+// impossible Dan et dan
+// change nick possible
 
-//  booucle de find
 // static bool isValidNick(std::string nickname, char *tofind)
 static bool isValidNick(std::string nickname)
 {
@@ -36,6 +37,3 @@ void Server::_cmdNick(Message &msg)
 	if ((_client.getStatus()) & CLIENT_HAS_NICK & CLIENT_HAS_USER & CLIENT_HAS_PASS)
 		callReply(RPL_WELCOME, msg);
 }
-
-// change nick possible
-// impossible Dan et dan

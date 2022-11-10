@@ -14,3 +14,5 @@ void Server::_cmdOper(Message &msg)
 		callReply(RPL_YOUREOPER, msg);
 	}
 }
+
+// done
