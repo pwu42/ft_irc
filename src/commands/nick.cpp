@@ -27,7 +27,7 @@ void nickReply(Client * sender, std::string & newNick, std::string & hostname)
 		if (sender->getStatus() & CLIENT_HAS_USER)
 			reply += "!" + sender->getUser() + "@" + hostname;
 		reply += " NICK " + newNick + "\r\n";
-		send(sender->getSock(), reply.c_str(), std::min(size_t(512), reply.length()), 0);
+		send(sender->getSock(), reply.c_str(), reply.length(), 0);
 	}
 	sender->setNick(newNick);
 }

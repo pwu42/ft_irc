@@ -51,8 +51,8 @@ private:
 
 	void addNewClient();
 	void readClient(size_t index);
-	int readMessage(int fd, std::string & message);
-	void exeMessage(Client * sender, std::string & message);
+	int recvMessage(Client * sender);
+	void exeMessage(Client * sender);
 
 	void cmdPass(Client * sender, std::vector<std::string> & params);
 	void cmdNick(Client * sender, std::vector<std::string> & params);

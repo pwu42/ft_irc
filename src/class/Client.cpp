@@ -3,7 +3,8 @@
 Client::Client(int fd, const std::string & nick):
 	status(0),
 	nickname(nick),
-	sock(fd)
+	sock(fd),
+	message("")
 {
 }
 
@@ -32,6 +33,16 @@ void Client::setUser(const std::string & newUser, const std::string & newFullNam
 void Client::setSock(int fd)
 {
 	sock = fd;
+}
+
+void Client::addMessage(std::string msg)
+{
+	message += msg;
+}
+
+void Client::clearMessage()
+{
+	message.clear();
 }
 
 void Client::signUp()

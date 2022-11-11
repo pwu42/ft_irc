@@ -78,39 +78,36 @@ void Server::addNewClient()
 	} while (fd != -1);
 }
 
-int Server::readMessage(int fd, std::string & message)
+int Server::recvMessage(Client * sender)
 {
 	char buffer[BUF_SIZE + 1];
 	ssize_t readCount;
 
-	do
+	readCount = recv(sender->getSock(), buffer, BUF_SIZE, 0);
+	if (readCount < 0)
 	{
-		readCount = recv(fd, buffer, BUF_SIZE, 0);
-		if (readCount < 0)
-		{
-			if (errno != EAGAIN && errno != EWOULDBLOCK)
-				perror("recv()");
-			return 1;
-		}
-		if (readCount == 0)
-		{
-			std::cerr << "Client " << fd << " has left\n";
-			return 1;
-		}
-		buffer[readCount] = 0;
-		message += buffer;
-	} while (message.find('\n') == std::string::npos);
-
-	message.erase(message.find('\n'));
-	if (message.length() > 510)
-		message.erase(510);
-	message += "\r\n";
+		if (errno != EAGAIN && errno != EWOULDBLOCK)
+			perror("recv()");
+		return 1;
+	}
+	if (readCount == 0)
+	{
+		std::cerr << "Client " << sender->getSock() << " has left\n";
+		return 1;
+	}
+	buffer[readCount] = 0;
+	sender->addMessage(buffer);
 	return 0;
 }
 
-void Server::exeMessage(Client * sender, std::string & message)
+void Server::exeMessage(Client * sender)
 {
-	SplitMsg split(message);
+	if (sender->getMessage().find('\n') == std::string::npos)
+		return;
+	sender->getMessage().erase(std::min(size_t(510), sender->getMessage().find('\n')));
+	sender->addMessage("\r\n");
+
+	SplitMsg split(sender->getMessage());
 	
 	if (split.getParams().size() > 15)
 		return;
@@ -123,6 +120,7 @@ void Server::exeMessage(Client * sender, std::string & message)
 		cmdNick(sender, split.getParams());
 	else if (caseInsensEqual(command, "user"))
 		cmdUser(sender, split.getParams());
+	sender->clearMessage();
 }
 
 void Server::run()
@@ -155,12 +153,11 @@ void Server::run()
 			else
 			{
 				std::cerr << "Reading client socket " << fds[i].fd << '\n';
-				std::string message;
 				closeClient = false;
-				if (readMessage(fds[i].fd, message) == 1)
+				if (recvMessage(clients[fds[i].fd]) == 1)
 					closeClient = true;
 				else
-					exeMessage(clients[fds[i].fd], message);
+					exeMessage(clients[fds[i].fd]);
 				if (closeClient)
 				{
 					delete clients[fds[i].fd];
@@ -262,7 +259,7 @@ void Server::initSocket()
 ssize_t Server::sendNumeric(Client * target, const std::string & numeric, const std::string & param1, const std::string & param2)
 {
 	std::string reply = ":" + hostname + " " + numeric + " " + target->getNick() + " " + param1 + param2 + replies[numeric];
-	return send(target->getSock(), reply.c_str(), std::min(size_t(512),reply.length()), 0);
+	return send(target->getSock(), reply.c_str(), reply.length(), 0);
 }
 
 void Server::welcome(Client * target)
