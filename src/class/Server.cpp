@@ -102,23 +102,20 @@ int Server::recvMessage(Client * sender)
 
 void Server::exeMessage(Client * sender)
 {
-	if (sender->getMessage().find('\n') == std::string::npos)
-		return;
-
 	while (sender->getMessage().find('\n') != std::string::npos)
 	{
 		std::string msg = sender->getMessage().substr(0, sender->getMessage().find('\n')) + "\r\n";
 		SplitMsg split(msg);
 
-		if (msg.length() > 512 || split.getParams().size() > 15)
-			return;
-
-		if (caseInsensEqual(split.getCommand(), "pass"))
-			cmdPass(sender, split.getParams());
-		else if (caseInsensEqual(split.getCommand(), "nick"))
-			cmdNick(sender, split.getParams());
-		else if (caseInsensEqual(split.getCommand(), "user"))
-			cmdUser(sender, split.getParams());
+		if (msg.length() < 512 && split.getParams().size() < 15)
+		{
+			if (caseInsensEqual(split.getCommand(), "pass"))
+				cmdPass(sender, split.getParams());
+			else if (caseInsensEqual(split.getCommand(), "nick"))
+				cmdNick(sender, split.getParams());
+			else if (caseInsensEqual(split.getCommand(), "user"))
+				cmdUser(sender, split.getParams());
+		}
 		sender->getMessage().erase(0, sender->getMessage().find('\n') + 1);
 	}
 }
@@ -131,7 +128,7 @@ void Server::run()
 
 	do
 	{
-		std::cerr << "Waiting for clients to connect ... \n";
+		std::cerr << "Polling ... \n";
 		if ((ret = poll(fds, fdCount, -1)) < 0)
 		{
 			if (on == true)
