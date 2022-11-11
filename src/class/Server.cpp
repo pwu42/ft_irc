@@ -32,7 +32,6 @@ Server::Server(int port, const std::string & pass):
 
 Server::~Server()
 {
-	exit();
 	for (size_t i = 0; i < fdCount; i++)
 	{
 		delete clients[fds[i].fd];
@@ -96,6 +95,7 @@ int Server::recvMessage(Client * sender)
 		return 1;
 	}
 	buffer[readCount] = 0;
+	std::cerr << "buffer = [" << buffer << "]\n";
 	sender->addMessage(buffer);
 	return 0;
 }
@@ -104,23 +104,23 @@ void Server::exeMessage(Client * sender)
 {
 	if (sender->getMessage().find('\n') == std::string::npos)
 		return;
-	sender->getMessage().erase(std::min(size_t(510), sender->getMessage().find('\n')));
-	sender->addMessage("\r\n");
 
-	SplitMsg split(sender->getMessage());
-	
-	if (split.getParams().size() > 15)
-		return;
+	while (sender->getMessage().find('\n') != std::string::npos)
+	{
+		std::string msg = sender->getMessage().substr(0, sender->getMessage().find('\n')) + "\r\n";
+		SplitMsg split(msg);
 
-	const std::string & command = split.getCommand();
+		if (msg.length() > 512 || split.getParams().size() > 15)
+			return;
 
-	if (caseInsensEqual(command, "pass"))
-		cmdPass(sender, split.getParams());
-	else if (caseInsensEqual(command, "nick"))
-		cmdNick(sender, split.getParams());
-	else if (caseInsensEqual(command, "user"))
-		cmdUser(sender, split.getParams());
-	sender->clearMessage();
+		if (caseInsensEqual(split.getCommand(), "pass"))
+			cmdPass(sender, split.getParams());
+		else if (caseInsensEqual(split.getCommand(), "nick"))
+			cmdNick(sender, split.getParams());
+		else if (caseInsensEqual(split.getCommand(), "user"))
+			cmdUser(sender, split.getParams());
+		sender->getMessage().erase(0, sender->getMessage().find('\n') + 1);
+	}
 }
 
 void Server::run()

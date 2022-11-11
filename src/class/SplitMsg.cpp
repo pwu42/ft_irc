@@ -14,18 +14,20 @@ SplitMsg::SplitMsg(const std::string & message):
 	{
 		if (message[start] == ':')
 		{
-			params.push_back(message.substr(start));
+			end = message.find_first_of("\r\n", start);
+			params.push_back(message.substr(start, end - start));
 			break;
 		}
 		end = message.find_first_of(" \r\n", start);
 		params.push_back(message.substr(start, end - start));
 	}
 
-	std::cerr << "params:" << params.size() << "\n";
+	std::cerr << "params:" << params.size() << " [ ";
 	for (std::vector<std::string>::iterator it = params.begin(); it < params.end(); it++)
 	{
-		std::cerr << *it << '\n';
+		std::cerr << *it << ' ';
 	}
+	std::cerr << "]\n";
 }
 
 SplitMsg::~SplitMsg()
