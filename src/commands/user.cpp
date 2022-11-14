@@ -1,17 +1,17 @@
 #include "Server.hpp"
 
-bool userIsValid(std::string & user)
+bool userIsValid(const std::string & user)
 {
 	if (user.find_first_of(NULSPCRLFAT) != std::string::npos)
 		return false;
 	return true;
 }
 
-void Server::cmdUser(Client * sender, std::vector<std::string> & params)
+void Server::cmdUser(Client * sender, const std::vector<std::string> & params)
 {
-	if ((sender->getStatus() & CLIENT_HAS_PASS) == 0)
+	if (!(sender->getStatus() & CLIENT_HAS_PASS))
 		sendNumeric(sender, ERR_NOTREGISTERED);
-	else if ((sender->getStatus() & CLIENT_HAS_USER) != 0)
+	else if (sender->getStatus() & CLIENT_HAS_USER)
 		sendNumeric(sender, ERR_ALREADYREGISTERED);
 	else if (params.size() < 4 || params[0].length() < 1)
 		sendNumeric(sender, ERR_NEEDMOREPARAMS);

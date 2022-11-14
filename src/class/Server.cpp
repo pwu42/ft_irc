@@ -34,7 +34,8 @@ Server::~Server()
 {
 	for (size_t i = 0; i < fdCount; i++)
 	{
-		delete clients[fds[i].fd];
+		if (i > 0)
+			delete clients[fds[i].fd];
 		if (fds[i].fd >= 3)
 			close(fds[i].fd);
 	}
@@ -115,6 +116,8 @@ void Server::exeMessage(Client * sender)
 				cmdNick(sender, split.getParams());
 			else if (caseInsensEqual(split.getCommand(), "user"))
 				cmdUser(sender, split.getParams());
+			else if (caseInsensEqual(split.getCommand(), "ping"))
+				cmdPing(sender, split.getParams());
 		}
 		sender->getMessage().erase(0, sender->getMessage().find('\n') + 1);
 	}
@@ -218,7 +221,8 @@ void Server::initReplies()
 	replies[RPL_WELCOME] = "\r\n";
 	replies[RPL_YOURHOST] = ":Your host is " + hostname + ", running version 0\r\n";
 	replies[RPL_CREATED] = ":This server was created " + creationDate + "\r\n";
-	replies[RPL_MYINFO] = ':' + hostname + " 0 o ov\r\n";
+	replies[RPL_MYINFO] = ':' + hostname + " 0 o o\r\n";
+	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
 	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
 	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";
 	replies[ERR_NICKNAMEINUSE] = ":Nickname is already in use\r\n";

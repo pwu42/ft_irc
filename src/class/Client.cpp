@@ -35,7 +35,7 @@ void Client::setSock(int fd)
 	sock = fd;
 }
 
-void Client::addMessage(std::string msg)
+void Client::addMessage(const std::string & msg)
 {
 	message += msg;
 }

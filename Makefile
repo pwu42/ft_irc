@@ -14,6 +14,7 @@ SRC			:= $(addprefix src/, \
 						pass.cpp \
 						nick.cpp \
 						user.cpp \
+						ping.cpp \
 					) \
 					main.cpp \
 				)
@@ -44,7 +45,7 @@ re: fclean
 	make all
 
 exe: all
-	./$(NAME) $(ARG)
+	@./$(NAME) $(ARG)
 
 v: all
 	@valgrind \
@@ -55,4 +56,4 @@ v: all
 		--show-reachable=yes \
 	./$(NAME) $(ARG)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re exe v

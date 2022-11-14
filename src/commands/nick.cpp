@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-bool nickIsValid(std::string & nick)
+bool nickIsValid(const std::string & nick)
 {
 	if (nick.length() > 9 || nick.length() < 1
 		|| (!isalpha(nick[0]) && nick.find_first_not_of(SPECIAL, 0, 1) != std::string::npos)
@@ -9,15 +9,15 @@ bool nickIsValid(std::string & nick)
 	return true;
 }
 
-bool nickExists(std::map<int, Client *> & clients, std::string & nick)
+bool nickExists(const std::map<int, Client *> & clients, const std::string & nick)
 {
-	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++)
+	for (std::map<int, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
 		if (caseInsensEqual(nick, it->second->getNick()))
 			return true;
 	return false;
 }
 
-void nickReply(Client * sender, std::string & newNick, std::string & hostname)
+void nickReply(Client * sender, const std::string & newNick, const std::string & hostname)
 {
 	std::string reply;
 
@@ -32,7 +32,7 @@ void nickReply(Client * sender, std::string & newNick, std::string & hostname)
 	sender->setNick(newNick);
 }
 
-void Server::cmdNick(Client * sender, std::vector<std::string> & params)
+void Server::cmdNick(Client * sender, const std::vector<std::string> & params)
 {
 	if ((sender->getStatus() & CLIENT_HAS_PASS) == 0)
 		sendNumeric(sender, ERR_NOTREGISTERED);

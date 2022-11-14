@@ -10,6 +10,8 @@
 
 #define BUF_SIZE 8192
 
+/* global */
+
 extern bool on;
 
 class Server
@@ -54,9 +56,10 @@ private:
 	int recvMessage(Client * sender);
 	void exeMessage(Client * sender);
 
-	void cmdPass(Client * sender, std::vector<std::string> & params);
-	void cmdNick(Client * sender, std::vector<std::string> & params);
-	void cmdUser(Client * sender, std::vector<std::string> & params);
+	void cmdPass(Client * sender, const std::vector<std::string> & params);
+	void cmdNick(Client * sender, const std::vector<std::string> & params);
+	void cmdUser(Client * sender, const std::vector<std::string> & params);
+	void cmdPing(Client * sender, const std::vector<std::string> & params);
 
 	ssize_t sendNumeric(Client * target, const std::string & numeric, const std::string & param1 = "", const std::string & param2 = "");
 	void welcome(Client * target);

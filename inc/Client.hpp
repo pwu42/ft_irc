@@ -21,7 +21,7 @@ public:
 	void setNick(const std::string & newNick);
 	void setUser(const std::string & newUser, const std::string & fullName);
 	void setSock(int fd);
-	void addMessage(std::string msg);
+	void addMessage(const std::string & msg);
 	void clearMessage();
 	void signUp();
 
