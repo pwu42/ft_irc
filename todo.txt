@@ -68,3 +68,7 @@ channels:
 		creator
 		operator
 		normal user
+
+bonus:
+	file transfer
+	bot
