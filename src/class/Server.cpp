@@ -221,7 +221,7 @@ void Server::initReplies()
 	replies[RPL_WELCOME] = "\r\n";
 	replies[RPL_YOURHOST] = ":Your host is " + hostname + ", running version 0\r\n";
 	replies[RPL_CREATED] = ":This server was created " + creationDate + "\r\n";
-	replies[RPL_MYINFO] = ':' + hostname + " 0 o o\r\n";
+	replies[RPL_MYINFO] = ':' + hostname + " 0 o Oo\r\n";
 	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
 	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
 	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";

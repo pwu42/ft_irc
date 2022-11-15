@@ -10,6 +10,7 @@ private:
 	std::vector<Client *> clients;
 
 	Client * creator;
+	std::vector<Client *> operators;
 
 
 	void sendAll(std::string & message);
