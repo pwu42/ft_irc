@@ -30,6 +30,13 @@ enum clientStatus
 	CLIENT_OPERATOR = 16
 };
 
+enum msgTarget
+{
+	TARGET_NOBODY = 0,
+	TARGET_ALL = 1,
+	TARGET_SENDER = 2
+};
+
 #define ALNUMSPHY "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789[]\\`_^{|}-"
 #define SPECIAL "[]\\`_^{|}"
 #define NULSPCRLFAT "\0\r\n @"

@@ -6,7 +6,7 @@ commands:
 		nick
 		user
 		oper
-		? mode
+		mode -o
 		x service
 		quit
 		x squit
@@ -14,19 +14,19 @@ commands:
 	channel operations
 		join
 		part
-		? mode (chanop)
-		? topic (chanop)
-		? names
-		? list
-		? invite (chanop)
-		? kick (chanop)
+		mode (chanop) O +-o
+		topic (chanop)
+		names
+		list
+		invite (chanop)
+		kick (chanop)
 
 	sending messages
 		privmsg
 		notice
 
 	server queries and commands
-		? motd
+		x motd
 		x lusers
 		x version
 		x stats
@@ -50,13 +50,13 @@ commands:
 		kill (servop)
 		ping
 		pong
-		error
+		x error
 
-	optional
+	optional; 
 		x away
-		? rehash (servop) (only if config file)
+		x rehash (servop) (only if config file)
 		? die (servop)
-		? restart (servop)
+		x restart (servop)
 		x summon
 		x users
 		x wallops

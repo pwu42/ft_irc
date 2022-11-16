@@ -6,15 +6,19 @@ ARG			:= 6666 password
 INC			:= -Iinc
 SRC			:= $(addprefix src/, \
 					$(addprefix class/, \
-						Server.cpp \
 						Client.cpp \
+						Server.cpp \
 						SplitMsg.cpp \
 					) \
 					$(addprefix commands/, \
-						pass.cpp \
 						nick.cpp \
-						user.cpp \
+						pass.cpp \
 						ping.cpp \
+						user.cpp \
+					) \
+					$(addprefix server/, \
+						init.cpp \
+						reply.cpp \
 					) \
 					main.cpp \
 				)

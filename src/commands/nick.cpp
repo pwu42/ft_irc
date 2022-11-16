@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-bool nickIsValid(const std::string & nick)
+static bool nickIsValid(const std::string & nick)
 {
 	if (nick.length() > 9 || nick.length() < 1
 		|| (!isalpha(nick[0]) && nick.find_first_not_of(SPECIAL, 0, 1) != std::string::npos)
@@ -9,7 +9,7 @@ bool nickIsValid(const std::string & nick)
 	return true;
 }
 
-bool nickExists(const std::map<int, Client *> & clients, const std::string & nick)
+static bool nickExists(const std::map<int, Client *> & clients, const std::string & nick)
 {
 	for (std::map<int, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
 		if (caseInsensEqual(nick, it->second->getNick()))
@@ -17,7 +17,7 @@ bool nickExists(const std::map<int, Client *> & clients, const std::string & nic
 	return false;
 }
 
-void nickReply(Client * sender, const std::string & newNick, const std::string & hostname)
+static std::string nickReply(Client * sender, const std::string & newNick, const std::string & hostname)
 {
 	std::string reply;
 
@@ -27,23 +27,21 @@ void nickReply(Client * sender, const std::string & newNick, const std::string &
 		if (sender->getStatus() & CLIENT_HAS_USER)
 			reply += "!" + sender->getUser() + "@" + hostname;
 		reply += " NICK " + newNick + "\r\n";
-		send(sender->getSock(), reply.c_str(), reply.length(), 0);
 	}
 	sender->setNick(newNick);
+	return reply;
 }
 
-void Server::cmdNick(Client * sender, const std::vector<std::string> & params)
+void Server::cmdNick(Client * sender, SplitMsg & message)
 {
 	if ((sender->getStatus() & CLIENT_HAS_PASS) == 0)
-		sendNumeric(sender, ERR_NOTREGISTERED);
-	else if (params.size() < 1)
-		sendNumeric(sender, ERR_NONICKNAMEGIVEN);
-	else if (nickIsValid(params[0]) == false)
-		sendNumeric(sender, ERR_ERRONEUSNICKNAME, params[0] + " ");
-	else if (nickExists(clients, params[0]) == true)
-		sendNumeric(sender, ERR_NICKNAMEINUSE, params[0] + " ");
+		message.setReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], TARGET_SENDER);
+	else if (message.getParams().size() < 1)
+		message.setReply(':' + hostname + ' ' + ERR_NONICKNAMEGIVEN + ' ' + sender->getNick() + ' ' + replies[ERR_NONICKNAMEGIVEN], TARGET_SENDER);
+	else if (nickIsValid(message.getParams()[0]) == false)
+		message.setReply(':' + hostname + ' ' + ERR_ERRONEUSNICKNAME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_ERRONEUSNICKNAME], TARGET_SENDER);
+	else if (nickExists(clients, message.getParams()[0]) == true)
+		message.setReply(':' + hostname + ' ' + ERR_NICKNAMEINUSE + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NICKNAMEINUSE], TARGET_SENDER);
 	else
-		nickReply(sender, params[0], hostname);
-	if (sender->getStatus() == 7)
-		welcome(sender);
+		message.setReply(nickReply(sender, message.getParams()[0], hostname), TARGET_ALL);
 }

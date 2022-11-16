@@ -56,12 +56,13 @@ private:
 	int recvMessage(Client * sender);
 	void exeMessage(Client * sender);
 
-	void cmdPass(Client * sender, const std::vector<std::string> & params);
-	void cmdNick(Client * sender, const std::vector<std::string> & params);
-	void cmdUser(Client * sender, const std::vector<std::string> & params);
-	void cmdPing(Client * sender, const std::vector<std::string> & params);
+	void cmdPass(Client * sender, SplitMsg & message);
+	void cmdNick(Client * sender, SplitMsg & message);
+	void cmdUser(Client * sender, SplitMsg & message);
+	void cmdPing(Client * sender, SplitMsg & message);
 
-	ssize_t sendNumeric(Client * target, const std::string & numeric, const std::string & param1 = "", const std::string & param2 = "");
+	void sendReply(Client * sender, SplitMsg & message);
+	void sendNumeric(Client * target, const std::string & numeric, const std::string & param1 = "", const std::string & param2 = "");
 	void welcome(Client * target);
 	void exit(bool ex = false, const std::string & msg = "");
 };

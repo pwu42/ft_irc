@@ -1,18 +1,11 @@
 #include "Server.hpp"
 
-void pingReply(int fd, const std::string & hostname)
+void Server::cmdPing(Client * sender, SplitMsg & message)
 {
-	std::string reply = "PONG " + hostname + "\r\n";
-
-	send(fd, reply.c_str(), reply.length(), 0);
-}
-
-void Server::cmdPing(Client * sender, const std::vector<std::string> & params)
-{
-	if (params.size() < 1)
-		sendNumeric(sender, ERR_NEEDMOREPARAMS);
-	else if (params[0] != hostname && params[0] != ip)
-		sendNumeric(sender, ERR_NOSUCHSERVER, params[0]);
+	if (message.getParams().size() < 1)
+		message.setReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], TARGET_SENDER);
+	else if (message.getParams()[0] != hostname && message.getParams()[0] != ip)
+		message.setReply(':' + hostname + ' ' + ERR_NOSUCHSERVER + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NOSUCHSERVER], TARGET_SENDER);
 	else
-		pingReply(sender->getSock(), hostname);
+		message.setReply("PONG " + hostname + "\r\n", TARGET_SENDER);
 }
