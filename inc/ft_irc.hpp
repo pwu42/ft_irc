@@ -27,7 +27,8 @@ enum clientStatus
 	CLIENT_HAS_NICK = 2,
 	CLIENT_HAS_USER = 4,
 	CLIENT_REGISTER = 8,
-	CLIENT_OPERATOR = 16
+	CLIENT_OPERATOR = 16,
+	CLIENT_HAS_QUIT = 32
 };
 
 enum msgTarget
@@ -48,6 +49,7 @@ enum msgTarget
 #define RPL_YOURHOST "002"
 #define RPL_CREATED "003"
 #define RPL_MYINFO "004"
+#define RPL_UMODEIS "221"
 #define RPL_YOUREOPER "381"
 #define ERR_NOSUCHSERVER "402"
 #define ERR_NONICKNAMEGIVEN "431"
@@ -58,3 +60,5 @@ enum msgTarget
 #define ERR_ALREADYREGISTERED "462"
 #define ERR_PASSWDMISMATCH "464"
 #define ERR_NOOPERHOST "491"
+#define ERR_UMODEUNKNOWNFLAG "501"
+#define ERR_USERSDONTMATCH "502"

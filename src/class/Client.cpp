@@ -35,6 +35,16 @@ void Client::setOper()
 	status |= CLIENT_OPERATOR;
 }
 
+void Client::removeOper()
+{
+	status ^= CLIENT_OPERATOR;
+}
+
+void Client::quit()
+{
+	status |= CLIENT_HAS_QUIT;
+}
+
 void Client::setSock(int fd)
 {
 	sock = fd;
@@ -53,4 +63,11 @@ void Client::clearMessage()
 void Client::signUp()
 {
 	status |= CLIENT_REGISTER;
+}
+
+std::string Client::getIsOper()
+{
+	if (status & CLIENT_OPERATOR)
+		return "+o\r\n";
+	return "\r\n";
 }

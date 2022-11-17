@@ -21,6 +21,8 @@ public:
 	void setNick(const std::string & newNick);
 	void setUser(const std::string & newUser, const std::string & fullName);
 	void setOper();
+	void removeOper();
+	void quit();
 
 	void setSock(int fd);
 	void addMessage(const std::string & msg);
@@ -32,4 +34,5 @@ public:
 	std::string & getUser() { return username; }
 	int getSock() { return sock; }
 	std::string & getMessage() { return message; }
+	std::string getIsOper();
 };

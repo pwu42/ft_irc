@@ -54,13 +54,15 @@ private:
 	void addNewClient();
 	void readClient(size_t index);
 	int recvMessage(Client * sender);
-	void exeMessage(Client * sender);
+	int exeMessage(Client * sender);
 
 	void cmdPass(Client * sender, SplitMsg & message);
 	void cmdNick(Client * sender, SplitMsg & message);
 	void cmdUser(Client * sender, SplitMsg & message);
 	void cmdPing(Client * sender, SplitMsg & message);
 	void cmdOper(Client * sender, SplitMsg & message);
+	void cmdMode(Client * sender, SplitMsg & message);
+	void cmdQuit(Client * sender, SplitMsg & message);
 
 	void sendReply(Client * sender, SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);

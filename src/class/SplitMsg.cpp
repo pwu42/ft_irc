@@ -15,7 +15,7 @@ SplitMsg::SplitMsg(const std::string & message):
 		if (message[start] == ':')
 		{
 			end = message.find_first_of("\r\n", start);
-			params.push_back(message.substr(start, end - start));
+			params.push_back(message.substr(start + 1, end - start - 1));
 			break;
 		}
 		end = message.find_first_of(" \r\n", start);

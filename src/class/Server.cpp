@@ -91,17 +91,14 @@ int Server::recvMessage(Client * sender)
 		return 1;
 	}
 	if (readCount == 0)
-	{
-		std::cerr << "Client " << sender->getSock() << " has left\n";
 		return 1;
-	}
 	buffer[readCount] = 0;
 	std::cerr << "buffer = [" << buffer << "]\n";
 	sender->addMessage(buffer);
 	return 0;
 }
 
-void Server::exeMessage(Client * sender)
+int Server::exeMessage(Client * sender)
 {
 	while (sender->getMessage().find('\n') != std::string::npos)
 	{
@@ -116,18 +113,25 @@ void Server::exeMessage(Client * sender)
 				cmdNick(sender, split);
 			else if (caseInsensEqual(split.getCommand(), "user"))
 				cmdUser(sender, split);
-			if (sender->getStatus() & CLIENT_REGISTER)
+			else if (caseInsensEqual(split.getCommand(), "quit"))
+				cmdQuit(sender, split);
+			else if (sender->getStatus() & CLIENT_REGISTER)
 			{
 				if (caseInsensEqual(split.getCommand(), "ping"))
 					cmdPing(sender, split);
-				if (caseInsensEqual(split.getCommand(), "oper"))
+				else if (caseInsensEqual(split.getCommand(), "oper"))
 					cmdOper(sender, split);
+				else if (caseInsensEqual(split.getCommand(), "mode"))
+					cmdMode(sender, split);
 				// other commands
 			}
 			sendReply(sender, split);
+			if (sender->getStatus() & CLIENT_HAS_QUIT)
+				return 1;
 		}
 		sender->getMessage().erase(0, sender->getMessage().find('\n') + 1);
 	}
+	return 0;
 }
 
 void Server::run()
@@ -163,10 +167,11 @@ void Server::run()
 				closeClient = false;
 				if (recvMessage(clients[fds[i].fd]) == 1)
 					closeClient = true;
-				else
-					exeMessage(clients[fds[i].fd]);
+				else if (exeMessage(clients[fds[i].fd]) == 1)
+					closeClient = true;
 				if (closeClient)
 				{
+					std::cerr << "Client " << fds[i].fd << " has left\n";
 					delete clients[fds[i].fd];
 					clients.erase(fds[i].fd);
 					close(fds[i].fd);

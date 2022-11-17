@@ -11,10 +11,12 @@ SRC			:= $(addprefix src/, \
 						SplitMsg.cpp \
 					) \
 					$(addprefix commands/, \
+						mode.cpp \
 						nick.cpp \
 						oper.cpp \
 						pass.cpp \
 						ping.cpp \
+						quit.cpp \
 						user.cpp \
 					) \
 					$(addprefix server/, \
