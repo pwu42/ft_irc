@@ -12,6 +12,7 @@ SRC			:= $(addprefix src/, \
 					) \
 					$(addprefix commands/, \
 						nick.cpp \
+						oper.cpp \
 						pass.cpp \
 						ping.cpp \
 						user.cpp \

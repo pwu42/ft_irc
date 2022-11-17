@@ -120,11 +120,11 @@ void Server::exeMessage(Client * sender)
 			{
 				if (caseInsensEqual(split.getCommand(), "ping"))
 					cmdPing(sender, split);
+				if (caseInsensEqual(split.getCommand(), "oper"))
+					cmdOper(sender, split);
 				// other commands
 			}
 			sendReply(sender, split);
-			if (sender->getStatus() == 7)
-				welcome(sender);
 		}
 		sender->getMessage().erase(0, sender->getMessage().find('\n') + 1);
 	}

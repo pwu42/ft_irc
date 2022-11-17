@@ -2,32 +2,30 @@
 
 void Server::sendReply(Client * sender, SplitMsg & message)
 {
-	switch (message.getTarget())
+	const std::vector<std::pair<std::string, unsigned char> > & replyVector = message.getReplyVector();
+	for (std::vector<std::pair<std::string, unsigned char> >::const_iterator it = replyVector.begin(); it != replyVector.end(); it++)
 	{
-	case TARGET_SENDER:
-		send(sender->getSock(), message.getReply().c_str(), message.getReply().length(), 0);
-		break;
-	case TARGET_ALL: // add function to get all clients that share a channel w/ sender
-		send(sender->getSock(), message.getReply().c_str(), message.getReply().length(), 0);
-		break;
+		switch (it->second)
+		{
+		case TARGET_SENDER:
+			send(sender->getSock(), it->first.c_str(), it->first.length(), 0);
+			break;
+		case TARGET_ALL: // add function to get all clients that share a channel w/ sender
+			send(sender->getSock(), it->first.c_str(), it->first.length(), 0);
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
 	}
 }
 
-void Server::sendNumeric(Client * target, const std::string & numeric, const std::string & param1, const std::string & param2)
+void Server::welcome(Client * target, SplitMsg & message)
 {
-	std::string reply = ":" + hostname + " " + numeric + " " + target->getNick() + " " + param1 + param2 + replies[numeric];
-	send(target->getSock(), reply.c_str(), reply.length(), 0);
-}
-
-void Server::welcome(Client * target)
-{
-	sendNumeric(target, RPL_WELCOME, ":Welcome to the Internet Relay Network " + target->getNick() + "!" + target->getUser() + "@" + hostname);
-	sendNumeric(target, RPL_YOURHOST);
-	sendNumeric(target, RPL_CREATED);
-	sendNumeric(target, RPL_MYINFO);
+	message.addReply(':' + hostname + ' ' + RPL_WELCOME + ' ' + target->getNick() + ' ' + replies[RPL_WELCOME] + target->getNick() + "!" + target->getUser() + "@" + hostname + "\r\n", TARGET_SENDER);
+	message.addReply(':' + hostname + ' ' + RPL_YOURHOST + ' ' + target->getNick() + ' ' + replies[RPL_YOURHOST], TARGET_SENDER);
+	message.addReply(':' + hostname + ' ' + RPL_CREATED + ' ' + target->getNick() + ' ' + replies[RPL_CREATED], TARGET_SENDER);
+	message.addReply(':' + hostname + ' ' + RPL_MYINFO + ' ' + target->getNick() + ' ' + replies[RPL_MYINFO], TARGET_SENDER);
 
 	target->signUp();
 }

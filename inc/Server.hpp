@@ -60,10 +60,11 @@ private:
 	void cmdNick(Client * sender, SplitMsg & message);
 	void cmdUser(Client * sender, SplitMsg & message);
 	void cmdPing(Client * sender, SplitMsg & message);
+	void cmdOper(Client * sender, SplitMsg & message);
 
 	void sendReply(Client * sender, SplitMsg & message);
-	void sendNumeric(Client * target, const std::string & numeric, const std::string & param1 = "", const std::string & param2 = "");
-	void welcome(Client * target);
+	void welcome(Client * target, SplitMsg & message);
+	
 	void exit(bool ex = false, const std::string & msg = "");
 };
 

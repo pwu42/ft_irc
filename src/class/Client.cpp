@@ -30,6 +30,11 @@ void Client::setUser(const std::string & newUser, const std::string & newFullNam
 	status |= CLIENT_HAS_USER;
 }
 
+void Client::setOper()
+{
+	status |= CLIENT_OPERATOR;
+}
+
 void Client::setSock(int fd)
 {
 	sock = fd;

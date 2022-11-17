@@ -47,10 +47,11 @@ void Server::getLimits()
 
 void Server::initReplies()
 {
-	replies[RPL_WELCOME] = "\r\n";
+	replies[RPL_WELCOME] = ":Welcome to the Internet Relay Network ";
 	replies[RPL_YOURHOST] = ":Your host is " + hostname + ", running version 0\r\n";
 	replies[RPL_CREATED] = ":This server was created " + creationDate + "\r\n";
 	replies[RPL_MYINFO] = ':' + hostname + " 0 o Oo\r\n";
+	replies[RPL_YOUREOPER] = ":You are now an IRC operator\r\n";
 	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
 	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
 	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";
@@ -59,6 +60,7 @@ void Server::initReplies()
 	replies[ERR_NEEDMOREPARAMS] = ":Not enough parameters\r\n";
 	replies[ERR_ALREADYREGISTERED] = ":Unauthorized command (already registered)\r\n";
 	replies[ERR_PASSWDMISMATCH] = ":Password incorrect\r\n";
+	replies[ERR_NOOPERHOST] = ":No O-lines for your host\r\n";
 }
 
 void Server::initSocket()

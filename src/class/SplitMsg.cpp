@@ -2,9 +2,7 @@
 
 SplitMsg::SplitMsg(const std::string & message):
 	command(),
-	params(),
-	reply(""),
-	target(TARGET_NOBODY)
+	params()
 {
 	size_t start = message.find_first_not_of(" ");
 	size_t end = message.find_first_of(" \r\n", start);
@@ -36,8 +34,7 @@ SplitMsg::~SplitMsg()
 {
 }
 
-void SplitMsg::setReply(const std::string & rpl, unsigned char msgTarget)
+void SplitMsg::addReply(const std::string & rpl, unsigned char msgTarget)
 {
-	reply = rpl;
-	target = msgTarget;
+	replies.push_back(std::make_pair(rpl, msgTarget));
 }

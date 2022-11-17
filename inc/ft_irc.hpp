@@ -37,6 +37,9 @@ enum msgTarget
 	TARGET_SENDER = 2
 };
 
+#define OPER_NAME "admin"
+#define OPER_PASS "00000000"
+
 #define ALNUMSPHY "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789[]\\`_^{|}-"
 #define SPECIAL "[]\\`_^{|}"
 #define NULSPCRLFAT "\0\r\n @"
@@ -45,6 +48,7 @@ enum msgTarget
 #define RPL_YOURHOST "002"
 #define RPL_CREATED "003"
 #define RPL_MYINFO "004"
+#define RPL_YOUREOPER "381"
 #define ERR_NOSUCHSERVER "402"
 #define ERR_NONICKNAMEGIVEN "431"
 #define ERR_ERRONEUSNICKNAME "432"
@@ -53,3 +57,4 @@ enum msgTarget
 #define ERR_NEEDMOREPARAMS "461"
 #define ERR_ALREADYREGISTERED "462"
 #define ERR_PASSWDMISMATCH "464"
+#define ERR_NOOPERHOST "491"

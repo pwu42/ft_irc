@@ -8,8 +8,7 @@ private:
 	std::string command;
 	std::vector<std::string> params;
 
-	std::string reply;
-	unsigned char target;
+	std::vector<std::pair<std::string, unsigned char> > replies;
 
 public:
 	SplitMsg(const std::string & message);
@@ -17,8 +16,7 @@ public:
 
 	std::string & getCommand() { return command; }
 	std::vector<std::string> & getParams() { return params; }
-	unsigned char getTarget() { return target; }
-	std::string & getReply() { return reply; }
+	std::vector<std::pair<std::string, unsigned char> > & getReplyVector() { return replies; }
 
-	void setReply(const std::string & rpl, unsigned char msgTarget = TARGET_NOBODY);
+	void addReply(const std::string & rpl, unsigned char msgTarget = TARGET_NOBODY);
 };

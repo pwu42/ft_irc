@@ -1,11 +1,12 @@
 commands:
 	?: pas sur si à faire ou pas
 	x: à priori pas à faire
+	#: fait
 	connection registration
-		pass
-		nick
-		user
-		oper
+	#	pass
+	#	nick
+	#	user
+	#	oper
 		mode -o
 		x service
 		quit
@@ -48,7 +49,7 @@ commands:
 
 	misc
 		kill (servop)
-		ping
+	#	ping
 		pong
 		x error
 

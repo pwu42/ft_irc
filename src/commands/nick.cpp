@@ -35,13 +35,13 @@ static std::string nickReply(Client * sender, const std::string & newNick, const
 void Server::cmdNick(Client * sender, SplitMsg & message)
 {
 	if ((sender->getStatus() & CLIENT_HAS_PASS) == 0)
-		message.setReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], TARGET_SENDER);
 	else if (message.getParams().size() < 1)
-		message.setReply(':' + hostname + ' ' + ERR_NONICKNAMEGIVEN + ' ' + sender->getNick() + ' ' + replies[ERR_NONICKNAMEGIVEN], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_NONICKNAMEGIVEN + ' ' + sender->getNick() + ' ' + replies[ERR_NONICKNAMEGIVEN], TARGET_SENDER);
 	else if (nickIsValid(message.getParams()[0]) == false)
-		message.setReply(':' + hostname + ' ' + ERR_ERRONEUSNICKNAME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_ERRONEUSNICKNAME], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_ERRONEUSNICKNAME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_ERRONEUSNICKNAME], TARGET_SENDER);
 	else if (nickExists(clients, message.getParams()[0]) == true)
-		message.setReply(':' + hostname + ' ' + ERR_NICKNAMEINUSE + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NICKNAMEINUSE], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_NICKNAMEINUSE + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NICKNAMEINUSE], TARGET_SENDER);
 	else
-		message.setReply(nickReply(sender, message.getParams()[0], hostname), TARGET_ALL);
+		message.addReply(nickReply(sender, message.getParams()[0], hostname), TARGET_ALL);
 }

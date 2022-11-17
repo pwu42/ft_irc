@@ -20,6 +20,8 @@ public:
 	void setPass();
 	void setNick(const std::string & newNick);
 	void setUser(const std::string & newUser, const std::string & fullName);
+	void setOper();
+
 	void setSock(int fd);
 	void addMessage(const std::string & msg);
 	void clearMessage();
