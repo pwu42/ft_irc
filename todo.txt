@@ -10,7 +10,7 @@ commands:
 	#	oper
 	#	mode -O
 		x service
-	/	quit send msg when signal
+	#	quit
 		x squit
 
 	channel operations

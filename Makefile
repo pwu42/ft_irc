@@ -30,20 +30,25 @@ OBJ_DIR	:= ./obj
 OBJ		:= $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 DEP		:= $(OBJ:.o=.d)
 
-all: $(NAME)
-
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -MMD -o $@
+
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $^ -o $(NAME)
 
+$(OBJ): | $(OBJ_DIR)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
 -include $(DEP)
 
 clean:
-	@rm -rvf $(OBJ_DIR)/*
+	@rm -rvf $(OBJ_DIR)
 
 fclean: clean
 	@rm -rvf $(NAME)

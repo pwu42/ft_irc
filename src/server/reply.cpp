@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-void Server::sendReply(Client * sender, SplitMsg & message)
+void Server::reply(Client * sender, SplitMsg & message)
 {
 	const std::vector<std::pair<std::string, unsigned char> > & replyVector = message.getReplyVector();
 	for (std::vector<std::pair<std::string, unsigned char> >::const_iterator it = replyVector.begin(); it != replyVector.end(); it++)
@@ -10,8 +10,9 @@ void Server::sendReply(Client * sender, SplitMsg & message)
 		case TARGET_SENDER:
 			send(sender->getSock(), it->first.c_str(), it->first.length(), 0);
 			break;
-		case TARGET_ALL: // add function to get all clients that share a channel w/ sender
-			send(sender->getSock(), it->first.c_str(), it->first.length(), 0);
+		case TARGET_ALL: // all clients that share a channel w/ sender
+			for (std::map<int, Client *>::const_iterator it2 = clients.begin(); it2 != clients.end(); it2++)
+				send(it2->second->getSock(), it->first.c_str(), it->first.length(), 0);
 			break;
 
 		default:

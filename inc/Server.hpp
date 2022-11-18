@@ -64,7 +64,7 @@ private:
 	void cmdMode(Client * sender, SplitMsg & message);
 	void cmdQuit(Client * sender, SplitMsg & message);
 
-	void sendReply(Client * sender, SplitMsg & message);
+	void reply(Client * sender, SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);
 	
 	void exit(bool ex = false, const std::string & msg = "");

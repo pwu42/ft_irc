@@ -20,13 +20,13 @@ Server::Server(int port, const std::string & pass):
 	fdCount(1)
 {
 	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
+	// signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
 	getHostInfo();
 	getTime();
 	getLimits();
 	initReplies();
 	initSocket();
-	// signal(SIGINT, handler);
-	signal(SIGQUIT, handler);
 	on = true;
 }
 
@@ -64,7 +64,7 @@ void Server::addNewClient()
 				perror("accept()");
 			break;
 		}
-		if (fd == int(fdLimit - 1))
+		else if (fd == int(fdLimit - 1))
 		{
 			close(fd);
 			std::cerr << "Error: Too many connections\n";
@@ -81,18 +81,21 @@ void Server::addNewClient()
 int Server::recvMessage(Client * sender)
 {
 	char buffer[BUF_SIZE + 1];
-	ssize_t readCount;
+	ssize_t recvCount;
 
-	readCount = recv(sender->getSock(), buffer, BUF_SIZE, 0);
-	if (readCount < 0)
+	recvCount = recv(sender->getSock(), buffer, BUF_SIZE, 0);
+	switch (recvCount)
 	{
+	case -1:
 		if (errno != EAGAIN && errno != EWOULDBLOCK)
 			perror("recv()");
 		return 1;
+	case 0:	
+		sender->clearMessage();
+		sender->addMessage("QUIT :Connection lost\r\n");
+		return 0;
 	}
-	if (readCount == 0)
-		return 1;
-	buffer[readCount] = 0;
+	buffer[recvCount] = 0;
 	std::cerr << "buffer = [" << buffer << "]\n";
 	sender->addMessage(buffer);
 	return 0;
@@ -125,7 +128,7 @@ int Server::exeMessage(Client * sender)
 					cmdMode(sender, split);
 				// other commands
 			}
-			sendReply(sender, split);
+			reply(sender, split);
 			if (sender->getStatus() & CLIENT_HAS_QUIT)
 				return 1;
 		}
