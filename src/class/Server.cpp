@@ -78,6 +78,16 @@ void Server::addNewClient()
 	} while (fd != -1);
 }
 
+void Server::deleteClient(int index)
+{
+	std::cerr << "Client " << fds[index].fd << " has left\n";
+	delete clients[fds[index].fd];
+	clients.erase(fds[index].fd);
+	close(fds[index].fd);
+	fds[index].fd = fds[fdCount - 1].fd;
+	--fdCount;
+}
+
 int Server::recvMessage(Client * sender)
 {
 	char buffer[BUF_SIZE + 1];
@@ -146,12 +156,13 @@ void Server::run()
 	do
 	{
 		std::cerr << "Polling ... \n";
-		if ((ret = poll(fds, fdCount, -1)) < 0) // ping all on timeout
+		if ((ret = poll(fds, fdCount, -1)) < 0)
 		{
 			if (on == true)
 				perror("poll()");
 			break;
 		}
+		// ping every ~60s
 		currentSize = fdCount;
 		for (size_t i = 0; i < currentSize; i++)
 		{
@@ -173,14 +184,7 @@ void Server::run()
 				else if (exeMessage(clients[fds[i].fd]) == 1)
 					closeClient = true;
 				if (closeClient)
-				{
-					std::cerr << "Client " << fds[i].fd << " has left\n";
-					delete clients[fds[i].fd];
-					clients.erase(fds[i].fd);
-					close(fds[i].fd);
-					fds[i].fd = fds[fdCount - 1].fd;
-					--fdCount;
-				}
+					deleteClient(i);
 			}
 		}
 	} while (on);

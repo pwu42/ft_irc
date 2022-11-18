@@ -52,7 +52,7 @@ private:
 	void initSocket();
 
 	void addNewClient();
-	void readClient(size_t index);
+	void deleteClient(int index);
 	int recvMessage(Client * sender);
 	int exeMessage(Client * sender);
 
