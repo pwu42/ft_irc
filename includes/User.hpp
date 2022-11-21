@@ -36,6 +36,7 @@ class User
 		std::string _nick;
 		std::string _addr;
 		std::string _username;
+		std::string _realname;
 
 	public :
 		User();

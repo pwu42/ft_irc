@@ -22,6 +22,7 @@
 // class Channel
 // {
 // 	private :
+		// std::string _name
 // 		std::list<User &> _users;
 //
 // 	public :

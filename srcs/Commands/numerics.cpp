@@ -5,7 +5,38 @@ void Server::_rpl_welcome(Message &msg) // 001
 	(void)msg;
 	msg.setReply("001 " + _client.getNick() + " :Welcome to the bIRCher Network, " + _client.getNick() + "\r\n");
 }
-//
+
+void Server::_rpl_topic(Message &msg)
+{
+	msg.setReply("332 "+ _client.getNick() + " <channel> :<topic>");
+}
+
+void Server::_rpl_topicWhoTime(Message &msg)
+{
+	msg.setReply("333 "+ _client.getNick() + " <channel> <nick> <setat>");
+}
+
+void Server::_rpl_namReply(Message &msg)
+{
+	msg.setReply("353 "+ _client.getNick() + " <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}");
+}
+
+void Server::_rpl_endOfNames(Message &msg)
+{
+	msg.setReply("366 "+ _client.getNick() + "<channel> :End of /NAMES list");
+}
+
+void Server::_rpl_youreOper(Message &msg)
+{
+	(void)msg;
+	msg.setReply("381 "+ _client.getNick() + " :You are now an IRC operator.\r\n");
+}
+
+void Server::_err_noSuchChannel(Message &msg)
+{
+	msg.setReply("403 "+ _client.getNick() + " <channel> :No such channel.\r\n");
+}
+
 void Server::_err_noNicknameGiven(Message &msg)
 {
 	(void)msg;
@@ -41,11 +72,6 @@ void Server::_err_passwdMisMatch(Message &msg)
 	msg.setReply("464 "+ _client.getNick() + " :Password incorrect.\r\n");
 }
 
-void Server::_rpl_youreOper(Message &msg)
-{
-	(void)msg;
-	msg.setReply("381 "+ _client.getNick() + " :You are now an IRC operator.\r\n");
-}
 
 void Server::_err_noOperHost(Message &msg)
 {

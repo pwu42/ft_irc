@@ -19,13 +19,24 @@
 enum e_rpl
 {
 	RPL_WELCOME = 001,
+	RPL_TOPIC = 332,// a faire
+	RPL_TOPICWHOTIME = 333,// a faire
+	RPL_NAMREPLY = 353, // a faire
+	RPL_ENDOFNAMES = 366, // a faire
 	RPL_YOUREOPER = 381,
+	ERR_NOSUCHCHANNEL = 403, // a faire
+
+	ERR_TOOMANYCHANNELS = 405, // a faire
 	ERR_NONICKNAMEGIVEN = 431,
 	ERR_ERRONEUSNICKNAME = 432,
 	ERR_NICKNAMEINUSE = 433,
 	ERR_NEEDMOREPARAMS = 461,
 	ERR_ALREADYREGISTERED = 462,
 	ERR_PASSWDMISMATCH = 464,
+	ERR_CHANNELISFULL = 471,// a faire
+	ERR_INVITEONLYCHAN = 473,// a faire
+	ERR_BANNEDFROMCHAN = 474, // a faire
+	ERR_BADCHANNELKEY  = 475, // afaire need to specifie which chan
 	ERR_NOOPERHOST = 491
 };
 
@@ -44,7 +55,12 @@ private:
 
 	void _rpl_welcome(Message &msg);
 	void _rpl_youreOper(Message &msg);
+	void _rpl_topic(Message &msg);
+	void _rpl_topicWhoTime(Message &msg);
+	void _rpl_namReply(Message &msg);
+	void _rpl_endOfNames(Message &msg);
 
+	void _err_noSuchChannel(Message &msg);
 	void _err_noNicknameGiven(Message &msg);
 	void _err_erroneusNickname(Message &msg);
 	void _err_nicknameInUse(Message &msg);
@@ -83,4 +99,5 @@ public:
 	// std::string usecmd(Message &msg, User &user);
 };
 
+// chan operation deserve there own map
 #endif
