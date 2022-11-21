@@ -9,7 +9,12 @@ void Server::cmdMode(Client * sender, SplitMsg & message)
 	else if (message.getParams().size() == 1)
 		message.addReply(':' + hostname + ' ' + RPL_UMODEIS + ' ' + sender->getNick() + ' ' + sender->getIsOper(), TARGET_SENDER);
 	else if (message.getParams()[1] == "-O")
+	{
 		sender->removeOper();
+		message.addReply("MODE " + sender->getNick() + " -O\r\n", TARGET_SENDER);
+	}
+	else if (message.getParams()[1] == "+O")
+		;
 	else
 		message.addReply(':' + hostname + ' ' + ERR_UMODEUNKNOWNFLAG + ' ' + sender->getNick() + ' ' + replies[ERR_UMODEUNKNOWNFLAG], TARGET_SENDER);
 }

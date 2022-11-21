@@ -27,6 +27,5 @@ void Server::welcome(Client * target, SplitMsg & message)
 	message.addReply(':' + hostname + ' ' + RPL_YOURHOST + ' ' + target->getNick() + ' ' + replies[RPL_YOURHOST], TARGET_SENDER);
 	message.addReply(':' + hostname + ' ' + RPL_CREATED + ' ' + target->getNick() + ' ' + replies[RPL_CREATED], TARGET_SENDER);
 	message.addReply(':' + hostname + ' ' + RPL_MYINFO + ' ' + target->getNick() + ' ' + replies[RPL_MYINFO], TARGET_SENDER);
-
 	target->signUp();
 }

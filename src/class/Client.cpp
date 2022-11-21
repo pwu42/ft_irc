@@ -65,9 +65,15 @@ void Client::signUp()
 	status |= CLIENT_REGISTER;
 }
 
-std::string Client::getIsOper()
+void Client::ping(const std::string & token)
 {
-	if (status & CLIENT_OPERATOR)
-		return "+o\r\n";
-	return "\r\n";
+	std::string msg = "PING " + token + "\r\n";
+	pingToken = token;
+	status |= CLIENT_PING;
+	send(sock, msg.c_str(), msg.length(), 0);
+}
+
+void Client::pong()
+{
+	status ^= CLIENT_PING;
 }

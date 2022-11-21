@@ -24,12 +24,11 @@ void Server::getHostInfo()
 
 void Server::getTime()
 {
-	time_t t;
 	struct tm * timeinfo;
 
 	std::cerr << "Retrieving additional info ... ";
-	time(&t);
-	timeinfo = localtime(&t);
+	time(&lastPing);
+	timeinfo = localtime(&lastPing);
 	creationDate = asctime(timeinfo);
 	creationDate.erase(creationDate.end() - 1);
 }

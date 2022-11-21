@@ -9,6 +9,7 @@ private:
 	std::vector<std::string> params;
 
 	std::vector<std::pair<std::string, unsigned char> > replies;
+	// Channel & targetChannel;
 
 public:
 	SplitMsg(const std::string & message);

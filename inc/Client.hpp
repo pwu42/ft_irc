@@ -13,6 +13,8 @@ private:
 	int sock;
 	std::string message;
 
+	std::string pingToken;
+
 public:
 	Client(int fd, const std::string & nick = "*");
 	~Client();
@@ -29,10 +31,14 @@ public:
 	void clearMessage();
 	void signUp();
 
+	void ping(const std::string & token);
+	void pong();
+
 	unsigned int getStatus() { return status; }
 	std::string & getNick() { return nickname; }
 	std::string & getUser() { return username; }
 	int getSock() { return sock; }
 	std::string & getMessage() { return message; }
-	std::string getIsOper();
+	std::string getIsOper() { return (status & CLIENT_OPERATOR) ? "+O\r\n":"\r\n"; }
+	std::string & getPingToken() { return pingToken; }
 };

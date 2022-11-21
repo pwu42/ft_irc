@@ -13,6 +13,15 @@ bool caseInsensEqual(const std::string & a, const std::string & b)
 	return true;
 }
 
+void handler(int signo)
+{
+	if (signo == SIGINT || signo == SIGQUIT)
+	{
+		std::cerr << "SignalInterrupt\n";
+		on = false;
+	}
+}
+
 Server::Server(int port, const std::string & pass):
 	port(port),
 	pass(pass),
@@ -40,15 +49,6 @@ Server::~Server()
 			close(fds[i].fd);
 	}
 	delete [] fds;
-}
-
-void handler(int signo)
-{
-	if (signo == SIGINT || signo == SIGQUIT)
-	{
-		std::cerr << "SignalInterrupt\n";
-		on = false;
-	}
 }
 
 void Server::addNewClient()
@@ -101,9 +101,7 @@ int Server::recvMessage(Client * sender)
 			perror("recv()");
 		return 1;
 	case 0:	
-		sender->clearMessage();
-		sender->addMessage("QUIT :Connection lost\r\n");
-		return 0;
+		return 1;
 	}
 	buffer[recvCount] = 0;
 	std::cerr << "buffer = [" << buffer << "]\n";
@@ -120,7 +118,12 @@ int Server::exeMessage(Client * sender)
 
 		if (msg.length() < 512 && split.getParams().size() < 15)
 		{
-			if (caseInsensEqual(split.getCommand(), "pass"))
+			if (sender->getStatus() & CLIENT_PING)
+			{
+				if (caseInsensEqual(split.getCommand(), "pong"))
+					cmdPong(sender, split);
+			}
+			else if (caseInsensEqual(split.getCommand(), "pass"))
 				cmdPass(sender, split);
 			else if (caseInsensEqual(split.getCommand(), "nick"))
 				cmdNick(sender, split);
@@ -153,16 +156,16 @@ void Server::run()
 	size_t currentSize;
 	bool closeClient;
 
-	do
+	while (on)
 	{
 		std::cerr << "Polling ... \n";
-		if ((ret = poll(fds, fdCount, -1)) < 0)
+		if ((ret = poll(fds, fdCount, POLL_TIMEOUT * 1000)) < 0)
 		{
 			if (on == true)
 				perror("poll()");
 			break;
 		}
-		// ping every ~60s
+		pingClients();
 		currentSize = fdCount;
 		for (size_t i = 0; i < currentSize; i++)
 		{
@@ -187,7 +190,7 @@ void Server::run()
 					deleteClient(i);
 			}
 		}
-	} while (on);
+	}
 }
 
 void Server::exit(bool except, const std::string & msg)

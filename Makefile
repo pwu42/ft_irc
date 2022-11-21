@@ -16,11 +16,13 @@ SRC			:= $(addprefix src/, \
 						oper.cpp \
 						pass.cpp \
 						ping.cpp \
+						pong.cpp \
 						quit.cpp \
 						user.cpp \
 					) \
 					$(addprefix server/, \
 						init.cpp \
+						pingClients.cpp \
 						reply.cpp \
 					) \
 					main.cpp \

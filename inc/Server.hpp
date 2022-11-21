@@ -23,6 +23,7 @@ private:
 	std::string hostname;
 	std::string ip;
 	std::string creationDate;
+	time_t lastPing;
 	size_t fdLimit;
 
 	std::map<std::string, std::string> replies;
@@ -60,10 +61,12 @@ private:
 	void cmdNick(Client * sender, SplitMsg & message);
 	void cmdUser(Client * sender, SplitMsg & message);
 	void cmdPing(Client * sender, SplitMsg & message);
+	void cmdPong(Client * sender, SplitMsg & message);
 	void cmdOper(Client * sender, SplitMsg & message);
 	void cmdMode(Client * sender, SplitMsg & message);
 	void cmdQuit(Client * sender, SplitMsg & message);
 
+	void pingClients();
 	void reply(Client * sender, SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);
 	

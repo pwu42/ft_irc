@@ -28,18 +28,22 @@ enum clientStatus
 	CLIENT_HAS_USER = 4,
 	CLIENT_REGISTER = 8,
 	CLIENT_OPERATOR = 16,
-	CLIENT_HAS_QUIT = 32
+	CLIENT_HAS_QUIT = 32,
+	CLIENT_PING = 64
 };
 
 enum msgTarget
 {
 	TARGET_NOBODY = 0,
 	TARGET_ALL = 1,
-	TARGET_SENDER = 2
+	TARGET_SENDER = 2,
+	TARGET_CHANNEL = 3
 };
 
 #define OPER_NAME "admin"
 #define OPER_PASS "00000000"
+
+#define POLL_TIMEOUT 300
 
 #define ALNUMSPHY "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789[]\\`_^{|}-"
 #define SPECIAL "[]\\`_^{|}"
