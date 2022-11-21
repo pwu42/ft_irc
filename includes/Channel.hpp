@@ -2,11 +2,13 @@
 // # define CHANNEL_HPP
 // # include "Irc.hpp"
 //
+// fct send to all users in channel
 // class Channel
 // {
 // 		private :
-// 			std::string _name
-// 			// std::list<User &> _users;
+// 			std::string _name;
+			// std::string _topic;
+			// std::map<int sock, User &> _ops;
 // 			std::map<int sock, User &> _users;
 //
 // 		public :

@@ -18,6 +18,8 @@
 # include "Irc.hpp"
 
 // add enum status sur client
+// 			list<std::string> _channel;
+
 enum e_status
 {
 	CLIENT_HAS_PASS = 1,

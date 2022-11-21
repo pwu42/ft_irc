@@ -19,23 +19,23 @@
 enum e_rpl
 {
 	RPL_WELCOME = 001,
-	RPL_TOPIC = 332,// a faire
-	RPL_TOPICWHOTIME = 333,// a faire
-	RPL_NAMREPLY = 353, // a faire
-	RPL_ENDOFNAMES = 366, // a faire
+	RPL_TOPIC = 332,// a faire need to specifie which chan
+	RPL_TOPICWHOTIME = 333,// a faire need to specifie which chan
+	RPL_NAMREPLY = 353, // a faire need to specifie which chan
+	RPL_ENDOFNAMES = 366, // a faire need to specifie which chan
 	RPL_YOUREOPER = 381,
-	ERR_NOSUCHCHANNEL = 403, // a faire
+	ERR_NOSUCHCHANNEL = 403, // a faire need to specifie which chan
 
-	ERR_TOOMANYCHANNELS = 405, // a faire
+	ERR_TOOMANYCHANNELS = 405, // a faire need to specifie which chan
 	ERR_NONICKNAMEGIVEN = 431,
 	ERR_ERRONEUSNICKNAME = 432,
 	ERR_NICKNAMEINUSE = 433,
 	ERR_NEEDMOREPARAMS = 461,
 	ERR_ALREADYREGISTERED = 462,
 	ERR_PASSWDMISMATCH = 464,
-	ERR_CHANNELISFULL = 471,// a faire
-	ERR_INVITEONLYCHAN = 473,// a faire
-	ERR_BANNEDFROMCHAN = 474, // a faire
+	ERR_CHANNELISFULL = 471,// a faire need to specifie which chan
+	ERR_INVITEONLYCHAN = 473,// a faire need to specifie which chan
+	ERR_BANNEDFROMCHAN = 474, // a faire need to specifie which chan
 	ERR_BADCHANNELKEY  = 475, // afaire need to specifie which chan
 	ERR_NOOPERHOST = 491
 };
@@ -43,7 +43,8 @@ enum e_rpl
 // typedef void (Server::FPTR)(Message);
 class Server
 {
-	// std::map<int sock, User *> _users;
+	// std::map<std::string , Channel &> _users;
+	// fct createchannel: creer un channel lui ajouter le createur en op et l'ajpouter a la map  destroychannel
 	// typedef void (Server::*Fonct)(Message);
 private:
 	const std::string _port;
