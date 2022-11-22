@@ -43,7 +43,7 @@ enum msgTarget
 #define OPER_NAME "admin"
 #define OPER_PASS "00000000"
 
-#define POLL_TIMEOUT 300
+#define POLL_TIMEOUT 180
 
 #define ALNUMSPHY "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789[]\\`_^{|}-"
 #define SPECIAL "[]\\`_^{|}"

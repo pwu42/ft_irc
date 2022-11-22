@@ -67,6 +67,7 @@ private:
 	void cmdQuit(Client * sender, SplitMsg & message);
 
 	void pingClients();
+	void clientDisconnect(Client * target);
 	void reply(Client * sender, SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);
 	

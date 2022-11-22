@@ -22,7 +22,7 @@ SRC			:= $(addprefix src/, \
 					) \
 					$(addprefix server/, \
 						init.cpp \
-						pingClients.cpp \
+						client_connection.cpp \
 						reply.cpp \
 					) \
 					main.cpp \

@@ -80,6 +80,8 @@ void Server::addNewClient()
 
 void Server::deleteClient(int index)
 {
+	if (!(clients[fds[index].fd]->getStatus() & CLIENT_HAS_QUIT))
+		clientDisconnect(clients[fds[index].fd]);
 	std::cerr << "Client " << fds[index].fd << " has left\n";
 	delete clients[fds[index].fd];
 	clients.erase(fds[index].fd);
@@ -182,9 +184,7 @@ void Server::run()
 			{
 				std::cerr << "Reading client socket " << fds[i].fd << '\n';
 				closeClient = false;
-				if (recvMessage(clients[fds[i].fd]) == 1)
-					closeClient = true;
-				else if (exeMessage(clients[fds[i].fd]) == 1)
+				if (recvMessage(clients[fds[i].fd]) == 1 || exeMessage(clients[fds[i].fd]) == 1)
 					closeClient = true;
 				if (closeClient)
 					deleteClient(i);

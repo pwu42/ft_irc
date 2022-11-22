@@ -1,5 +1,12 @@
 #include "Server.hpp"
 
+void Server::clientDisconnect(Client * target)
+{
+	SplitMsg msg("QUIT :Connection lost\r\n");
+	cmdQuit(target, msg);
+	reply(target, msg);
+}
+
 void Server::pingClients()
 {
 	time_t t;
