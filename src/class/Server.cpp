@@ -116,12 +116,7 @@ int Server::exeMessage(Client * sender)
 
 		if (msg.length() < 512 && split.getParams().size() < 15)
 		{
-			if (sender->getStatus() & CLIENT_PING)
-			{
-				if (caseInsensEqual(split.getCommand(), "pong"))
-					cmdPong(sender, split);
-			}
-			else if (caseInsensEqual(split.getCommand(), "pass"))
+			if (caseInsensEqual(split.getCommand(), "pass"))
 				cmdPass(sender, split);
 			else if (caseInsensEqual(split.getCommand(), "nick"))
 				cmdNick(sender, split);
@@ -129,6 +124,8 @@ int Server::exeMessage(Client * sender)
 				cmdUser(sender, split);
 			else if (caseInsensEqual(split.getCommand(), "quit"))
 				cmdQuit(sender, split);
+			else if (caseInsensEqual(split.getCommand(), "pong"))
+				cmdPong(sender, split);
 			else if (sender->getStatus() & CLIENT_REGISTER)
 			{
 				if (caseInsensEqual(split.getCommand(), "ping"))

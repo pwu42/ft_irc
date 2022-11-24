@@ -26,8 +26,9 @@ commands:
 	sending messages
 		privmsg
 			channel
-			@channel
-			nick
+			? @channel
+	#		nick
+	/		target1,target2...
 		notice
 
 	server queries and commands

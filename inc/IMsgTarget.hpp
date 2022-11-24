@@ -2,11 +2,12 @@
 
 #include "ft_irc.hpp"
 
-class MsgTarget
+class IMsgTarget
 {
 public:
-	MsgTarget() {}
-	~MsgTarget() {}
+	IMsgTarget() {}
+	~IMsgTarget() {}
 
+	virtual std::string & getName() = 0;
 	virtual void sendMsg(const std::string & msg) = 0;
 };

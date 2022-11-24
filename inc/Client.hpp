@@ -1,9 +1,9 @@
 #pragma once
 
 #include "ft_irc.hpp"
-#include "MsgTarget.hpp"
+#include "IMsgTarget.hpp"
 
-class Client: public MsgTarget
+class Client: public IMsgTarget
 {
 private:
 	unsigned int status;
@@ -39,6 +39,7 @@ public:
 
 	unsigned int getStatus() { return status; }
 	std::string & getNick() { return nickname; }
+	std::string & getName() { return getNick(); }
 	std::string & getUser() { return username; }
 	std::string getFullName() { return std::string(nickname + fullname); }
 	int getSock() { return sock; }

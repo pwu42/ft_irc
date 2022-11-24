@@ -43,11 +43,6 @@ $(NAME): $(OBJ)
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $^ -o $(NAME)
 
-$(OBJ): | $(OBJ_DIR)
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
 -include $(DEP)
 
 clean:

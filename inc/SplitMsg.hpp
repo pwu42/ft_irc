@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ft_irc.hpp"
-#include "MsgTarget.hpp"
+#include "IMsgTarget.hpp"
 
 class SplitMsg
 {
@@ -9,7 +9,7 @@ private:
 	std::string command;
 	std::vector<std::string> params;
 
-	std::vector<std::pair<std::string, MsgTarget *> > replies;
+	std::vector<std::pair<std::string, IMsgTarget *> > replies;
 
 public:
 	SplitMsg(const std::string & message);
@@ -17,7 +17,7 @@ public:
 
 	std::string & getCommand() { return command; }
 	std::vector<std::string> & getParams() { return params; }
-	std::vector<std::pair<std::string, MsgTarget *> > & getReplyVector() { return replies; }
+	std::vector<std::pair<std::string, IMsgTarget *> > & getReplyVector() { return replies; }
 
-	void addReply(const std::string & rpl, MsgTarget * msgTarget);
+	void addReply(const std::string & rpl, IMsgTarget * msgTarget);
 };
