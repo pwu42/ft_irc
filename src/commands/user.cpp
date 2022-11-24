@@ -10,15 +10,15 @@ static bool userIsValid(const std::string & user)
 void Server::cmdUser(Client * sender, SplitMsg & message)
 {
 	if (!(sender->getStatus() & CLIENT_HAS_PASS))
-		message.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
 	else if (sender->getStatus() & CLIENT_HAS_USER)
-		message.addReply(':' + hostname + ' ' + ERR_ALREADYREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_ALREADYREGISTERED], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_ALREADYREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_ALREADYREGISTERED], sender);
 	else if (message.getParams().size() < 4 || message.getParams()[0].length() < 1)
-		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], sender);
 	else if (userIsValid(message.getParams()[0]) == false)
-		message.addReply(':' + hostname + ' ' + ERR_ERRONEUSNICKNAME + ' ' + sender->getNick() + ' ' + replies[ERR_ERRONEUSNICKNAME], TARGET_SENDER);
+		message.addReply(':' + hostname + ' ' + ERR_ERRONEUSNICKNAME + ' ' + sender->getNick() + ' ' + replies[ERR_ERRONEUSNICKNAME], sender);
 	else
-		sender->setUser(message.getParams()[0], message.getParams()[3]);
+		sender->setUser(message.getParams()[0], hostname);
 	if (sender->getStatus() == 7)
 		welcome(sender, message);
 }

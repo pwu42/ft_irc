@@ -17,6 +17,7 @@ SRC			:= $(addprefix src/, \
 						pass.cpp \
 						ping.cpp \
 						pong.cpp \
+						privmsg.cpp \
 						quit.cpp \
 						user.cpp \
 					) \

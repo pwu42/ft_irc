@@ -6,6 +6,6 @@ void Server::cmdQuit(Client * sender, SplitMsg & message)
 	if (message.getParams().size() > 0)
 		reply += message.getParams()[0];
 	reply += "\r\n";
-	message.addReply(reply, TARGET_ALL);
+	message.addReply(reply, NULL);
 	sender->quit();
 }

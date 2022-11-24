@@ -34,7 +34,7 @@ SplitMsg::~SplitMsg()
 {
 }
 
-void SplitMsg::addReply(const std::string & rpl, unsigned char msgTarget)
+void SplitMsg::addReply(const std::string & rpl, MsgTarget * msgTarget)
 {
 	replies.push_back(std::make_pair(rpl, msgTarget));
 }

@@ -32,14 +32,6 @@ enum clientStatus
 	CLIENT_PING = 64
 };
 
-enum msgTarget
-{
-	TARGET_NOBODY = 0,
-	TARGET_ALL = 1,
-	TARGET_SENDER = 2,
-	TARGET_CHANNEL = 3
-};
-
 #define OPER_NAME "admin"
 #define OPER_PASS "00000000"
 
@@ -55,7 +47,10 @@ enum msgTarget
 #define RPL_MYINFO "004"
 #define RPL_UMODEIS "221"
 #define RPL_YOUREOPER "381"
+#define ERR_NOSUCHNICK "401"
 #define ERR_NOSUCHSERVER "402"
+#define ERR_NORECIPIENT "411"
+#define ERR_NOTEXTTOSEND "412"
 #define ERR_NONICKNAMEGIVEN "431"
 #define ERR_ERRONEUSNICKNAME "432"
 #define ERR_NICKNAMEINUSE "433"

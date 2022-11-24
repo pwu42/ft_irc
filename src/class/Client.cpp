@@ -3,6 +3,8 @@
 Client::Client(int fd, const std::string & nick):
 	status(0),
 	nickname(nick),
+	username(),
+	fullname(),
 	sock(fd),
 	message("")
 {
@@ -23,10 +25,10 @@ void Client::setNick(const std::string & newNick)
 	status |= CLIENT_HAS_NICK;
 }
 
-void Client::setUser(const std::string & newUser, const std::string & newFullName)
+void Client::setUser(const std::string & newUser, const std::string & hostname)
 {
 	username = newUser;
-	fullname = newFullName;
+	fullname = '!' + username + '@' + hostname;
 	status |= CLIENT_HAS_USER;
 }
 
@@ -76,4 +78,9 @@ void Client::ping(const std::string & token)
 void Client::pong()
 {
 	status ^= CLIENT_PING;
+}
+
+void Client::sendMsg(const std::string & msg)
+{
+	send(sock, msg.c_str(), msg.length(), 0);
 }

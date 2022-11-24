@@ -65,14 +65,14 @@ private:
 	void cmdOper(Client * sender, SplitMsg & message);
 	void cmdMode(Client * sender, SplitMsg & message);
 	void cmdQuit(Client * sender, SplitMsg & message);
+	void cmdPrivmsg(Client * sender, SplitMsg & message);
 
 	void pingClients();
 	void clientDisconnect(Client * target);
-	void reply(Client * sender, SplitMsg & message);
+	void reply(SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);
 	
 	void exit(bool ex = false, const std::string & msg = "");
 };
 
-void handler(int signo);
 bool caseInsensEqual(const std::string & a, const std::string & b);

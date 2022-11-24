@@ -25,6 +25,9 @@ commands:
 
 	sending messages
 		privmsg
+			channel
+			@channel
+			nick
 		notice
 
 	server queries and commands
@@ -51,7 +54,7 @@ commands:
 	misc
 		kill (servop)
 	#	ping
-		pong
+	#	pong
 		x error
 
 	optional; 

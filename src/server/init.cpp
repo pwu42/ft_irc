@@ -51,7 +51,10 @@ void Server::initReplies()
 	replies[RPL_CREATED] = ":This server was created " + creationDate + "\r\n";
 	replies[RPL_MYINFO] = ':' + hostname + " 0 O Oo\r\n";
 	replies[RPL_YOUREOPER] = ":You are now an IRC operator\r\n";
+	replies[ERR_NOSUCHNICK] = ":No such nick/channel\r\n";
 	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
+	replies[ERR_NORECIPIENT] = ":No recipient given\r\n";
+	replies[ERR_NOTEXTTOSEND] = ":No text to send\r\n";
 	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
 	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";
 	replies[ERR_NICKNAMEINUSE] = ":Nickname is already in use\r\n";

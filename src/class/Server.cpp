@@ -13,15 +13,6 @@ bool caseInsensEqual(const std::string & a, const std::string & b)
 	return true;
 }
 
-void handler(int signo)
-{
-	if (signo == SIGINT || signo == SIGQUIT)
-	{
-		std::cerr << "SignalInterrupt\n";
-		on = false;
-	}
-}
-
 Server::Server(int port, const std::string & pass):
 	port(port),
 	pass(pass),
@@ -29,8 +20,6 @@ Server::Server(int port, const std::string & pass):
 	fdCount(1)
 {
 	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
-	// signal(SIGINT, handler);
-	signal(SIGQUIT, handler);
 	getHostInfo();
 	getTime();
 	getLimits();
@@ -54,6 +43,7 @@ Server::~Server()
 void Server::addNewClient()
 {
 	int fd;
+	Client * newClient = NULL;
 
 	std::cerr << "Reading server socket\n";
 	do
@@ -71,10 +61,16 @@ void Server::addNewClient()
 			break;
 		}
 		std::cerr << "New connection on socket " << fd << '\n';
+		if ((newClient = new (std::nothrow) Client(fd)) == NULL)
+		{
+			close(fd);
+			std::cerr << "Error: Out of memory\n";
+			break;
+		}
 		fds[fdCount].fd = fd;
 		fds[fdCount].events = POLLIN;
 		++fdCount;
-		clients[fd] = new Client(fd);
+		clients[fd] = newClient;
 	} while (fd != -1);
 }
 
@@ -141,9 +137,11 @@ int Server::exeMessage(Client * sender)
 					cmdOper(sender, split);
 				else if (caseInsensEqual(split.getCommand(), "mode"))
 					cmdMode(sender, split);
+				else if (caseInsensEqual(split.getCommand(), "privmsg"))
+					cmdPrivmsg(sender, split);
 				// other commands
 			}
-			reply(sender, split);
+			reply(split);
 			if (sender->getStatus() & CLIENT_HAS_QUIT)
 				return 1;
 		}
