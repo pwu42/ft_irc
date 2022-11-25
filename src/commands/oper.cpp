@@ -11,7 +11,7 @@ void Server::cmdOper(Client * sender, SplitMsg & message)
 	else
 	{
 		message.addReply(':' + hostname + ' ' + RPL_YOUREOPER + ' ' + sender->getNick() + ' ' + replies[RPL_YOUREOPER], sender);
-		message.addReply("MODE " + sender->getNick() + " +O\r\n", sender);
+		message.addReply("MODE " + sender->getNick() + " +o\r\n", sender);
 		sender->setOper();
 	}
 }

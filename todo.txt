@@ -8,7 +8,7 @@ commands:
 	#	nick
 	#	user
 	#	oper
-	#	mode -O
+	#	mode -o
 		x service
 	#	quit
 		x squit

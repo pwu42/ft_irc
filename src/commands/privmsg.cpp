@@ -41,5 +41,5 @@ void Server::cmdPrivmsg(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_NOSUCHNICK + ' ' + sender->getNick() + ' ' + err + ' ' + replies[ERR_NOSUCHNICK], sender);
 	else
 		for (std::set<IMsgTarget *>::iterator it = targets.begin(); it != targets.end(); it++)
-			message.addReply(':' + sender->getFullName() + " PRIVMSG " + (*it)->getName() + " :" + message.getParams()[1] + "\r\n", *it);
+			message.addReply(':' + sender->getFullName() + ' ' + message.getCommand() + ' ' + (*it)->getName() + " :" + message.getParams()[1] + "\r\n", *it);
 }
