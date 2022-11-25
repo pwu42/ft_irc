@@ -33,7 +33,9 @@ void Server::cmdPrivmsg(Client * sender, SplitMsg & message)
 	std::set<IMsgTarget *> targets;
 	std::string err;
 
-	if (message.getParams().size() < 1)
+	if ((sender->getStatus() & CLIENT_REGISTER) == 0)
+		message.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
+	else if (message.getParams().size() < 1)
 		message.addReply(':' + hostname + ' ' + ERR_NORECIPIENT + ' ' + sender->getNick() + ' ' + replies[ERR_NORECIPIENT], sender);
 	else if (message.getParams().size() < 2)
 		message.addReply(':' + hostname + ' ' + ERR_NOTEXTTOSEND + ' ' + sender->getNick() + ' ' + replies[ERR_NOTEXTTOSEND], sender);

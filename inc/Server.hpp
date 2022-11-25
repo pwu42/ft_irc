@@ -20,6 +20,8 @@ private:
 	const int port;
 	const std::string pass;
 
+	std::map<std::string, void(Server::*)(Client *, SplitMsg &)> commands;
+
 	std::string hostname;
 	std::string ip;
 	std::string creationDate;
@@ -28,7 +30,6 @@ private:
 
 	std::map<std::string, std::string> replies;
 
-	int serverSock;
 	struct sockaddr_in address;
 	socklen_t addrLength;
 	struct pollfd * fds;
@@ -40,12 +41,14 @@ public:
 	Server(int port, const std::string & pass);
 	~Server();
 
+	void init();
 	void run();
 
 private:
 	Server();
 	Server(const Server & x);
 
+	void initCommands();
 	void initReplies();
 	void getHostInfo();
 	void getTime();

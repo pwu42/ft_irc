@@ -24,12 +24,11 @@ commands:
 		kick (chanop)
 
 	sending messages
-		privmsg
+		privmsg / notice
 			channel
 			? @channel
 	#		nick
-	/		target1,target2...
-		notice
+	#		target1,target2...
 
 	server queries and commands
 		x motd

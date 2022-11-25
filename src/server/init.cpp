@@ -1,5 +1,17 @@
 #include "Server.hpp"
 
+void Server::init()
+{
+	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
+	getHostInfo();
+	getTime();
+	getLimits();
+	initCommands();
+	initReplies();
+	initSocket();
+	on = true;
+}
+
 void Server::getHostInfo()
 {
 	char host[256];
@@ -44,6 +56,20 @@ void Server::getLimits()
 	std::cerr << "Done\n";
 }
 
+void Server::initCommands()
+{
+	commands["MODE"] = &Server::cmdMode;
+	commands["NICK"] = &Server::cmdNick;
+	commands["NOTICE"] = &Server::cmdPrivmsg;
+	commands["OPER"] = &Server::cmdOper;
+	commands["PASS"] = &Server::cmdPass;
+	commands["PING"] = &Server::cmdPing;
+	commands["PONG"] = &Server::cmdPong;
+	commands["PRIVMSG"] = &Server::cmdPrivmsg;
+	commands["QUIT"] = &Server::cmdQuit;
+	commands["USER"] = &Server::cmdUser;
+}
+
 void Server::initReplies()
 {
 	replies[RPL_WELCOME] = ":Welcome to the Internet Relay Network ";
@@ -55,6 +81,7 @@ void Server::initReplies()
 	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
 	replies[ERR_NORECIPIENT] = ":No recipient given\r\n";
 	replies[ERR_NOTEXTTOSEND] = ":No text to send\r\n";
+	replies[ERR_UNKNOWNCOMMAND] = ":Unknown command\r\n";
 	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
 	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";
 	replies[ERR_NICKNAMEINUSE] = ":Nickname is already in use\r\n";
@@ -70,24 +97,23 @@ void Server::initReplies()
 void Server::initSocket()
 {
 	int opt = 1;
+	fds = new struct pollfd[fdLimit];
+	fds[0].fd = -2;
+	fds[0].events = POLLIN;
 
 	std::cerr << "Creating socket ... ";
-	if ((serverSock = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 6)) < 0)
+	if ((fds[0].fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 6)) < 0)
 		exit(true, "socket()");
-	if (setsockopt(serverSock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+	if (setsockopt(fds[0].fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
 		exit(true, "setsockopt()");
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(port);
 	addrLength = sizeof(address);
-	if (bind(serverSock, reinterpret_cast<struct sockaddr *>(&address), addrLength) < 0)
+	if (bind(fds[0].fd, reinterpret_cast<struct sockaddr *>(&address), addrLength) < 0)
 		exit(true, "bind()");
-	if (listen(serverSock, 4) < 0)
+	if (listen(fds[0].fd, 4) < 0)
 		exit(true, "listen()");
-
-	fds = new struct pollfd[fdLimit];
-	fds[0].fd = serverSock;
-	fds[0].events = POLLIN;
 
 	std::cerr << "Done\n";
 }

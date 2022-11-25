@@ -2,7 +2,9 @@
 
 void Server::cmdMode(Client * sender, SplitMsg & message)
 {
-	if (message.getParams().size() < 1)
+	if ((sender->getStatus() & CLIENT_REGISTER) == 0)
+		message.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
+	else if (message.getParams().size() < 1)
 		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], sender);
 	else if (message.getParams()[0] != sender->getNick())
 		message.addReply(':' + hostname + ' ' + ERR_USERSDONTMATCH + ' ' + sender->getNick() + ' ' + replies[ERR_USERSDONTMATCH], sender);

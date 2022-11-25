@@ -16,16 +16,8 @@ bool caseInsensEqual(const std::string & a, const std::string & b)
 Server::Server(int port, const std::string & pass):
 	port(port),
 	pass(pass),
-	serverSock(-2),
 	fdCount(1)
 {
-	std::cerr << "\n o0o0o0o Server is starting o0o0o0o\n\n";
-	getHostInfo();
-	getTime();
-	getLimits();
-	initReplies();
-	initSocket();
-	on = true;
 }
 
 Server::~Server()
@@ -48,7 +40,7 @@ void Server::addNewClient()
 	std::cerr << "Reading server socket\n";
 	do
 	{
-		if ((fd = accept(serverSock, reinterpret_cast<struct sockaddr *>(&address), &addrLength)) < 0)
+		if ((fd = accept(fds[0].fd, reinterpret_cast<struct sockaddr *>(&address), &addrLength)) < 0)
 		{
 			if (errno != EAGAIN && errno != EWOULDBLOCK)
 				perror("accept()");
@@ -116,28 +108,10 @@ int Server::exeMessage(Client * sender)
 
 		if (msg.length() < 512 && split.getParams().size() < 15)
 		{
-			if (split.getCommand() == "PASS")
-				cmdPass(sender, split);
-			else if (split.getCommand() == "NICK")
-				cmdNick(sender, split);
-			else if (split.getCommand() == "USER")
-				cmdUser(sender, split);
-			else if (split.getCommand() == "QUIT")
-				cmdQuit(sender, split);
-			else if (split.getCommand() == "PONG")
-				cmdPong(sender, split);
-			else if (sender->getStatus() & CLIENT_REGISTER)
-			{
-				if (split.getCommand() == "PING")
-					cmdPing(sender, split);
-				else if (split.getCommand() == "OPER")
-					cmdOper(sender, split);
-				else if (split.getCommand() == "MODE")
-					cmdMode(sender, split);
-				else if (split.getCommand() == "PRIVMSG" || split.getCommand() == "NOTICE")
-					cmdPrivmsg(sender, split);
-				// other commands
-			}
+			if (!commands.count(split.getCommand()))
+				split.addReply(':' + hostname + ' ' + ERR_UNKNOWNCOMMAND + ' ' + sender->getNick() + ' ' + split.getCommand() + ' ' + replies[ERR_UNKNOWNCOMMAND], sender);
+			else
+				(this->*commands[split.getCommand()])(sender, split);
 			reply(sender, split);
 			if (sender->getStatus() & CLIENT_HAS_QUIT)
 				return 1;
@@ -173,7 +147,7 @@ void Server::run()
 				std::cerr << "Fatal error: revents = " << fds[i].revents << '\n';
 				on = false;
 			}
-			if (fds[i].fd == serverSock)
+			if (fds[i].fd == fds[0].fd)
 				addNewClient();
 			else
 			{
