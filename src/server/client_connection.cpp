@@ -4,7 +4,7 @@ void Server::clientDisconnect(Client * target)
 {
 	SplitMsg msg("QUIT :Connection lost\r\n");
 	cmdQuit(target, msg);
-	reply(msg);
+	reply(target, msg);
 }
 
 void Server::pingClients()

@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-void Server::reply(SplitMsg & message)
+void Server::reply(Client * sender, SplitMsg & message)
 {
 	const std::vector<std::pair<std::string, IMsgTarget *> > & replyVector = message.getReplyVector();
 	for (std::vector<std::pair<std::string, IMsgTarget *> >::const_iterator it = replyVector.begin(); it != replyVector.end(); it++)
@@ -10,7 +10,8 @@ void Server::reply(SplitMsg & message)
 		else
 		{	//send to all channels
 			for (std::map<int, Client *>::const_iterator it2 = clients.begin(); it2 != clients.end(); it2++)
-				send(it2->second->getSock(), it->first.c_str(), it->first.length(), 0);
+				if (message.getCommand() == "QUIT" && it2->second != sender)
+					send(it2->second->getSock(), it->first.c_str(), it->first.length(), 0);
 		}
 	}
 }

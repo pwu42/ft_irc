@@ -116,29 +116,29 @@ int Server::exeMessage(Client * sender)
 
 		if (msg.length() < 512 && split.getParams().size() < 15)
 		{
-			if (caseInsensEqual(split.getCommand(), "pass"))
+			if (split.getCommand() == "PASS")
 				cmdPass(sender, split);
-			else if (caseInsensEqual(split.getCommand(), "nick"))
+			else if (split.getCommand() == "NICK")
 				cmdNick(sender, split);
-			else if (caseInsensEqual(split.getCommand(), "user"))
+			else if (split.getCommand() == "USER")
 				cmdUser(sender, split);
-			else if (caseInsensEqual(split.getCommand(), "quit"))
+			else if (split.getCommand() == "QUIT")
 				cmdQuit(sender, split);
-			else if (caseInsensEqual(split.getCommand(), "pong"))
+			else if (split.getCommand() == "PONG")
 				cmdPong(sender, split);
 			else if (sender->getStatus() & CLIENT_REGISTER)
 			{
-				if (caseInsensEqual(split.getCommand(), "ping"))
+				if (split.getCommand() == "PING")
 					cmdPing(sender, split);
-				else if (caseInsensEqual(split.getCommand(), "oper"))
+				else if (split.getCommand() == "OPER")
 					cmdOper(sender, split);
-				else if (caseInsensEqual(split.getCommand(), "mode"))
+				else if (split.getCommand() == "MODE")
 					cmdMode(sender, split);
-				else if (caseInsensEqual(split.getCommand(), "privmsg"))
+				else if (split.getCommand() == "PRIVMSG" || split.getCommand() == "NOTICE")
 					cmdPrivmsg(sender, split);
 				// other commands
 			}
-			reply(split);
+			reply(sender, split);
 			if (sender->getStatus() & CLIENT_HAS_QUIT)
 				return 1;
 		}

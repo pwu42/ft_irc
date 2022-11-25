@@ -69,7 +69,7 @@ private:
 
 	void pingClients();
 	void clientDisconnect(Client * target);
-	void reply(SplitMsg & message);
+	void reply(Client * sender, SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);
 	
 	void exit(bool ex = false, const std::string & msg = "");
