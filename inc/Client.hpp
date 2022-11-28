@@ -33,7 +33,7 @@ public:
 	void signUp();
 
 	void ping(const std::string & token);
-	void pong();
+	void pong(const std::string & token);
 
 	std::string & getName() { return getNick(); }
 	virtual void sendMsg(const std::string & msg);

@@ -75,9 +75,10 @@ void Client::ping(const std::string & token)
 	send(sock, msg.c_str(), msg.length(), MSG_NOSIGNAL);
 }
 
-void Client::pong()
+void Client::pong(const std::string & token)
 {
-	status ^= CLIENT_PING;
+	if ((status & CLIENT_PING) && token == pingToken)
+		status ^= CLIENT_PING;
 }
 
 void Client::sendMsg(const std::string & msg)

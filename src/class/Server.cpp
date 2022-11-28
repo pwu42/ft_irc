@@ -173,6 +173,7 @@ void Server::exit(bool except, const std::string & msg)
 	if (except == true)
 	{
 		std::cerr << "Error\n";
-		throw std::runtime_error(msg.c_str());
+		perror(msg.c_str());
+		throw std::runtime_error("");
 	}
 }
