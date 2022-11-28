@@ -35,11 +35,11 @@ public:
 	void ping(const std::string & token);
 	void pong();
 
+	std::string & getName() { return getNick(); }
 	virtual void sendMsg(const std::string & msg);
 
 	unsigned int getStatus() { return status; }
 	std::string & getNick() { return nickname; }
-	std::string & getName() { return getNick(); }
 	std::string & getUser() { return username; }
 	std::string getFullName() { return std::string(nickname + fullname); }
 	int getSock() { return sock; }

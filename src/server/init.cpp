@@ -58,6 +58,7 @@ void Server::getLimits()
 
 void Server::initCommands()
 {
+	commands["CAP"] = &Server::cmdDoNothing;
 	commands["MODE"] = &Server::cmdMode;
 	commands["NICK"] = &Server::cmdNick;
 	commands["NOTICE"] = &Server::cmdPrivmsg;

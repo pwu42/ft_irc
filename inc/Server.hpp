@@ -69,6 +69,7 @@ private:
 	void cmdMode(Client * sender, SplitMsg & message);
 	void cmdQuit(Client * sender, SplitMsg & message);
 	void cmdPrivmsg(Client * sender, SplitMsg & message);
+	void cmdDoNothing(Client * sender, SplitMsg & message);
 
 	void pingClients();
 	void clientDisconnect(Client * target);

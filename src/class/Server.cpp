@@ -142,9 +142,9 @@ void Server::run()
 		{
 			if (fds[i].revents == 0)
 				continue;
-			if (fds[i].revents != POLLIN)
+			if (fds[i].revents != POLLIN && !(fds[i].revents & POLLHUP))
 			{
-				std::cerr << "Fatal error: revents = " << fds[i].revents << '\n';
+				std::cerr << "Fatal error: revents = " << fds[i].revents << " for " << fds[i].fd << '\n';
 				on = false;
 			}
 			if (fds[i].fd == fds[0].fd)
@@ -160,6 +160,12 @@ void Server::run()
 			}
 		}
 	}
+}
+
+void Server::cmdDoNothing(Client * sender, SplitMsg & message)
+{
+	(void)sender;
+	(void)message;
 }
 
 void Server::exit(bool except, const std::string & msg)

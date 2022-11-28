@@ -39,4 +39,6 @@ void Server::cmdNick(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_NICKNAMEINUSE + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NICKNAMEINUSE], sender);
 	else
 		message.addReply(nickReply(sender, message.getParams()[0]), NULL);
+	if (sender->getStatus() == 7)
+		welcome(sender, message);
 }

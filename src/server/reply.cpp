@@ -2,16 +2,17 @@
 
 void Server::reply(Client * sender, SplitMsg & message)
 {
+	(void)sender;
 	const std::vector<std::pair<std::string, IMsgTarget *> > & replyVector = message.getReplyVector();
 	for (std::vector<std::pair<std::string, IMsgTarget *> >::const_iterator it = replyVector.begin(); it != replyVector.end(); it++)
 	{
+		std::cerr << "reply = [" << it->first << "]\n";
 		if (it->second)
 			it->second->sendMsg(it->first);
 		else
 		{	//send to all channels
 			for (std::map<int, Client *>::const_iterator it2 = clients.begin(); it2 != clients.end(); it2++)
-				if (message.getCommand() == "QUIT" && it2->second != sender)
-					send(it2->second->getSock(), it->first.c_str(), it->first.length(), 0);
+				send(it2->second->getSock(), it->first.c_str(), it->first.length(), MSG_NOSIGNAL);
 		}
 	}
 }
