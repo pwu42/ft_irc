@@ -72,7 +72,7 @@ void Client::ping(const std::string & token)
 	std::string msg = "PING " + token + "\r\n";
 	pingToken = token;
 	status |= CLIENT_PING;
-	send(sock, msg.c_str(), msg.length(), 0);
+	send(sock, msg.c_str(), msg.length(), MSG_NOSIGNAL);
 }
 
 void Client::pong()
@@ -82,5 +82,5 @@ void Client::pong()
 
 void Client::sendMsg(const std::string & msg)
 {
-	send(sock, msg.c_str(), msg.length(), 0);
+	send(sock, msg.c_str(), msg.length(), MSG_NOSIGNAL);
 }
