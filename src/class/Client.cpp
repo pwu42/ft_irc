@@ -14,9 +14,14 @@ Client::~Client()
 {
 }
 
-void Client::setPass()
+void Client::addStatus(unsigned char to_add)
 {
-	status |= CLIENT_HAS_PASS;
+	status |= to_add;
+}
+
+void Client::removeStatus(unsigned char to_rmv)
+{
+	status ^= to_rmv;
 }
 
 void Client::setNick(const std::string & newNick)
@@ -32,20 +37,20 @@ void Client::setUser(const std::string & newUser, const std::string & hostname)
 	status |= CLIENT_HAS_USER;
 }
 
-void Client::setOper()
-{
-	status |= CLIENT_OPERATOR;
-}
+// void Client::setOper()
+// {
+// 	status |= CLIENT_OPERATOR;
+// }
 
-void Client::removeOper()
-{
-	status ^= CLIENT_OPERATOR;
-}
+// void Client::removeOper()
+// {
+// 	status ^= CLIENT_OPERATOR;
+// }
 
-void Client::quit()
-{
-	status |= CLIENT_HAS_QUIT;
-}
+// void Client::quit()
+// {
+// 	status |= CLIENT_HAS_QUIT;
+// }
 
 void Client::setSock(int fd)
 {

@@ -3,11 +3,6 @@
 #include "ft_irc.hpp"
 #include "IMsgTarget.hpp"
 
-// Laraaaaaaaaaaaaaaaaaaaaaa
-/* to add in pwu codes		void addStatus(unsigned char status);
-/* to add in pwu codes		void removeStatus(unsigned char status);
-*/
-
 class Client: public IMsgTarget
 {
 private:
@@ -25,12 +20,14 @@ public:
 	Client(int fd, const std::string & nick = "*");
 	virtual ~Client();
 
-	void setPass();
+	void addStatus(unsigned char to_add);
+	void removeStatus(unsigned char to_rmv);
+	// void setPass(); a etait enlever
 	void setNick(const std::string & newNick);
 	void setUser(const std::string & newUser, const std::string & hostname);
-	void setOper();
-	void removeOper();
-	void quit();
+	// void setOper(); // a enlever , remplacer par add client operator  ...
+	// void removeOper(); // a enlever
+	// void quit(); // a enlever
 
 	void setSock(int fd);
 	void addMessage(const std::string & msg);

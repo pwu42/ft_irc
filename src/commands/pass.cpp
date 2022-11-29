@@ -9,5 +9,5 @@ void Server::cmdPass(Client * sender, SplitMsg & message)
 	else if (message.getParams()[0] != pass)
 		message.addReply(':' + hostname + ' ' + ERR_PASSWDMISMATCH + ' ' + sender->getNick() + ' ' + replies[ERR_PASSWDMISMATCH], sender);
 	else
-		sender->setPass();
+		sender->addStatus(CLIENT_HAS_PASS);
 }

@@ -12,7 +12,7 @@ void Server::cmdMode(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + RPL_UMODEIS + ' ' + sender->getNick() + ' ' + sender->getIsOper(), sender);
 	else if (message.getParams()[1] == "-o")
 	{
-		sender->removeOper();
+		sender->removeStatus(CLIENT_OPERATOR);
 		message.addReply("MODE " + sender->getNick() + " -o\r\n", sender);
 	}
 	else if (message.getParams()[1] == "+o")
