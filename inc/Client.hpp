@@ -3,6 +3,11 @@
 #include "ft_irc.hpp"
 #include "IMsgTarget.hpp"
 
+// Laraaaaaaaaaaaaaaaaaaaaaa
+/* to add in pwu codes		void addStatus(unsigned char status);
+/* to add in pwu codes		void removeStatus(unsigned char status);
+*/
+
 class Client: public IMsgTarget
 {
 private:

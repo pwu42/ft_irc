@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 /* includes */
 
 #include "ft_irc.hpp"
@@ -21,7 +23,7 @@ private:
 	const std::string pass;
 
 	std::map<std::string, void(Server::*)(Client *, SplitMsg &)> commands;
-
+// map reference client ?
 	std::string hostname;
 	std::string ip;
 	std::string creationDate;
@@ -76,7 +78,7 @@ private:
 	void clientDisconnect(Client * target, const std::string & quitMsg);
 	void reply(Client * sender, SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);
-	
+
 	void exit(bool ex = false, const std::string & msg = "");
 };
 
