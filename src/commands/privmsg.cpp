@@ -1,15 +1,5 @@
 #include "Server.hpp"
 
-static Client * findbyNick(const std::string & nick, const std::map<int, Client *> & clients)
-{
-	for (std::map<int, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
-	{
-		if (it->second->getNick() == nick)
-			return it->second;
-	}
-	return NULL;
-}
-
 static std::string getTargetClients(const std::string & msg, std::set<IMsgTarget *> & targets, const std::map<int, Client *> & clients)
 {
 	size_t start = 0, end;

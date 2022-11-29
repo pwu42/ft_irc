@@ -66,10 +66,10 @@ void Server::addNewClient()
 	} while (fd != -1);
 }
 
-void Server::deleteClient(int index)
+void Server::deleteClient(int index, const std::string & quitMsg)
 {
 	if (!(clients[fds[index].fd]->getStatus() & CLIENT_HAS_QUIT))
-		clientDisconnect(clients[fds[index].fd]);
+		clientDisconnect(clients[fds[index].fd], quitMsg);
 	std::cerr << "Client " << fds[index].fd << " has left\n";
 	delete clients[fds[index].fd];
 	clients.erase(fds[index].fd);
@@ -106,7 +106,7 @@ int Server::exeMessage(Client * sender)
 		std::string msg = sender->getMessage().substr(0, sender->getMessage().find('\n')) + "\r\n";
 		SplitMsg split(msg);
 
-		if (msg.length() < 512 && split.getParams().size() < 15)
+		if (msg.length() < 512 && split.getParams().size() < 15 && !split.getCommand().empty())
 		{
 			if (!commands.count(split.getCommand()))
 				split.addReply(':' + hostname + ' ' + ERR_UNKNOWNCOMMAND + ' ' + sender->getNick() + ' ' + split.getCommand() + ' ' + replies[ERR_UNKNOWNCOMMAND], sender);
@@ -125,7 +125,6 @@ void Server::run()
 {
 	int ret;
 	size_t currentSize;
-	bool closeClient;
 
 	while (on)
 	{
@@ -138,9 +137,9 @@ void Server::run()
 		}
 		pingClients();
 		currentSize = fdCount;
-		for (size_t i = 0; i < currentSize; i++)
+		for (size_t i = 0; i < std::min(currentSize, fdCount); i++)
 		{
-			if (fds[i].revents == 0)
+			if (fds[i].revents == 0 || fds[i].fd == -2)
 				continue;
 			if (fds[i].revents != POLLIN && !(fds[i].revents & POLLHUP))
 			{
@@ -152,10 +151,7 @@ void Server::run()
 			else
 			{
 				std::cerr << "Reading client socket " << fds[i].fd << '\n';
-				closeClient = false;
 				if (recvMessage(clients[fds[i].fd]) == 1 || exeMessage(clients[fds[i].fd]) == 1)
-					closeClient = true;
-				if (closeClient)
 					deleteClient(i);
 			}
 		}

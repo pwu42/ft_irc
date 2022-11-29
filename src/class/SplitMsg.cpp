@@ -4,13 +4,13 @@ SplitMsg::SplitMsg(const std::string & message):
 	command(),
 	params()
 {
-	size_t start = message.find_first_not_of(" ");
-	size_t end = message.find_first_of(" \r\n", start);
+	size_t start = message.find_first_not_of(" 	");
+	size_t end = message.find_first_of(" 	\r\n", start);
 	command = message.substr(start, end - start);
 	
 	std::cerr << "command: [" << command << "]\n";
 
-	while ((start = message.find_first_not_of(" \r\n", end)) != std::string::npos)
+	while ((start = message.find_first_not_of(" 	\r\n", end)) != std::string::npos)
 	{
 		if (message[start] == ':')
 		{
@@ -18,7 +18,7 @@ SplitMsg::SplitMsg(const std::string & message):
 			params.push_back(message.substr(start + 1, end - start - 1));
 			break;
 		}
-		end = message.find_first_of(" \r\n", start);
+		end = message.find_first_of(" 	\r\n", start);
 		params.push_back(message.substr(start, end - start));
 	}
 

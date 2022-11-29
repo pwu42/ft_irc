@@ -52,7 +52,7 @@ commands:
 		x whowas
 
 	misc
-		kill (servop)
+	#	kill (servop)
 	#	ping
 	#	pong
 		x error
@@ -60,7 +60,7 @@ commands:
 	optional; 
 		x away
 		x rehash (servop) (only if config file)
-		? die (servop)
+		x die (servop)
 		x restart (servop)
 		x summon
 		x users

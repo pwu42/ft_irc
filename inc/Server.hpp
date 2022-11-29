@@ -56,7 +56,7 @@ private:
 	void initSocket();
 
 	void addNewClient();
-	void deleteClient(int index);
+	void deleteClient(int index, const std::string & quitMsg = "QUIT :Connection lost\r\n");
 	int recvMessage(Client * sender);
 	int exeMessage(Client * sender);
 
@@ -69,10 +69,11 @@ private:
 	void cmdMode(Client * sender, SplitMsg & message);
 	void cmdQuit(Client * sender, SplitMsg & message);
 	void cmdPrivmsg(Client * sender, SplitMsg & message);
+	void cmdKill(Client * sender, SplitMsg & message);
 	void cmdDoNothing(Client * sender, SplitMsg & message);
 
 	void pingClients();
-	void clientDisconnect(Client * target);
+	void clientDisconnect(Client * target, const std::string & quitMsg);
 	void reply(Client * sender, SplitMsg & message);
 	void welcome(Client * target, SplitMsg & message);
 	
@@ -80,3 +81,5 @@ private:
 };
 
 bool caseInsensEqual(const std::string & a, const std::string & b);
+size_t findIndex(int fd, struct pollfd * fds, size_t count);
+Client * findbyNick(const std::string & nick, const std::map<int, Client *> & clients);

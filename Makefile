@@ -11,6 +11,7 @@ SRC			:= $(addprefix src/, \
 						SplitMsg.cpp \
 					) \
 					$(addprefix commands/, \
+						kill.cpp \
 						mode.cpp \
 						nick.cpp \
 						oper.cpp \
@@ -25,6 +26,9 @@ SRC			:= $(addprefix src/, \
 						init.cpp \
 						client_connection.cpp \
 						reply.cpp \
+					) \
+					$(addprefix utils/, \
+						find_client.cpp \
 					) \
 					main.cpp \
 				)

@@ -1,5 +1,9 @@
 #include "Server.hpp"
 
+/**
+ * it: reply txt, reply target
+ * it2: client fd, client ptr
+ */
 void Server::reply(Client * sender, SplitMsg & message)
 {
 	(void)sender;
