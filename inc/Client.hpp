@@ -22,13 +22,8 @@ public:
 
 	void addStatus(unsigned char to_add);
 	void removeStatus(unsigned char to_rmv);
-	// void setPass(); a etait enlever
 	void setNick(const std::string & newNick);
 	void setUser(const std::string & newUser, const std::string & hostname);
-	// void setOper(); // a enlever , remplacer par add client operator  ...
-	// void removeOper(); // a enlever
-	// void quit(); // a enlever
-
 	void setSock(int fd);
 	void addMessage(const std::string & msg);
 	void clearMessage();

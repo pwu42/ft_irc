@@ -23,7 +23,6 @@ private:
 	const std::string pass;
 
 	std::map<std::string, void(Server::*)(Client *, SplitMsg &)> commands;
-// map reference client ?
 	std::string hostname;
 	std::string ip;
 	std::string creationDate;

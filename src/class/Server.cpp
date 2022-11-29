@@ -90,7 +90,7 @@ int Server::recvMessage(Client * sender)
 		if (errno != EAGAIN && errno != EWOULDBLOCK)
 			perror("recv()");
 		return 1;
-	case 0:	
+	case 0:
 		return 1;
 	}
 	buffer[recvCount] = 0;

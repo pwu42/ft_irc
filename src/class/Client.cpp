@@ -37,21 +37,6 @@ void Client::setUser(const std::string & newUser, const std::string & hostname)
 	status |= CLIENT_HAS_USER;
 }
 
-// void Client::setOper()
-// {
-// 	status |= CLIENT_OPERATOR;
-// }
-
-// void Client::removeOper()
-// {
-// 	status ^= CLIENT_OPERATOR;
-// }
-
-// void Client::quit()
-// {
-// 	status |= CLIENT_HAS_QUIT;
-// }
-
 void Client::setSock(int fd)
 {
 	sock = fd;
