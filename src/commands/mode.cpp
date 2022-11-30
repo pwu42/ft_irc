@@ -9,7 +9,7 @@ void Server::cmdMode(Client * sender, SplitMsg & message)
 	else if (message.getParams()[0] != sender->getNick())
 		message.addReply(':' + hostname + ' ' + ERR_USERSDONTMATCH + ' ' + sender->getNick() + ' ' + replies[ERR_USERSDONTMATCH], sender);
 	else if (message.getParams().size() == 1)
-		message.addReply(':' + hostname + ' ' + RPL_UMODEIS + ' ' + sender->getNick() + ' ' + sender->getIsOper(), sender);
+		message.addReply(':' + hostname + ' ' + RPL_UMODEIS + ' ' + sender->getNick() + ' ' + sender->getMode() + "\r\n", sender);
 	else if (message.getParams()[1] == "-o")
 	{
 		sender->removeStatus(CLIENT_OPERATOR);

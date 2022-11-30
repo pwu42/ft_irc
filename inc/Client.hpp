@@ -6,7 +6,7 @@
 class Client: public IMsgTarget
 {
 private:
-	unsigned int status;
+	unsigned char status;
 	std::string nickname;
 	std::string username;
 	std::string fullname;
@@ -18,7 +18,7 @@ private:
 
 public:
 	Client(int fd, const std::string & nick = "*");
-	virtual ~Client();
+	~Client();
 
 	void addStatus(unsigned char to_add);
 	void removeStatus(unsigned char to_rmv);
@@ -27,20 +27,18 @@ public:
 	void setSock(int fd);
 	void addMessage(const std::string & msg);
 	void clearMessage();
-	void signUp();
 
 	void ping(const std::string & token);
 	void pong(const std::string & token);
 
 	std::string & getName() { return getNick(); }
-	virtual void sendMsg(const std::string & msg);
+	void sendMsg(const std::string & msg);
 
-	unsigned int getStatus() { return status; }
+	unsigned char getStatus() { return status; }
 	std::string & getNick() { return nickname; }
 	std::string & getUser() { return username; }
 	std::string getFullName() { return std::string(nickname + fullname); }
 	int getSock() { return sock; }
 	std::string & getMessage() { return message; }
-	std::string getIsOper() { return (status & CLIENT_OPERATOR) ? "+O\r\n":"\r\n"; }
-	std::string & getPingToken() { return pingToken; }
+	std::string getMode() { return (status & CLIENT_OPERATOR) ? "+o":""; }
 };
