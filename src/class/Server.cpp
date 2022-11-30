@@ -52,13 +52,13 @@ void Server::addNewClient()
 			std::cerr << "Error: Too many connections\n";
 			break;
 		}
-		std::cerr << "New connection on socket " << fd << '\n';
 		if ((newClient = new (std::nothrow) Client(fd)) == NULL)
 		{
 			close(fd);
 			std::cerr << "Error: Out of memory\n";
 			break;
 		}
+		std::cerr << "New connection on socket " << fd << '\n';
 		fds[fdCount].fd = fd;
 		fds[fdCount].events = POLLIN;
 		++fdCount;
