@@ -10,6 +10,11 @@ void Server::cmdKill(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], sender);
 	else if (!(target = findbyNick(message.getParams()[0], clients)))
 		message.addReply(':' + hostname + ' ' + ERR_NOSUCHNICK + ' ' + sender->getNick() + ' ' + replies[ERR_NOSUCHNICK], sender);
+	else if (target == sender)
+	{
+		message.getParams()[0] = "Killed (" + sender->getName() + " (" + message.getParams()[1] + "))\r\n";
+		cmdQuit(sender, message);
+	}
 	else
 		deleteClient(findIndex(target->getSock(), fds, fdCount), "QUIT :Killed (" + sender->getName() + " (" + message.getParams()[1] + "))\r\n");
 }
