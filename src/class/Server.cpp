@@ -110,6 +110,10 @@ int Server::exeMessage(Client * sender)
 		{
 			if (!commands.count(split.getCommand()))
 				split.addReply(':' + hostname + ' ' + ERR_UNKNOWNCOMMAND + ' ' + sender->getNick() + ' ' + split.getCommand() + ' ' + replies[ERR_UNKNOWNCOMMAND], sender);
+			else if (!(sender->getStatus() & CLIENT_REGISTER)
+				&& split.getCommand() != "CAP" && split.getCommand() != "PASS" && split.getCommand() != "NICK"
+				&& split.getCommand() != "USER" && split.getCommand() != "PONG" && split.getCommand() != "QUIT")
+				split.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
 			else
 				(this->*commands[split.getCommand()])(sender, split);
 			reply(sender, split);

@@ -17,10 +17,9 @@ void Server::getHostInfo()
 	char host[256];
 	char *ip_buffer;
 	struct hostent *host_entry;
-	int host_name;
 
 	std::cerr << "Retrieving host info ... ";
-	if ((host_name = gethostname(host, sizeof(host))) < 0)
+	if (gethostname(host, sizeof(host)) < 0)
 		exit(true, "gethostname()");
 	if ((host_entry = gethostbyname(host)) == NULL)
 		exit(true, "gethostbyname()");
