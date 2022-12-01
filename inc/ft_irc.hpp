@@ -18,6 +18,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 #include <map>
 #include <set>
 #include <algorithm>
@@ -47,6 +48,11 @@ enum clientStatus
 #define RPL_CREATED "003"
 #define RPL_MYINFO "004"
 #define RPL_UMODEIS "221"
+#define RPL_NOTOPIC "331"
+#define RPL_TOPIC "332"
+#define RPL_TOPICWHOTIME "333"
+#define RPL_NAMREPLY "353"
+#define RPL_ENDOFNAMES "366"
 #define RPL_YOUREOPER "381"
 #define ERR_NOSUCHNICK "401"
 #define ERR_NOSUCHSERVER "402"
@@ -60,6 +66,7 @@ enum clientStatus
 #define ERR_NEEDMOREPARAMS "461"
 #define ERR_ALREADYREGISTERED "462"
 #define ERR_PASSWDMISMATCH "464"
+#define ERR_BADCHANMASK "476"
 #define ERR_NOPRIVILEGES "481"
 #define ERR_NOOPERHOST "491"
 #define ERR_UMODEUNKNOWNFLAG "501"

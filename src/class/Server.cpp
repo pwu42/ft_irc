@@ -30,6 +30,11 @@ Server::~Server()
 			close(fds[i].fd);
 	}
 	delete [] fds;
+
+	for (std::map<std::string, Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	{
+		delete it->second;
+	}
 }
 
 void Server::addNewClient()
@@ -156,6 +161,28 @@ void Server::run()
 			}
 		}
 	}
+}
+
+void Server::addNewChannel(const std::string &channelName, Client * creator)
+{
+	Channel *chan = NULL;
+
+	if ((chan = new (std::nothrow) Channel(channelName, creator)) == NULL)
+	{
+		std::cerr << "Error: Out of memory\n";
+	}
+	else
+	{
+		// creator->addChannel(channelName);
+		// chan->addClient(creator);
+		_channels[channelName] = chan;
+	}
+}
+
+void Server::deleteChannel(std::string channelName)
+{
+	delete _channels[channelName];
+	_channels.erase(channelName);
 }
 
 void Server::cmdDoNothing(Client * sender, SplitMsg & message)

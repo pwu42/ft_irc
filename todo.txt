@@ -17,11 +17,11 @@ commands:
 		join
 		part
 		mode (chanop) O +-o
-		topic (chanop)
+		topic (chanop) default op
 		names
 		list
-		invite (chanop)
-		kick (chanop)
+		? invite (chanop)
+		kick (chanop) default op
 
 	sending messages
 		privmsg / notice
@@ -57,7 +57,7 @@ commands:
 	#	pong
 		x error
 
-	optional; 
+	optional;
 		x away
 		x rehash (servop) (only if config file)
 		x die (servop)

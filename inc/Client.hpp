@@ -13,8 +13,8 @@ private:
 
 	int sock;
 	std::string message;
-
 	std::string pingToken;
+	std::list<std::string> _channels;
 
 public:
 	Client(int fd, const std::string & nick = "*");
@@ -28,6 +28,9 @@ public:
 	void addMessage(const std::string & msg);
 	void clearMessage();
 	void signUp();
+
+	void addChannel(const std::string & channelName);
+	void removeChannel(const std::string & channelName);
 
 	void ping(const std::string & token);
 	void pong(const std::string & token);

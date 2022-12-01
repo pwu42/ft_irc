@@ -92,6 +92,7 @@ void Server::initReplies()
 	replies[ERR_NEEDMOREPARAMS] = ":Not enough parameters\r\n";
 	replies[ERR_ALREADYREGISTERED] = ":Unauthorized command (already registered)\r\n";
 	replies[ERR_PASSWDMISMATCH] = ":Password incorrect\r\n";
+	replies[ERR_BADCHANMASK] = ":Bad Channel Mask\r\n";
 	replies[ERR_NOPRIVILEGES] = ":Permission Denied- You're not an IRC operator\r\n";
 	replies[ERR_NOOPERHOST] = ":No O-lines for your host\r\n";
 	replies[ERR_UMODEUNKNOWNFLAG] = ":Unknown MODE flag\r\n";

@@ -57,6 +57,20 @@ void Client::signUp()
 	status |= CLIENT_REGISTER;
 }
 
+void Client::addChannel(const std::string & channelName)
+{
+	std::list<std::string>::iterator findIter = std::find(_channels.begin(), _channels.end(), channelName);
+	if (findIter == _channels.end())
+		_channels.push_back(channelName);
+}
+
+void Client::removeChannel(const std::string & channelName)
+{
+	std::list<std::string>::iterator findIter = std::find(_channels.begin(), _channels.end(), channelName);
+	if (findIter != _channels.end())
+		_channels.erase(findIter);
+}
+
 void Client::ping(const std::string & token)
 {
 	std::string msg = "PING " + token + "\r\n";

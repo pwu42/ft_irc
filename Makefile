@@ -9,8 +9,10 @@ SRC			:= $(addprefix src/, \
 						Client.cpp \
 						Server.cpp \
 						SplitMsg.cpp \
+						Channel.cpp \
 					) \
 					$(addprefix commands/, \
+						join.cpp \
 						kill.cpp \
 						mode.cpp \
 						nick.cpp \

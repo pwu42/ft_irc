@@ -6,6 +6,7 @@
 
 #include "ft_irc.hpp"
 #include "Client.hpp"
+#include "Channel.hpp"
 #include "SplitMsg.hpp"
 
 /* defines */
@@ -37,6 +38,7 @@ private:
 	size_t fdCount;
 
 	std::map<int, Client *> clients;
+	std::map<std::string, Channel *> _channels;
 
 public:
 	Server(int port, const std::string & pass);
@@ -61,6 +63,9 @@ private:
 	int recvMessage(Client * sender);
 	int exeMessage(Client * sender);
 
+	void addNewChannel(const std::string &channelName, Client * creator);
+	void deleteChannel(std::string chan);
+
 	void cmdPass(Client * sender, SplitMsg & message);
 	void cmdNick(Client * sender, SplitMsg & message);
 	void cmdUser(Client * sender, SplitMsg & message);
@@ -71,6 +76,7 @@ private:
 	void cmdQuit(Client * sender, SplitMsg & message);
 	void cmdPrivmsg(Client * sender, SplitMsg & message);
 	void cmdKill(Client * sender, SplitMsg & message);
+	void cmdJoin(Client * sender, SplitMsg & message);
 	void cmdDoNothing(Client * sender, SplitMsg & message);
 
 	void pingClients();
@@ -80,7 +86,6 @@ private:
 
 	void exit(bool ex = false, const std::string & msg = "");
 };
-
 bool caseInsensEqual(const std::string & a, const std::string & b);
 size_t findIndex(int fd, struct pollfd * fds, size_t count);
 Client * findbyNick(const std::string & nick, const std::map<int, Client *> & clients);
