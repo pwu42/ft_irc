@@ -58,6 +58,7 @@ void Server::getLimits()
 
 void Server::initCommands()
 {
+	commands["JOIN"] = &Server::cmdJoin;
 	commands["CAP"] = &Server::cmdDoNothing;
 	commands["kill"] = &Server::cmdKill;
 	commands["KILL"] = &Server::cmdKill;
@@ -65,13 +66,13 @@ void Server::initCommands()
 	commands["NICK"] = &Server::cmdNick;
 	commands["NOTICE"] = &Server::cmdPrivmsg;
 	commands["OPER"] = &Server::cmdOper;
+	commands["PART"] = &Server::cmdPart;
 	commands["PASS"] = &Server::cmdPass;
 	commands["PING"] = &Server::cmdPing;
 	commands["PONG"] = &Server::cmdPong;
 	commands["PRIVMSG"] = &Server::cmdPrivmsg;
 	commands["QUIT"] = &Server::cmdQuit;
 	commands["USER"] = &Server::cmdUser;
-	commands["JOIN"] = &Server::cmdJoin;
 
 }
 
@@ -85,12 +86,14 @@ void Server::initReplies()
 	replies[RPL_YOUREOPER] = ":You are now an IRC operator\r\n";
 	replies[ERR_NOSUCHNICK] = ":No such nick/channel\r\n";
 	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
+	replies[ERR_NOSUCHCHANNEL] = ":No such channel\r\n";
 	replies[ERR_NORECIPIENT] = ":No recipient given\r\n";
 	replies[ERR_NOTEXTTOSEND] = ":No text to send\r\n";
 	replies[ERR_UNKNOWNCOMMAND] = ":Unknown command\r\n";
 	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
 	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";
 	replies[ERR_NICKNAMEINUSE] = ":Nickname is already in use\r\n";
+	replies[ERR_NOTONCHANNEL] = ":You're not on that channel\r\n";
 	replies[ERR_NOTREGISTERED] = ":You have not registered\r\n";
 	replies[ERR_NEEDMOREPARAMS] = ":Not enough parameters\r\n";
 	replies[ERR_ALREADYREGISTERED] = ":Unauthorized command (already registered)\r\n";

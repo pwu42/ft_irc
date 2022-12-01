@@ -26,6 +26,7 @@ public:
 	std::string getTopic() const;
 	std::string getTopicOps() const;
 	std::string getTopicSetat() const;
+	bool empty();
 	void setTopic(std::string topic, Client *ops);
 	void addClient(Client * to_add);
 	void removeClient(Client * to_rmv);

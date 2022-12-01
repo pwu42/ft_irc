@@ -9,7 +9,7 @@ static bool isvalidchan(const std::string & user)
 	{
 		return (false);
 	}
-	if (std::strcspn(user.c_str(), "\7 ,:") != user.size())
+	if (user.size() > 50 || std::strcspn(user.c_str(), "\7 ,:") != user.size())
 	{
 		return (false);
 	}
@@ -31,6 +31,8 @@ void Server::cmdJoin(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], sender);
 		return ;
 	}
+	if (sender->isIn(message.getParams()[0]))
+		return ;
 	if (!isvalidchan(message.getParams()[0]))
 	{
 		message.addReply(':' + hostname + ' ' + ERR_BADCHANMASK + ' ' + message.getParams()[0] + ' ' + replies[ERR_BADCHANMASK], sender);

@@ -17,6 +17,7 @@ SRC			:= $(addprefix src/, \
 						mode.cpp \
 						nick.cpp \
 						oper.cpp \
+						part.cpp \
 						pass.cpp \
 						ping.cpp \
 						pong.cpp \

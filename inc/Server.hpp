@@ -77,6 +77,7 @@ private:
 	void cmdPrivmsg(Client * sender, SplitMsg & message);
 	void cmdKill(Client * sender, SplitMsg & message);
 	void cmdJoin(Client * sender, SplitMsg & message);
+	void cmdPart(Client * sender, SplitMsg & message);
 	void cmdDoNothing(Client * sender, SplitMsg & message);
 
 	void pingClients();
@@ -86,6 +87,6 @@ private:
 
 	void exit(bool ex = false, const std::string & msg = "");
 };
-bool caseInsensEqual(const std::string & a, const std::string & b);
+// bool caseInsensEqual(const std::string & a, const std::string & b);
 size_t findIndex(int fd, struct pollfd * fds, size_t count);
 Client * findbyNick(const std::string & nick, const std::map<int, Client *> & clients);

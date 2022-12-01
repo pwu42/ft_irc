@@ -37,6 +37,13 @@ void Channel::setTopic(std::string topic, Client *ops)
 	_topicOps = ops->getNick();
 }
 
+bool Channel::empty()
+{
+	if (_clients.empty())
+		return true;
+	return false;
+}
+
 void Channel::addClient(Client * to_add)
 {
 	_clients[to_add->getSock()] = to_add;

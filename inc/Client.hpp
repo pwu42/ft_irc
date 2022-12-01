@@ -31,6 +31,7 @@ public:
 
 	void addChannel(const std::string & channelName);
 	void removeChannel(const std::string & channelName);
+	bool isIn(const std::string & channelName);
 
 	void ping(const std::string & token);
 	void pong(const std::string & token);

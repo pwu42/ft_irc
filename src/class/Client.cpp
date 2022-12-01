@@ -71,6 +71,14 @@ void Client::removeChannel(const std::string & channelName)
 		_channels.erase(findIter);
 }
 
+bool Client::isIn(const std::string & channelName)
+{
+	for (std::list<std::string>::const_iterator it = _channels.begin(); it != _channels.end(); it++)
+		if (caseInsensEqual(channelName, *it))
+			return true;
+	return false;
+}
+
 void Client::ping(const std::string & token)
 {
 	std::string msg = "PING " + token + "\r\n";

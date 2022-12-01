@@ -56,12 +56,14 @@ enum clientStatus
 #define RPL_YOUREOPER "381"
 #define ERR_NOSUCHNICK "401"
 #define ERR_NOSUCHSERVER "402"
+#define ERR_NOSUCHCHANNEL "403"
 #define ERR_NORECIPIENT "411"
 #define ERR_NOTEXTTOSEND "412"
 #define ERR_UNKNOWNCOMMAND "421"
 #define ERR_NONICKNAMEGIVEN "431"
 #define ERR_ERRONEUSNICKNAME "432"
 #define ERR_NICKNAMEINUSE "433"
+#define ERR_NOTONCHANNEL "442"
 #define ERR_NOTREGISTERED "451"
 #define ERR_NEEDMOREPARAMS "461"
 #define ERR_ALREADYREGISTERED "462"
@@ -71,3 +73,5 @@ enum clientStatus
 #define ERR_NOOPERHOST "491"
 #define ERR_UMODEUNKNOWNFLAG "501"
 #define ERR_USERSDONTMATCH "502"
+
+bool caseInsensEqual(const std::string & a, const std::string & b);
