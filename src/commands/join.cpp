@@ -2,9 +2,9 @@
 
 static bool isvalidchan(const std::string & user)
 {
-	if ((user.c_str())[0] != '!' ||
-		(user.c_str())[0] != '+' ||
-		(user.c_str())[0] != '#' ||
+	if ((user.c_str())[0] != '!' &&
+		(user.c_str())[0] != '+' &&
+		(user.c_str())[0] != '#' &&
 		(user.c_str())[0] != '&')
 	{
 		return (false);

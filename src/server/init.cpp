@@ -71,6 +71,8 @@ void Server::initCommands()
 	commands["PRIVMSG"] = &Server::cmdPrivmsg;
 	commands["QUIT"] = &Server::cmdQuit;
 	commands["USER"] = &Server::cmdUser;
+	commands["JOIN"] = &Server::cmdJoin;
+
 }
 
 void Server::initReplies()
@@ -79,6 +81,7 @@ void Server::initReplies()
 	replies[RPL_YOURHOST] = ":Your host is " + hostname + ", running version 0\r\n";
 	replies[RPL_CREATED] = ":This server was created " + creationDate + "\r\n";
 	replies[RPL_MYINFO] = ':' + hostname + " 0 o Oo\r\n";
+	replies[RPL_NOTOPIC] = ":No topic is set\r\n";
 	replies[RPL_YOUREOPER] = ":You are now an IRC operator\r\n";
 	replies[ERR_NOSUCHNICK] = ":No such nick/channel\r\n";
 	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
