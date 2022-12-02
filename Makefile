@@ -23,6 +23,7 @@ SRC			:= $(addprefix src/, \
 						pong.cpp \
 						privmsg.cpp \
 						quit.cpp \
+						topic.cpp \
 						user.cpp \
 					) \
 					$(addprefix server/, \

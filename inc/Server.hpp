@@ -78,6 +78,7 @@ private:
 	void cmdKill(Client * sender, SplitMsg & message);
 	void cmdJoin(Client * sender, SplitMsg & message);
 	void cmdPart(Client * sender, SplitMsg & message);
+	void cmdTopic(Client * sender, SplitMsg & message);
 	void cmdDoNothing(Client * sender, SplitMsg & message);
 
 	void pingClients();
