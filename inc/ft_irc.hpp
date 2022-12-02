@@ -75,3 +75,4 @@ enum clientStatus
 #define ERR_USERSDONTMATCH "502"
 
 bool caseInsensEqual(const std::string & a, const std::string & b);
+std::string strlower(const std::string &str);

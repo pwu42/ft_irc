@@ -22,9 +22,9 @@ int main(int ac, char **av)
 		std::cerr << "ircserv: invalid port number: " << atoi(av[1]) << '\n';
 		return 1;
 	}
-	// signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	Server server(atoi(av[1]), std::string(av[2]));
+	// signal(SIGINT, handler);
 	try
 	{
 		server.init();

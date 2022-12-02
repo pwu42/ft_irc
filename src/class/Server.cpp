@@ -13,6 +13,15 @@ bool caseInsensEqual(const std::string & a, const std::string & b)
 	return true;
 }
 
+std::string strlower(const std::string &str)
+{
+	std::string ret = str;
+
+	for (std::string::iterator it = ret.begin(); it!=ret.end(); ++it)
+		*it = std::tolower(*it);
+    return ret;
+}
+
 Server::Server(int port, const std::string & pass):
 	port(port),
 	pass(pass),
@@ -175,14 +184,14 @@ void Server::addNewChannel(const std::string &channelName, Client * creator)
 	{
 		// creator->addChannel(channelName);
 		// chan->addClient(creator);
-		_channels[channelName] = chan;
+		_channels[strlower(channelName)] = chan;
 	}
 }
 
 void Server::deleteChannel(std::string channelName)
 {
-	delete _channels[channelName];
-	_channels.erase(channelName);
+	delete _channels[strlower(channelName)];
+	_channels.erase(strlower(channelName));
 }
 
 void Server::cmdDoNothing(Client * sender, SplitMsg & message)

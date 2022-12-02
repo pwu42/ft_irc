@@ -66,9 +66,12 @@ void Client::addChannel(const std::string & channelName)
 
 void Client::removeChannel(const std::string & channelName)
 {
-	std::list<std::string>::iterator findIter = std::find(_channels.begin(), _channels.end(), channelName);
-	if (findIter != _channels.end())
-		_channels.erase(findIter);
+	for (std::list<std::string>::iterator it = _channels.begin(); it != _channels.end(); it++)
+		if (caseInsensEqual(channelName, *it))
+		{
+			_channels.erase(it);
+			break;
+		}
 }
 
 bool Client::isIn(const std::string & channelName)

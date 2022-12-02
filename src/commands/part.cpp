@@ -26,7 +26,7 @@ void Server::cmdPart(Client * sender, SplitMsg & message)
 		return ;
 	}
 	sender->removeChannel(message.getParams()[0]);
-	((_channels[(message.getParams()[0])])->removeClient(sender));
-	if (((_channels[(message.getParams()[0])])->empty()))
+	((_channels[strlower((message.getParams()[0]))])->removeClient(sender));
+	if (((_channels[strlower((message.getParams()[0]))])->empty()))
 		deleteChannel(message.getParams()[0]);
 }
