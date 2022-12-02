@@ -22,6 +22,11 @@ int main(int ac, char **av)
 		std::cerr << "ircserv: invalid port number: " << atoi(av[1]) << '\n';
 		return 1;
 	}
+	if (strlen(av[2]) > 128)
+	{
+		std::cerr << "ircserv: password too long\n";
+		return 1;
+	}
 	// signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	Server server(atoi(av[1]), std::string(av[2]));

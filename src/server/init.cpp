@@ -105,7 +105,7 @@ void Server::initSocket()
 	fds[0].events = POLLIN;
 
 	std::cerr << "Creating socket ... ";
-	if ((fds[0].fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 6)) < 0)
+	if ((fds[0].fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP)) < 0)
 		exit(true, "socket()");
 	if (setsockopt(fds[0].fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
 		exit(true, "setsockopt()");
