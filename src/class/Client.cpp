@@ -59,9 +59,10 @@ void Client::signUp()
 
 void Client::addChannel(const std::string & channelName)
 {
-	std::list<std::string>::iterator findIter = std::find(_channels.begin(), _channels.end(), channelName);
-	if (findIter == _channels.end())
-		_channels.push_back(channelName);
+	for (std::list<std::string>::iterator it = _channels.begin(); it != _channels.end() && caseInsensEqual(channelName, *it); it++)
+		if (caseInsensEqual(channelName, *it))
+			return;
+	_channels.push_back(channelName);
 }
 
 void Client::removeChannel(const std::string & channelName)

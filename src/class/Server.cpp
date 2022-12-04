@@ -184,6 +184,7 @@ void Server::addNewChannel(const std::string &channelName, Client * creator)
 	{
 		// creator->addChannel(channelName);
 		// chan->addClient(creator);
+		// chan->addOper(creator);
 		_channels[strlower(channelName)] = chan;
 	}
 }
