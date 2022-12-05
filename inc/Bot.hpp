@@ -10,11 +10,12 @@ class Bot
 private:
 	std::string pass;
 
+	std::map<std::string, void(Bot::*)(SplitMsg &)> commands;
 	std::string ip;
 	struct pollfd sock;
 	struct sockaddr_in address;
 
-	bool registered;
+	std::string nick;
 	std::string message;
 
 public:
@@ -22,10 +23,17 @@ public:
 	~Bot();
 
 	void init(int port, const std::string & password);
+	void initCommands();
 	void run();
 
 private:
 	void sendMsg(const std::string & msg);
 	int recvMsg();
 	int exeMsg();
+
+	void cmdNickInUse(SplitMsg & msg);
+	void cmdWrongPass(SplitMsg & msg);
+	void cmdPing(SplitMsg & msg);
+	void cmdPrivmsg(SplitMsg & msg);
 };
+std::string roll(int max);

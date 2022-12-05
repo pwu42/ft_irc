@@ -36,6 +36,7 @@ SRC			:= $(addprefix src/, \
 
 SRCB		:= $(addprefix src/, \
 					$(addprefix bot/, \
+						bot_commands.cpp \
 						bot_main.cpp \
 						Bot.cpp \
 					) \
@@ -54,13 +55,11 @@ $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -MMD -o $@
 
-all: $(NAME)
+all: $(NAME) $(NAMEB)
 
 $(NAME): $(OBJ)
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $^ -o $(NAME)
-
-bonus: $(NAMEB)
 
 $(NAMEB): $(OBJB)
 	@mkdir -p $(@D)
@@ -82,7 +81,7 @@ re: fclean
 exe: all
 	@./$(NAME) $(ARG)
 
-exeb: bonus
+exeb: all
 	@./$(NAMEB) $(ARG)
 
 v: all
@@ -94,7 +93,7 @@ v: all
 		--show-reachable=yes \
 	./$(NAME) $(ARG)
 
-vb: bonus
+vb: all
 	@valgrind \
 		--leak-check=full \
 		--track-origins=yes \
@@ -103,4 +102,4 @@ vb: bonus
 		--show-reachable=yes \
 	./$(NAMEB) $(ARG)
 
-.PHONY: all clean fclean re exe v bonus exeb vb
+.PHONY: all clean fclean re exe exeb v vb

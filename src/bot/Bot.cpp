@@ -1,17 +1,24 @@
 #include "Bot.hpp"
 
 Bot::Bot():
-	registered(false)
+	nick("bot")
 {
 	sock.fd = -2;
 	sock.events = POLLIN;
-	(void)registered;
 }
 
 Bot::~Bot()
 {
 	if (sock.fd >= 3)
 		close(sock.fd);
+}
+
+void Bot::initCommands()
+{
+	commands["433"] = &Bot::cmdNickInUse;
+	commands["464"] = &Bot::cmdWrongPass;
+	commands["PING"] = &Bot::cmdPing;
+	commands["PRIVMSG"] = &Bot::cmdPrivmsg;
 }
 
 void Bot::init(int port, const std::string & password)
@@ -55,6 +62,7 @@ void Bot::init(int port, const std::string & password)
 		throw std::runtime_error("");
 	}
 	pass = password;
+	initCommands();
 	bot_on = true;
 }
 
@@ -81,6 +89,7 @@ void Bot::run()
 
 void Bot::sendMsg(const std::string & msg)
 {
+	std::cerr << "reply = [" << msg << "]\n";
 	send(sock.fd, msg.c_str(),msg.length(), MSG_NOSIGNAL);
 }
 
@@ -113,8 +122,8 @@ int Bot::exeMsg()
 		std::string to_exe = message.substr(0, message.find_first_of("\r\n")) + "\r\n";
 		SplitMsg split(to_exe);
 
-		// if (to_exe.length() < 512 && split.getParams().size() < 15 && !split.getCommand().empty())
-
+		if (!split.getCommand().empty() && commands.count(split.getCommand()))
+			(this->*commands[split.getCommand()])(split);
 		message.erase(0, message.find('\n') + 1);
 	}
 	return 0;
