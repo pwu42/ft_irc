@@ -32,5 +32,6 @@ public:
 	void removeClient(Client * to_rmv);
 	void addOper(Client * to_add);
 	void removeOper(Client * to_rmv);
+	std::string clientsNames();
 	// 			bool UserIsOp();
 };

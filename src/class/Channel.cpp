@@ -64,6 +64,17 @@ void Channel::removeOper(Client * to_rmv)
 	_operators.erase(to_rmv->getSock());
 }
 
+std::string Channel::clientsNames()
+{
+	std::string ret;
+	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
+	{
+		ret = " " + it->second->getNick();
+	}
+	return ret;
+}
+
+
 void Channel::sendMsg(std::string & message)
 {
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
