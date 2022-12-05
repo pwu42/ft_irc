@@ -72,6 +72,7 @@ void Server::initCommands()
 	commands["PONG"] = &Server::cmdPong;
 	commands["PRIVMSG"] = &Server::cmdPrivmsg;
 	commands["QUIT"] = &Server::cmdQuit;
+	commands["NAMES"] = &Server::cmdNames;
 	commands["TOPIC"] = &Server::cmdTopic;
 	commands["USER"] = &Server::cmdUser;
 
