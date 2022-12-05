@@ -3,8 +3,8 @@
 #include "ft_irc.hpp"
 #include "Client.hpp"
 
-// : public IMsgTarget
-class Channel
+//
+class Channel : public IMsgTarget
 {
 private:
 	std::string _name; // start with "&#+!", max length 50, case insens, no "\7 ,:"
@@ -16,8 +16,7 @@ private:
 	std::map<int , Client *> _operators;
 	// std::vector<Client *> _operators;
 
-
-	void sendMsg(std::string & message);
+	void sendMsg(const std::string & message);
 
 public:
 	Channel(const std::string & channelName, Client *creator);

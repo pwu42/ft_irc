@@ -75,7 +75,7 @@ std::string Channel::clientsNames()
 }
 
 
-void Channel::sendMsg(std::string & message)
+void Channel::sendMsg(const std::string & message)
 {
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
 	{
