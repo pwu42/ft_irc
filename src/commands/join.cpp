@@ -54,4 +54,5 @@ void Server::cmdJoin(Client * sender, SplitMsg & message)
 	// see like a call to names
 	// RPL_NAMREPLY (353)
 	// RPL_ENDOFNAMES (366)
+	// sendall 
 }
