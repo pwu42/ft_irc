@@ -80,6 +80,7 @@ private:
 	void cmdPart(Client * sender, SplitMsg & message);
 	void cmdTopic(Client * sender, SplitMsg & message);
 	void cmdNames(Client * sender, SplitMsg & message);
+	void cmdList(Client * sender, SplitMsg & message);
 	void cmdDoNothing(Client * sender, SplitMsg & message);
 
 	void pingClients();

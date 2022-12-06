@@ -20,3 +20,5 @@ void Server::cmdMode(Client * sender, SplitMsg & message)
 	else
 		message.addReply(':' + hostname + ' ' + ERR_UMODEUNKNOWNFLAG + ' ' + sender->getNick() + ' ' + replies[ERR_UMODEUNKNOWNFLAG], sender);
 }
+
+// do mode for chan +-o

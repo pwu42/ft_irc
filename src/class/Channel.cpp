@@ -30,6 +30,11 @@ std::string Channel::getTopicSetat() const
 	return(_topicSetat);
 }
 
+size_t Channel::getNumberOfClient() const
+{
+	return(_clients.size());
+}
+
 void Channel::setTopic(std::string topic, Client *ops)
 {
 	_topic = topic;
