@@ -1,6 +1,7 @@
 CXX			:= c++
 CXXFLAGS	:= -Wall -Wextra -Werror -std=c++98 -g
 NAME		:= ircserv
+NAMEB		:= ircbot
 ARG			:= 6666 password
 
 INC			:= -Iinc
@@ -38,33 +39,55 @@ SRC			:= $(addprefix src/, \
 					main.cpp \
 				)
 
+SRCB		:= $(addprefix src/, \
+					$(addprefix bot/, \
+						bot_commands.cpp \
+						bot_main.cpp \
+						Bot.cpp \
+					) \
+					$(addprefix class/, \
+						SplitMsg.cpp \
+					) \
+				)
+
 OBJ_DIR	:= ./obj
 OBJ		:= $(SRC:%.cpp=$(OBJ_DIR)/%.o)
+OBJB	:= $(SRCB:%.cpp=$(OBJ_DIR)/%.o)
 DEP		:= $(OBJ:.o=.d)
+DEPB	:= $(OBJB:.o=.d)
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -MMD -o $@
 
-all: $(NAME)
+all: $(NAME) $(NAMEB)
 
 $(NAME): $(OBJ)
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $^ -o $(NAME)
 
+$(NAMEB): $(OBJB)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $^ -o $(NAMEB)
+
 -include $(DEP)
+-include $(DEPB)
 
 clean:
 	@rm -rvf $(OBJ_DIR)
 
 fclean: clean
 	@rm -rvf $(NAME)
+	@rm -rvf $(NAMEB)
 
 re: fclean
 	make all
 
 exe: all
 	@./$(NAME) $(ARG)
+
+exeb: all
+	@./$(NAMEB) $(ARG)
 
 v: all
 	@valgrind \
@@ -75,4 +98,13 @@ v: all
 		--show-reachable=yes \
 	./$(NAME) $(ARG)
 
-.PHONY: all clean fclean re exe v
+vb: all
+	@valgrind \
+		--leak-check=full \
+		--track-origins=yes \
+		--track-fds=yes \
+		--show-leak-kinds=all \
+		--show-reachable=yes \
+	./$(NAMEB) $(ARG)
+
+.PHONY: all clean fclean re exe exeb v vb

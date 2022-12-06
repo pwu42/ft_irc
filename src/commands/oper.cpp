@@ -2,9 +2,7 @@
 
 void Server::cmdOper(Client * sender, SplitMsg & message)
 {
-	if ((sender->getStatus() & CLIENT_REGISTER) == 0)
-		message.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
-	else if (message.getParams().size() < 2)
+	if (message.getParams().size() < 2)
 		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], sender);
 	else if (message.getParams()[1] != OPER_PASS)
 		message.addReply(':' + hostname + ' ' + ERR_PASSWDMISMATCH + ' ' + sender->getNick() + ' ' + replies[ERR_PASSWDMISMATCH], sender);

@@ -75,5 +75,5 @@ channels:
 		normal user
 
 bonus:
-	file transfer
+#	file transfer
 	bot

@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 /* includes */
 
 #include "ft_irc.hpp"

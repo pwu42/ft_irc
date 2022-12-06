@@ -6,6 +6,7 @@
 class SplitMsg
 {
 private:
+	std::string prefix;
 	std::string command;
 	std::vector<std::string> params;
 
@@ -16,6 +17,7 @@ public:
 	~SplitMsg();
 
 	std::string & getCommand() { return command; }
+	std::string & getPrefix() { return prefix; }
 	std::vector<std::string> & getParams() { return params; }
 	std::vector<std::pair<std::string, IMsgTarget *> > & getReplyVector() { return replies; }
 
