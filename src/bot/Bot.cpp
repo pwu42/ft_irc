@@ -13,6 +13,26 @@ Bot::~Bot()
 		close(sock.fd);
 }
 
+char * getIp()
+{
+	char host[256];
+	char *ip_buffer;
+	struct hostent *host_entry;
+
+	if (gethostname(host, sizeof(host)) < 0)
+	{
+		perror("gethostname()");
+		throw std::runtime_error("");
+	}
+	if ((host_entry = gethostbyname(host)) == NULL)
+	{
+		perror("gethostbyname()");
+		throw std::runtime_error("");
+	}
+	ip_buffer = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0]));
+	return ip_buffer;
+}
+
 void Bot::initCommands()
 {
 	commands["433"] = &Bot::cmdNickInUse;
@@ -26,6 +46,7 @@ void Bot::init(int port, const std::string & password)
 	int opt = 1;
 	int connect_try = 0;
 	socklen_t optlen = sizeof(opt);
+	char * ip = getIp();
 
 	std::cerr << "\n o0o0o0o IRC Bot is starting o0o0o0o\n";
 	if ((sock.fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP)) < 0)
@@ -35,7 +56,7 @@ void Bot::init(int port, const std::string & password)
 	}
 	address.sin_family = AF_INET;
 	address.sin_port = htons(port);
-	if (inet_pton(AF_INET, "127.0.0.1", &address.sin_addr) <= 0)
+	if (inet_pton(AF_INET, ip, &address.sin_addr) <= 0)
 	{
 		perror("inet_pton()");
 		throw std::runtime_error("");

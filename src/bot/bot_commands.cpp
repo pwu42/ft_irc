@@ -2,7 +2,7 @@
 
 std::string roll(int max)
 {
-	if (!max)
+	if (max <= 0)
 		max = 1;
 	std::stringstream ss;
 
@@ -38,6 +38,10 @@ void Bot::cmdPing(SplitMsg & msg)
 
 void Bot::cmdPrivmsg(SplitMsg & msg)
 {
-	if (msg.getParams().size() >= 2 && msg.getParams()[0] == nick)
-		sendMsg("NOTICE " + msg.getPrefix().substr(0, msg.getPrefix().find('!')) + ' ' + roll(atoi(msg.getParams()[1].c_str())) + "\r\n");
+	if (msg.getParams().size() == 2 && msg.getParams()[1].substr(0, msg.getParams()[1].find(' ')) == "/roll")
+	{
+		strtok(const_cast<char *>(msg.getParams()[1].c_str()), " ");
+		if (char * number = strtok(NULL, " "))
+			sendMsg("NOTICE " + msg.getPrefix().substr(0, msg.getPrefix().find('!')) + ' ' + roll(atoi(number)) + "\r\n");
+	}
 }
