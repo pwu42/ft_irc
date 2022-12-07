@@ -27,14 +27,14 @@ void Client::removeStatus(unsigned char to_rmv)
 void Client::setNick(const std::string & newNick)
 {
 	nickname = newNick;
-	status |= CLIENT_HAS_NICK;
+	addStatus(CLIENT_HAS_NICK);
 }
 
 void Client::setUser(const std::string & newUser, const std::string & hostname)
 {
 	username = newUser;
 	fullname = '!' + username + '@' + hostname;
-	status |= CLIENT_HAS_USER;
+	addStatus(CLIENT_HAS_USER);
 }
 
 void Client::setSock(int fd)
@@ -50,11 +50,6 @@ void Client::addMessage(const std::string & msg)
 void Client::clearMessage()
 {
 	message.clear();
-}
-
-void Client::signUp()
-{
-	status |= CLIENT_REGISTER;
 }
 
 void Client::addChannel(const std::string & channelName)
@@ -85,16 +80,16 @@ bool Client::isIn(const std::string & channelName)
 
 void Client::ping(const std::string & token)
 {
-	std::string msg = "PING " + token + "\r\n";
+	std::string pingMsg = "PING " + token + "\r\n";
 	pingToken = token;
-	status |= CLIENT_PING;
-	send(sock, msg.c_str(), msg.length(), MSG_NOSIGNAL);
+	addStatus(CLIENT_PING);
+	sendMsg(pingMsg);
 }
 
 void Client::pong(const std::string & token)
 {
 	if ((status & CLIENT_PING) && token == pingToken)
-		status ^= CLIENT_PING;
+		removeStatus(CLIENT_PING);
 }
 
 void Client::sendMsg(const std::string & msg)

@@ -9,14 +9,6 @@ static bool nickIsValid(const std::string & nick)
 	return true;
 }
 
-static bool nickExists(const std::map<int, Client *> & clients, const std::string & nick)
-{
-	for (std::map<int, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
-		if (caseInsensEqual(nick, it->second->getNick()))
-			return true;
-	return false;
-}
-
 static std::string nickReply(Client * sender, const std::string & newNick)
 {
 	std::string reply;
@@ -35,7 +27,7 @@ void Server::cmdNick(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_NONICKNAMEGIVEN + ' ' + sender->getNick() + ' ' + replies[ERR_NONICKNAMEGIVEN], sender);
 	else if (nickIsValid(message.getParams()[0]) == false)
 		message.addReply(':' + hostname + ' ' + ERR_ERRONEUSNICKNAME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_ERRONEUSNICKNAME], sender);
-	else if (nickExists(clients, message.getParams()[0]) == true)
+	else if (findTarget(message.getParams()[0]))
 		message.addReply(':' + hostname + ' ' + ERR_NICKNAMEINUSE + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NICKNAMEINUSE], sender);
 	else
 		message.addReply(nickReply(sender, message.getParams()[0]), NULL);

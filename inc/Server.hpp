@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 /* includes */
 
 #include "ft_irc.hpp"
@@ -63,8 +61,8 @@ private:
 	int recvMessage(Client * sender);
 	int exeMessage(Client * sender);
 
-	void addNewChannel(const std::string &channelName, Client * creator);
-	void deleteChannel(std::string chan);
+	void addNewChannel(const std::string & channelName, Client * creator);
+	void deleteChannel(const std::string & channelName);
 
 	void cmdPass(Client * sender, SplitMsg & message);
 	void cmdNick(Client * sender, SplitMsg & message);
@@ -83,6 +81,9 @@ private:
 	void cmdList(Client * sender, SplitMsg & message);
 	void cmdDoNothing(Client * sender, SplitMsg & message);
 
+	void channelMode(Client * sender, SplitMsg & message);
+	void userMode(Client * sender, SplitMsg & message);
+	IMsgTarget * findTarget(const std::string & nick);
 	void pingClients();
 	void clientDisconnect(Client * target, const std::string & quitMsg);
 	void reply(Client * sender, SplitMsg & message);
@@ -90,6 +91,3 @@ private:
 
 	void exit(bool ex = false, const std::string & msg = "");
 };
-// bool caseInsensEqual(const std::string & a, const std::string & b);
-size_t findIndex(int fd, struct pollfd * fds, size_t count);
-Client * findbyNick(const std::string & nick, const std::map<int, Client *> & clients);

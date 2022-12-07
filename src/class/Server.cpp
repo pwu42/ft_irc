@@ -2,26 +2,6 @@
 
 bool on = false;
 
-bool caseInsensEqual(const std::string & a, const std::string & b)
-{
-	size_t size = a.size();
-	if (size != b.size())
-		return false;
-	for (size_t i = 0; i < size; i++)
-		if (std::tolower(a[i]) != std::tolower(b[i]))
-			return false;
-	return true;
-}
-
-std::string strlower(const std::string &str)
-{
-	std::string ret = str;
-
-	for (std::string::iterator it = ret.begin(); it!=ret.end(); ++it)
-		*it = std::tolower(*it);
-    return ret;
-}
-
 Server::Server(int port, const std::string & pass):
 	port(port),
 	pass(pass),
@@ -66,13 +46,13 @@ void Server::addNewClient()
 			std::cerr << "Error: Too many connections\n";
 			break;
 		}
-		std::cerr << "New connection on socket " << fd << '\n';
 		if ((newClient = new (std::nothrow) Client(fd)) == NULL)
 		{
 			close(fd);
 			std::cerr << "Error: Out of memory\n";
 			break;
 		}
+		std::cerr << "New connection on socket " << fd << '\n';
 		fds[fdCount].fd = fd;
 		fds[fdCount].events = POLLIN;
 		++fdCount;
@@ -124,6 +104,10 @@ int Server::exeMessage(Client * sender)
 		{
 			if (!commands.count(split.getCommand()))
 				split.addReply(':' + hostname + ' ' + ERR_UNKNOWNCOMMAND + ' ' + sender->getNick() + ' ' + split.getCommand() + ' ' + replies[ERR_UNKNOWNCOMMAND], sender);
+			else if (!(sender->getStatus() & CLIENT_REGISTER)
+				&& split.getCommand() != "CAP" && split.getCommand() != "PASS" && split.getCommand() != "NICK"
+				&& split.getCommand() != "USER" && split.getCommand() != "PONG" && split.getCommand() != "QUIT")
+				split.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
 			else
 				(this->*commands[split.getCommand()])(sender, split);
 			reply(sender, split);
@@ -189,7 +173,7 @@ void Server::addNewChannel(const std::string &channelName, Client * creator)
 	}
 }
 
-void Server::deleteChannel(std::string channelName)
+void Server::deleteChannel(const std::string & channelName)
 {
 	delete _channels[strlower(channelName)];
 	_channels.erase(strlower(channelName));
