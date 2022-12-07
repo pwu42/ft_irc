@@ -38,5 +38,5 @@ SplitMsg::~SplitMsg()
 
 void SplitMsg::addReply(const std::string & rpl, IMsgTarget * msgTarget)
 {
-	replies.push_back(std::make_pair(rpl, msgTarget));
+	replies[msgTarget] += rpl;
 }

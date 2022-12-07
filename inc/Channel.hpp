@@ -3,36 +3,34 @@
 #include "ft_irc.hpp"
 #include "Client.hpp"
 
-class Channel
+//
+class Channel : public IMsgTarget
 {
 private:
-	std::string name; // start with "&#+!", max length 50, case insens, no "\7 ,:"
-	std::vector<Client *> clients;
+	std::string _name; // start with "&#+!", max length 50, case insens, no "\7 ,:"
+	std::string _topic;
+	std::string _topicSetat;
+	std::string _topicOps;
+	std::map<int , Client *> _clients;
+	Client * _creator;
+	std::map<int , Client *> _operators;
+	// std::vector<Client *> _operators;
 
-	Client * creator;
-	std::vector<Client *> operators;
-
-
-	void sendAll(std::string & message);
+	void sendMsg(const std::string & message);
 
 public:
-	Channel(const std::string & channelName);
-	~Channel();
+	Channel(const std::string & channelName, Client *creator);
+	virtual ~Channel();
+	std::string  & getName();
+	std::string getTopic() const;
+	std::string getTopicOps() const;
+	std::string getTopicSetat() const;
+	bool empty();
+	void setTopic(std::string topic, Client *ops);
+	void addClient(Client * to_add);
+	void removeClient(Client * to_rmv);
+	void addOper(Client * to_add);
+	void removeOper(Client * to_rmv);
+	std::string clientsNames();
+	// 			bool UserIsOp();
 };
-
-Channel::Channel(const std::string & channelName):
-	name(channelName)
-{
-}
-
-Channel::~Channel()
-{
-}
-
-void Channel::sendAll(std::string & message)
-{
-	for (std::vector<Client *>::iterator it = clients.begin(); it != clients.end(); it++)
-	{
-		send((*it)->getSock(), message.c_str(), message.length(), 0);
-	}
-}

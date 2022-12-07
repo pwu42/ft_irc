@@ -10,17 +10,22 @@ SRC			:= $(addprefix src/, \
 						Client.cpp \
 						Server.cpp \
 						SplitMsg.cpp \
+						Channel.cpp \
 					) \
 					$(addprefix commands/, \
+						join.cpp \
 						kill.cpp \
+						names.cpp \
 						mode.cpp \
 						nick.cpp \
 						oper.cpp \
+						part.cpp \
 						pass.cpp \
 						ping.cpp \
 						pong.cpp \
 						privmsg.cpp \
 						quit.cpp \
+						topic.cpp \
 						user.cpp \
 					) \
 					$(addprefix server/, \
@@ -29,7 +34,8 @@ SRC			:= $(addprefix src/, \
 						reply.cpp \
 					) \
 					$(addprefix utils/, \
-						find_client.cpp \
+						case_insens_fcts.cpp \
+						find_target.cpp \
 					) \
 					main.cpp \
 				)

@@ -33,7 +33,8 @@ void Bot::cmdWrongPass(SplitMsg & msg)
 
 void Bot::cmdPing(SplitMsg & msg)
 {
-	sendMsg("PONG " + msg.getParams()[0] + "\r\n");
+	if (msg.getParams().size() > 0)
+		sendMsg("PONG " + msg.getParams()[0] + "\r\n");
 }
 
 void Bot::cmdPrivmsg(SplitMsg & msg)

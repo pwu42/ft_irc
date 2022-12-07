@@ -52,6 +52,32 @@ void Client::clearMessage()
 	message.clear();
 }
 
+void Client::addChannel(const std::string & channelName)
+{
+	for (std::list<std::string>::iterator it = _channels.begin(); it != _channels.end() && caseInsensEqual(channelName, *it); it++)
+		if (caseInsensEqual(channelName, *it))
+			return;
+	_channels.push_back(channelName);
+}
+
+void Client::removeChannel(const std::string & channelName)
+{
+	for (std::list<std::string>::iterator it = _channels.begin(); it != _channels.end(); it++)
+		if (caseInsensEqual(channelName, *it))
+		{
+			_channels.erase(it);
+			break;
+		}
+}
+
+bool Client::isIn(const std::string & channelName)
+{
+	for (std::list<std::string>::const_iterator it = _channels.begin(); it != _channels.end(); it++)
+		if (caseInsensEqual(channelName, *it))
+			return true;
+	return false;
+}
+
 void Client::ping(const std::string & token)
 {
 	std::string pingMsg = "PING " + token + "\r\n";

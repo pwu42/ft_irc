@@ -2,17 +2,6 @@
 
 bool on = false;
 
-bool caseInsensEqual(const std::string & a, const std::string & b)
-{
-	size_t size = a.size();
-	if (size != b.size())
-		return false;
-	for (size_t i = 0; i < size; i++)
-		if (std::tolower(a[i]) != std::tolower(b[i]))
-			return false;
-	return true;
-}
-
 Server::Server(int port, const std::string & pass):
 	port(port),
 	pass(pass),
@@ -30,6 +19,11 @@ Server::~Server()
 			close(fds[i].fd);
 	}
 	delete [] fds;
+
+	for (std::map<std::string, Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	{
+		delete it->second;
+	}
 }
 
 void Server::addNewClient()
@@ -160,6 +154,29 @@ void Server::run()
 			}
 		}
 	}
+}
+
+void Server::addNewChannel(const std::string &channelName, Client * creator)
+{
+	Channel *chan = NULL;
+
+	if ((chan = new (std::nothrow) Channel(channelName, creator)) == NULL)
+	{
+		std::cerr << "Error: Out of memory\n";
+	}
+	else
+	{
+		// creator->addChannel(channelName);
+		// chan->addClient(creator);
+		// chan->addOper(creator);
+		_channels[strlower(channelName)] = chan;
+	}
+}
+
+void Server::deleteChannel(const std::string & channelName)
+{
+	delete _channels[strlower(channelName)];
+	_channels.erase(strlower(channelName));
 }
 
 void Server::cmdDoNothing(Client * sender, SplitMsg & message)

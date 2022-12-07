@@ -57,6 +57,7 @@ void Server::getLimits()
 
 void Server::initCommands()
 {
+	commands["JOIN"] = &Server::cmdJoin;
 	commands["CAP"] = &Server::cmdDoNothing;
 	commands["kill"] = &Server::cmdKill;
 	commands["KILL"] = &Server::cmdKill;
@@ -64,12 +65,16 @@ void Server::initCommands()
 	commands["NICK"] = &Server::cmdNick;
 	commands["NOTICE"] = &Server::cmdPrivmsg;
 	commands["OPER"] = &Server::cmdOper;
+	commands["PART"] = &Server::cmdPart;
 	commands["PASS"] = &Server::cmdPass;
 	commands["PING"] = &Server::cmdPing;
 	commands["PONG"] = &Server::cmdPong;
 	commands["PRIVMSG"] = &Server::cmdPrivmsg;
 	commands["QUIT"] = &Server::cmdQuit;
+	commands["NAMES"] = &Server::cmdNames;
+	commands["TOPIC"] = &Server::cmdTopic;
 	commands["USER"] = &Server::cmdUser;
+
 }
 
 void Server::initReplies()
@@ -78,20 +83,29 @@ void Server::initReplies()
 	replies[RPL_YOURHOST] = ":Your host is " + hostname + ", running version 0\r\n";
 	replies[RPL_CREATED] = ":This server was created " + creationDate + "\r\n";
 	replies[RPL_MYINFO] = ':' + hostname + " 0 o Oo\r\n";
+	replies[RPL_LISTSTART] = "Channel :Users  Name\r\n";
+	replies[RPL_LISTEND] = ":End of /LIST\r\n";
+	replies[RPL_NOTOPIC] = ":No topic is set\r\n";
+	replies[RPL_ENDOFNAMES] = ":End of /NAMES list\r\n";
 	replies[RPL_YOUREOPER] = ":You are now an IRC operator\r\n";
 	replies[ERR_NOSUCHNICK] = ":No such nick/channel\r\n";
 	replies[ERR_NOSUCHSERVER] = ":No such server\r\n";
+	replies[ERR_NOSUCHCHANNEL] = ":No such channel\r\n";
 	replies[ERR_NORECIPIENT] = ":No recipient given\r\n";
 	replies[ERR_NOTEXTTOSEND] = ":No text to send\r\n";
 	replies[ERR_UNKNOWNCOMMAND] = ":Unknown command\r\n";
 	replies[ERR_NONICKNAMEGIVEN] = ":No nickname given\r\n";
 	replies[ERR_ERRONEUSNICKNAME] = ":Erroneous nickname\r\n";
 	replies[ERR_NICKNAMEINUSE] = ":Nickname is already in use\r\n";
+	replies[ERR_USERNOTINCHANNEL] = ":They aren't on that channel\r\n";
+	replies[ERR_NOTONCHANNEL] = ":You're not on that channel\r\n";
 	replies[ERR_NOTREGISTERED] = ":You have not registered\r\n";
 	replies[ERR_NEEDMOREPARAMS] = ":Not enough parameters\r\n";
 	replies[ERR_ALREADYREGISTERED] = ":Unauthorized command (already registered)\r\n";
 	replies[ERR_PASSWDMISMATCH] = ":Password incorrect\r\n";
+	replies[ERR_BADCHANMASK] = ":Bad Channel Mask\r\n";
 	replies[ERR_NOPRIVILEGES] = ":Permission Denied- You're not an IRC operator\r\n";
+	replies[ERR_CHANOPRIVSNEEDED] = ":You're not channel operator\r\n";
 	replies[ERR_NOOPERHOST] = ":No O-lines for your host\r\n";
 	replies[ERR_UMODEUNKNOWNFLAG] = ":Unknown MODE flag\r\n";
 	replies[ERR_USERSDONTMATCH] = ":Cannot change mode for other users\r\n";
