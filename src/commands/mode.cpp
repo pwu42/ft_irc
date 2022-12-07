@@ -20,9 +20,6 @@ void Server::userMode(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_UMODEUNKNOWNFLAG + ' ' + sender->getNick() + ' ' + replies[ERR_UMODEUNKNOWNFLAG], sender);
 }
 
-<<<<<<< HEAD
-// do mode for chan +-o
-=======
 void Server::cmdMode(Client * sender, SplitMsg & message)
 {
 	if (message.getParams().size() < 1)
@@ -34,4 +31,3 @@ void Server::cmdMode(Client * sender, SplitMsg & message)
 	else
 		message.addReply(':' + hostname + ' ' + ERR_USERSDONTMATCH + ' ' + sender->getNick() + ' ' + replies[ERR_USERSDONTMATCH], sender);
 }
->>>>>>> origin/merge
