@@ -1,9 +1,5 @@
 #include "Server.hpp"
 
-/**
- * it: reply txt, reply target
- * it2: client fd, client ptr (temporary, should send to all channels sender is in)
- */
 void Server::reply(Client * sender, SplitMsg & message)
 {
 	(void)sender;
