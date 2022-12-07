@@ -62,6 +62,7 @@ void Server::initCommands()
 	commands["CAP"] = &Server::cmdDoNothing;
 	commands["kill"] = &Server::cmdKill;
 	commands["KILL"] = &Server::cmdKill;
+	commands["LIST"] = &Server::cmdList;
 	commands["MODE"] = &Server::cmdMode;
 	commands["NICK"] = &Server::cmdNick;
 	commands["NOTICE"] = &Server::cmdPrivmsg;

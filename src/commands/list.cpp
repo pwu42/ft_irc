@@ -7,13 +7,13 @@ void Server::cmdList(Client * sender, SplitMsg & message)
 	{
 		for (std::map<std::string, Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
 		{
-			// message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + it->first + ' ' + ft_itoa((int)((it->second)->getNumberOfClient())) + " :"+ (it->second)->getTopic() + "\r\n", sender);
-			message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + it->first + ' ' + " :"+ (it->second)->getTopic() + "\r\n", sender);
+			message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + it->first + ' ' + (it->second)->getNumberOfClient() + " :"+ (it->second)->getTopic() + "\r\n", sender);
+			// message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + it->first + ' ' + " :"+ (it->second)->getTopic() + "\r\n", sender);
 		}
 	}
 	else
-		message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + " :" + _channels[strlower(message.getParams()[0])]->getTopic() + "\r\n", sender);
-		// message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + ft_itoa((int)(_channels[strlower(message.getParams()[0])]->getNumberOfClient())) + " :" + _channels[strlower(message.getParams()[0])]->getTopic() + "\r\n", sender);
+		// message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + " :" + _channels[strlower(message.getParams()[0])]->getTopic() + "\r\n", sender);
+		message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' +_channels[strlower(message.getParams()[0])]->getNumberOfClient() + " :" + _channels[strlower(message.getParams()[0])]->getTopic() + "\r\n", sender);
 
 	message.addReply(':' + hostname + ' ' + RPL_LISTEND + ' ' + sender->getNick() + ' ' + replies[RPL_LISTEND], sender);
 

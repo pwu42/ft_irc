@@ -25,7 +25,7 @@ public:
 	std::string getTopic() const;
 	std::string getTopicOps() const;
 	std::string getTopicSetat() const;
-	size_t getNumberOfClient() const;
+	std::string getNumberOfClient() const;
 	bool empty();
 	void setTopic(std::string topic, Client *ops);
 	void addClient(Client * to_add);
@@ -33,5 +33,6 @@ public:
 	void addOper(Client * to_add);
 	void removeOper(Client * to_rmv);
 	std::string clientsNames();
-	// 			bool UserIsOp();
+	Client *isIn(std::string clientName);
+	bool clientIsOp(int sock) const;
 };

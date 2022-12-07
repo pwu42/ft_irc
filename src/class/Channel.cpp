@@ -30,9 +30,13 @@ std::string Channel::getTopicSetat() const
 	return(_topicSetat);
 }
 
-size_t Channel::getNumberOfClient() const
+std::string Channel::getNumberOfClient() const
 {
-	return(_clients.size());
+
+	std::stringstream sstream;
+	sstream << _clients.size();
+	std::string str = sstream.str();
+	return(str);
 }
 
 void Channel::setTopic(std::string topic, Client *ops)
@@ -57,6 +61,8 @@ void Channel::addClient(Client * to_add)
 void Channel::removeClient(Client * to_rmv)
 {
 	_clients.erase(to_rmv->getSock());
+	if (clientIsOp(to_rmv->getSock()))
+		removeOper(to_rmv);
 }
 
 void Channel::addOper(Client * to_add)
@@ -88,6 +94,20 @@ void Channel::sendMsg(const std::string & message)
 	}
 }
 
+bool Channel::clientIsOp(int sock) const
+{
+	if (_operators.count(sock) > 0)
+		return true;
+	return false;
+}
+
+Client *Channel::isIn(std::string clientName)
+{
+	for (std::map<int, Client *>::const_iterator it = _clients.begin(); it != _clients.end(); it++)
+		if (caseInsensEqual(clientName, it->second->getNick()))
+			return it->second;
+	return (NULL);
+}
 // void Channel::sendAll(std::string & message)
 // {
 // 	for (std::vector<Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
