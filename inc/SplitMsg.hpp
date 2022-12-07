@@ -10,7 +10,7 @@ private:
 	std::string command;
 	std::vector<std::string> params;
 
-	std::vector<std::pair<std::string, IMsgTarget *> > replies; //c'est quoi ?
+	std::map<IMsgTarget *, std::string> replies;
 
 public:
 	SplitMsg(const std::string & message);
@@ -19,7 +19,7 @@ public:
 	std::string & getCommand() { return command; }
 	std::string & getPrefix() { return prefix; }
 	std::vector<std::string> & getParams() { return params; }
-	std::vector<std::pair<std::string, IMsgTarget *> > & getReplyVector() { return replies; }
+	std::map<IMsgTarget *, std::string> & getReplies() { return replies; }
 
 	void addReply(const std::string & rpl, IMsgTarget * msgTarget);
 };

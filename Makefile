@@ -34,7 +34,8 @@ SRC			:= $(addprefix src/, \
 						reply.cpp \
 					) \
 					$(addprefix utils/, \
-						find_client.cpp \
+						case_insens_fcts.cpp \
+						find_target.cpp \
 					) \
 					main.cpp \
 				)
