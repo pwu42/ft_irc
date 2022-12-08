@@ -104,10 +104,10 @@ int Server::exeMessage(Client * sender)
 		{
 			if (!commands.count(split.getCommand()))
 				split.addReply(':' + hostname + ' ' + ERR_UNKNOWNCOMMAND + ' ' + sender->getNick() + ' ' + split.getCommand() + ' ' + replies[ERR_UNKNOWNCOMMAND], sender);
-			else if (!(sender->getStatus() & CLIENT_REGISTER)
-				&& split.getCommand() != "CAP" && split.getCommand() != "PASS" && split.getCommand() != "NICK"
-				&& split.getCommand() != "USER" && split.getCommand() != "PONG" && split.getCommand() != "QUIT")
-				split.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
+			// else if (!(sender->getStatus() & CLIENT_REGISTER)
+			// 	&& split.getCommand() != "CAP" && split.getCommand() != "PASS" && split.getCommand() != "NICK"
+			// 	&& split.getCommand() != "USER" && split.getCommand() != "PONG" && split.getCommand() != "QUIT")
+			// 	split.addReply(':' + hostname + ' ' + ERR_NOTREGISTERED + ' ' + sender->getNick() + ' ' + replies[ERR_NOTREGISTERED], sender);
 			else
 				(this->*commands[split.getCommand()])(sender, split);
 			reply(sender, split);
@@ -168,7 +168,7 @@ void Server::addNewChannel(const std::string &channelName, Client * creator)
 	{
 		// creator->addChannel(channelName);
 		// chan->addClient(creator);
-		// chan->addOper(creator);
+		chan->addOper(creator);
 		_channels[strlower(channelName)] = chan;
 	}
 }
@@ -193,4 +193,13 @@ void Server::exit(bool except, const std::string & msg)
 		perror(msg.c_str());
 		throw std::runtime_error("");
 	}
+}
+
+
+bool channelExist(const std::map<std::string , Channel *> & _channels, const std::string & channelName)
+{
+	for (std::map<std::string, Channel *>::const_iterator it = _channels.begin(); it != _channels.end(); it++)
+		if (caseInsensEqual(channelName, it->first))
+			return true;
+	return false;
 }

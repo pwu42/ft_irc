@@ -16,14 +16,6 @@ static bool isvalidchan(const std::string & user)
 	return (true);
 }
 
-static bool channelExist(const std::map<std::string , Channel *> & _channels, const std::string & channelName)
-{
-	for (std::map<std::string, Channel *>::const_iterator it = _channels.begin(); it != _channels.end(); it++)
-		if (caseInsensEqual(channelName, it->first))
-			return true;
-	return false;
-}
-
 void Server::cmdJoin(Client * sender, SplitMsg & message)
 {
 	if (message.getParams().size() < 1)
@@ -47,12 +39,8 @@ void Server::cmdJoin(Client * sender, SplitMsg & message)
 	else
 	{
 		message.addReply(':' + hostname + ' ' + RPL_TOPIC + ' ' + sender->getNick() + ' ' + message.getParams()[0] + " :" + ((_channels[strlower((message.getParams()[0]))])->getTopic()) + "\r\n", sender);
-		// RPL_TOPIC (332)
 		message.addReply(':' + hostname + ' ' + RPL_TOPICWHOTIME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicOps()) + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicSetat()) + "\r\n", sender);
-		// RPL_TOPICWHOTIME (333)
 	}
-	// see like a call to names
-	// RPL_NAMREPLY (353)
-	// RPL_ENDOFNAMES (366)
-	// sendall 
+	cmdNames(sender, message);
 }
+// sendall

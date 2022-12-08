@@ -14,16 +14,16 @@ commands:
 		x squit
 
 	channel operations
-		join
-		part
+	/	join
+	/	part
 		mode (chanop) O +-o
-		topic (chanop) default op
-		names
-		list
+	/	topic (chanop) default op
+	/	names
+	/	list
 		? invite (chanop)
-		kick (chanop) default op
+	/	kick (chanop) default op
 
-		getsion sendmasg +oper
+		getsion sendmasg + oper
 	sending messages
 		privmsg / notice
 			channel

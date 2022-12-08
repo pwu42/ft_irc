@@ -60,6 +60,7 @@ void Server::initCommands()
 	commands["JOIN"] = &Server::cmdJoin;
 	commands["CAP"] = &Server::cmdDoNothing;
 	commands["kill"] = &Server::cmdKill;
+	commands["KICK"] = &Server::cmdKick;
 	commands["KILL"] = &Server::cmdKill;
 	commands["LIST"] = &Server::cmdList;
 	commands["MODE"] = &Server::cmdMode;

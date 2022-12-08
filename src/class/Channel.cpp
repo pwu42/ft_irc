@@ -41,8 +41,13 @@ std::string Channel::getNumberOfClient() const
 
 void Channel::setTopic(std::string topic, Client *ops)
 {
+	time_t tmp;
+	struct tm * timeinfo;
+
 	_topic = topic;
-	_topicSetat = "AA";
+	time(&tmp);
+	timeinfo = localtime(&tmp);
+	_topicSetat = asctime(timeinfo);
 	_topicOps = ops->getNick();
 }
 

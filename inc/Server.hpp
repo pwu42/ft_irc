@@ -79,6 +79,7 @@ private:
 	void cmdTopic(Client * sender, SplitMsg & message);
 	void cmdNames(Client * sender, SplitMsg & message);
 	void cmdList(Client * sender, SplitMsg & message);
+	void cmdKick(Client * sender, SplitMsg & message);
 	void cmdDoNothing(Client * sender, SplitMsg & message);
 
 	void channelMode(Client * sender, SplitMsg & message);
@@ -91,3 +92,5 @@ private:
 
 	void exit(bool ex = false, const std::string & msg = "");
 };
+
+bool channelExist(const std::map<std::string , Channel *> & _channels, const std::string & channelName);

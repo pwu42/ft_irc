@@ -31,3 +31,5 @@ void Server::cmdMode(Client * sender, SplitMsg & message)
 	else
 		message.addReply(':' + hostname + ' ' + ERR_USERSDONTMATCH + ' ' + sender->getNick() + ' ' + replies[ERR_USERSDONTMATCH], sender);
 }
+
+// add mode 
