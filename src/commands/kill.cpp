@@ -23,3 +23,4 @@ void Server::cmdKill(Client * sender, SplitMsg & message)
 	else if (!(target->getStatus() & CLIENT_OPERATOR))
 		deleteClient(findIndex(target->getSock(), fds, fdCount), "QUIT :Killed (" + sender->getName() + " (" + message.getParams()[1] + "))\r\n");
 }
+// quit all chan before 
