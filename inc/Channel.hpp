@@ -21,6 +21,7 @@ public:
 	Channel(const std::string & channelName, Client *creator);
 	virtual ~Channel();
 	std::string  & getName();
+	Client *getCreator() const;
 	std::string getTopic() const;
 	std::string getTopicOps() const;
 	std::string getTopicSetat() const;

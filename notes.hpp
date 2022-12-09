@@ -72,6 +72,13 @@
 // <== :celestin.fr.ircube.org 323 ereali :End of /LIST
 
 // mode O +-o
+
+   // MODE !12345ircd O               ; Command to ask who the channel
+   //                                 creator for "!12345ircd" is
+
+   // MODE #Finnish +o Kilroy         ; Command to give 'chanop' privileges
+   //                                 to Kilroy on channel #Finnish.
+
 // invite ?
 // kick
 // <== :ereali!~ereali@62.A6858496 KICK #plop ereali_ :ereali
@@ -80,3 +87,8 @@
 
 // 18:33 -!- Irssi: Doing this is not a good idea. Add -YES option to command if you really mean it
 // because this can make leave the client by an overflow buffer on old machine or by stopping the ping answer
+
+
+
+
+// Tester send all topic et kick et mode 

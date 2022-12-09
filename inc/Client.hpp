@@ -28,9 +28,11 @@ public:
 	void addMessage(const std::string & msg);
 	void clearMessage();
 
+	std::list<std::string> getList() const ;
 	void addChannel(const std::string & channelName);
 	void removeChannel(const std::string & channelName);
 	bool isIn(const std::string & channelName);
+	void leaveAllChannels();
 
 	void ping(const std::string & token);
 	void pong(const std::string & token);

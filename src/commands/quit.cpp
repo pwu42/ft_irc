@@ -1,5 +1,15 @@
 #include "Server.hpp"
 
+
+void Server::leaveAllChannels(Client *sender)
+{
+	std::list<std::string> chanNames = sender->getList();
+	for (std::list<std::string>::const_iterator it = chanNames.begin(); it != chanNames.end(); it++)
+		_channels[strlower(*it)]->removeClient(sender);
+	sender->leaveAllChannels();
+}
+
+
 void Server::cmdQuit(Client * sender, SplitMsg & message)
 {
 	std::string reply = ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + " QUIT :Quit: ";
@@ -9,3 +19,5 @@ void Server::cmdQuit(Client * sender, SplitMsg & message)
 	message.addReply(reply, NULL);
 	sender->addStatus(CLIENT_HAS_QUIT);
 }
+
+// when quit quit all chann

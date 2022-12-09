@@ -91,6 +91,17 @@ void Client::pong(const std::string & token)
 	if ((status & CLIENT_PING) && token == pingToken)
 		removeStatus(CLIENT_PING);
 }
+std::list<std::string> Client::getList() const
+{
+	return (_channels);
+}
+
+
+void Client::leaveAllChannels()
+{
+	_channels.clear();
+}
+
 
 void Client::sendMsg(const std::string & msg)
 {

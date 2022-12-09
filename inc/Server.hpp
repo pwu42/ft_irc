@@ -63,6 +63,7 @@ private:
 
 	void addNewChannel(const std::string & channelName, Client * creator);
 	void deleteChannel(const std::string & channelName);
+	void leaveAllChannels(Client *sender);
 
 	void cmdPass(Client * sender, SplitMsg & message);
 	void cmdNick(Client * sender, SplitMsg & message);

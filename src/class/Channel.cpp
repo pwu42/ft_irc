@@ -3,7 +3,6 @@
 Channel::Channel(const std::string & channelName, Client *creator):
 	_name(channelName), _creator(creator)
 {
-	(void)_creator;
 }
 
 Channel::~Channel()
@@ -13,6 +12,10 @@ Channel::~Channel()
 std::string & Channel::getName()
 {
 	return(_name);
+}
+Client  *Channel::getCreator() const
+{
+	return (_creator);
 }
 
 std::string Channel::getTopic() const
