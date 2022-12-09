@@ -14,5 +14,4 @@ void Server::cmdList(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + RPL_LIST + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' +_channels[strlower(message.getParams()[0])]->getNumberOfClient() + " :" + _channels[strlower(message.getParams()[0])]->getTopic() + "\r\n", sender);
 
 	message.addReply(':' + hostname + ' ' + RPL_LISTEND + ' ' + sender->getNick() + ' ' + replies[RPL_LISTEND], sender);
-
 }

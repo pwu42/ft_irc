@@ -33,7 +33,7 @@ void Server::cmdKick(Client * sender, SplitMsg & message)
 	if (message.getParams().size() < 3)
 		message.addReply(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + "automatic message after kick\r\n", sender);
 	else
-		message.addReply(':' + hostname + ' ' + ERR_USERNOTINCHANNEL + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + message.getParams()[2] + "\r\n", sender);
+		message.addReply(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + message.getParams()[2] + "\r\n", sender);
 }
 
 // sendAll

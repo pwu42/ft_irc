@@ -68,6 +68,8 @@ void Channel::removeClient(Client * to_rmv)
 	_clients.erase(to_rmv->getSock());
 	if (clientIsOp(to_rmv->getSock()))
 		removeOper(to_rmv);
+	if (_creator->getSock() == to_rmv->getSock())
+		_creator = NULL;
 }
 
 void Channel::addOper(Client * to_add)
@@ -85,17 +87,20 @@ std::string Channel::clientsNames()
 	std::string ret;
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
 	{
-		ret = " " + it->second->getNick();
+		ret += " ";
+		if (clientIsOp(it->first))
+			ret += "@";
+		ret += it->second->getNick();
 	}
 	return ret;
 }
-
 
 void Channel::sendMsg(const std::string & message)
 {
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
 	{
-		send(it->first, message.c_str(), message.length(), 0);
+		// send(it->first, message.c_str(), message.length(), 0);
+		it->second->sendMsg(message);
 	}
 }
 
@@ -113,10 +118,3 @@ Client *Channel::isIn(std::string clientName)
 			return it->second;
 	return (NULL);
 }
-// void Channel::sendAll(std::string & message)
-// {
-// 	for (std::vector<Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
-// 	{
-// 		send((*it)->getSock(), message.c_str(), message.length(), 0);
-// 	}
-// }

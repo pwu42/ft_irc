@@ -30,15 +30,13 @@ void Server::cmdTopic(Client * sender, SplitMsg & message)
 			message.addReply(':' + hostname + ' ' + RPL_TOPICWHOTIME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicOps()) + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicSetat()) + "\r\n", sender);
 		}
 	}
+	else if (!(_channels[strlower(message.getParams()[0])]->clientIsOp(sender->getSock())))
+		message.addReply(':' + hostname + ' ' + ERR_CHANOPRIVSNEEDED + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_CHANOPRIVSNEEDED], sender);
 	else
 	{
 		(_channels[strlower((message.getParams()[0]))])->setTopic((message.getParams()[1]), sender);
-		// sendall
-		message.addReply(':' + sender->getNick() + ' ' + message.getCommand() + ' ' + message.getParams()[0] + " :" + ((_channels[strlower((message.getParams()[0]))])->getTopic()) + "\r\n", sender);
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getFullName() + ' ' + message.getCommand() + " " + message.getParams()[0] + " :" + ((_channels[strlower((message.getParams()[0]))])->getTopic()) + "\r\n");
 	}
 
 }
-
-//add operator
-// add setat
-// add sendmsg
+// sendall

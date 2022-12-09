@@ -19,9 +19,8 @@ void Server::cmdPart(Client * sender, SplitMsg & message)
 	}
 	sender->removeChannel(message.getParams()[0]);
 	((_channels[strlower((message.getParams()[0]))])->removeClient(sender));
-	// sendMsg
+	_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getFullName() + ' ' + message.getCommand() + " :" + message.getParams()[0] + "\r\n");
 	if (((_channels[strlower((message.getParams()[0]))])->empty()))
 		deleteChannel(message.getParams()[0]);
 }
-
-// if creator leave
+// sendMsg

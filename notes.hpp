@@ -39,6 +39,12 @@
 // <== :celestin.fr.ircube.org 353 ereali = #okij :@ereali
 // <== :celestin.fr.ircube.org 366 ereali #okij :End of /NAMES list.
 
+
+
+// :ereali_!~ereali@62.A6858496 PART :#plop
+// <== :ereali_!~ereali@62.A6858496 JOIN #plop
+// : fullname cmd : channel
+
 // part test sur proxy  avec multi
  // send "PART #plop :tchouss" to everyone including me
  // topic lorsqu /topic seul rien envoyer a serveur ?
@@ -68,3 +74,9 @@
 // mode O +-o
 // invite ?
 // kick
+// <== :ereali!~ereali@62.A6858496 KICK #plop ereali_ :ereali
+// <== :ereali!~ereali@62.A6858496 KICK #plop ereali_ :ereali
+// : fullname cmd channel cible :opsnick
+
+// 18:33 -!- Irssi: Doing this is not a good idea. Add -YES option to command if you really mean it
+// because this can make leave the client by an overflow buffer on old machine or by stopping the ping answer

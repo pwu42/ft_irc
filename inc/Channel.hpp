@@ -16,7 +16,6 @@ private:
 	std::map<int , Client *> _operators;
 	// std::vector<Client *> _operators;
 
-	void sendMsg(const std::string & message);
 
 public:
 	Channel(const std::string & channelName, Client *creator);
@@ -35,4 +34,5 @@ public:
 	std::string clientsNames();
 	Client *isIn(std::string clientName);
 	bool clientIsOp(int sock) const;
+	void sendMsg(const std::string & message);
 };
