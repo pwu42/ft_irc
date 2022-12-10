@@ -5,7 +5,11 @@ void Server::leaveAllChannels(Client *sender)
 {
 	std::list<std::string> chanNames = sender->getList();
 	for (std::list<std::string>::const_iterator it = chanNames.begin(); it != chanNames.end(); it++)
+	{
 		_channels[strlower(*it)]->removeClient(sender);
+		if (((_channels[strlower(*it)])->empty()))
+			deleteChannel(strlower(*it));
+	}
 	sender->leaveAllChannels();
 }
 
