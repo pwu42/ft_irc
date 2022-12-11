@@ -97,3 +97,9 @@
 
 // Tester send all  fulName became
 // ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname +
+
+
+
+// Scan build
+// Dead store	Dead assignment	class/Server.cpp	fonction :run	line :130
+// ret set but never used
