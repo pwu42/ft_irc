@@ -89,6 +89,8 @@
 // because this can make leave the client by an overflow buffer on old machine or by stopping the ping answer
 
 
+// ./proxy.sh 4243 irc.ircube.org 6667
+// /connect localhost 4243
 
-
-// Tester send all topic et kick 
+// Tester send all topic et kick + fulName became
+// ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname +

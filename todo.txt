@@ -23,7 +23,6 @@ commands:
 		? invite (chanop)
 	/	kick (chanop) default op
 
-		getsion sendmasg + oper
 	sending messages
 		privmsg / notice
 			channel

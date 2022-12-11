@@ -30,10 +30,13 @@ void Server::cmdKick(Client * sender, SplitMsg & message)
 	}
 	to_kick->removeChannel(message.getParams()[0]);
 	_channels[strlower((message.getParams()[0]))]->removeClient(to_kick);
-	if (message.getParams().size() < 3)
-		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + "automatic message after kick\r\n", sender);
+	if (((_channels[strlower((message.getParams()[0]))])->empty()))
+		deleteChannel(message.getParams()[0]);
+	else if (message.getParams().size() < 3)
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + "automatic message after kick\r\n");
 	else
-		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + message.getParams()[2] + "\r\n", sender);
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + message.getParams()[2] + "\r\n");
 }
 
 // sendAll change message
+// ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname +
