@@ -92,8 +92,6 @@
 // because this can make leave the client by an overflow buffer on old machine or by stopping the ping answer
 
 
-// ./proxy.sh 4243 irc.ircube.org 6667
-// /connect localhost 4243
 
 // Tester send all  fulName became
 // ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname +
@@ -106,3 +104,37 @@
 //enlever Kill
 
 // when no password nothing can be done to connect
+
+// leaveallchannels like that cause segfault
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// incoherence quand join met bien 2 personne mais names 1 , quand part ne marque pas le leave 
+
+
+// ./proxy.sh 4243 irc.ircube.org 6667
+// /connect localhost 4243
