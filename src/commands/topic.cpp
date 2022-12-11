@@ -35,8 +35,6 @@ void Server::cmdTopic(Client * sender, SplitMsg & message)
 	else
 	{
 		(_channels[strlower((message.getParams()[0]))])->setTopic((message.getParams()[1]), sender);
-		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getFullName() + ' ' + message.getCommand() + " " + message.getParams()[0] + " :" + ((_channels[strlower((message.getParams()[0]))])->getTopic()) + "\r\n");
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + ' ' + message.getParams()[0] + " :" + (message.getParams()[1]) + "\r\n");
 	}
-
 }
-// sendall

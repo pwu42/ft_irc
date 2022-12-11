@@ -28,15 +28,12 @@ void Server::cmdKick(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_USERNOTINCHANNEL + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_USERNOTINCHANNEL], sender);
 		return ;
 	}
+	if (message.getParams().size() < 3)
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + ' ' + message.getParams()[0] + ' ' + message.getParams()[1] + " :" + sender->getNick() + "\r\n");
+	else
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + ' ' + message.getParams()[0] + ' ' + message.getParams()[1] + " :" + message.getParams()[2] + "\r\n");
 	to_kick->removeChannel(message.getParams()[0]);
 	_channels[strlower((message.getParams()[0]))]->removeClient(to_kick);
 	if (((_channels[strlower((message.getParams()[0]))])->empty()))
 		deleteChannel(message.getParams()[0]);
-	else if (message.getParams().size() < 3)
-		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + "automatic message after kick\r\n");
-	else
-		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + hostname + ' '  + sender->getNick() + ' ' + message.getParams()[0] + ' ' + message.getParams()[2] + "\r\n");
 }
-
-// sendAll change message
-// ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname +

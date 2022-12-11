@@ -56,6 +56,9 @@
 // <== :celestin.fr.ircube.org 353 ereali = #aide :ereali ced117 Pyrrah olasd Menwe Kahan kouak Cesar @Z
 // <== :celestin.fr.ircube.org 366 ereali #aide :End of /NAMES list.
 
+// topic
+// :ereali!~ereali@62.7C8A0A20 TOPIC #plop ::salut ceci est un test 42
+// ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + ' ' + message.getParams()[0] + " :" + (message.getParams()[1])
 
 
 // list
@@ -92,5 +95,5 @@
 // ./proxy.sh 4243 irc.ircube.org 6667
 // /connect localhost 4243
 
-// Tester send all topic et kick + fulName became
+// Tester send all  fulName became
 // ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname +
