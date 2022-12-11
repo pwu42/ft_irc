@@ -103,3 +103,6 @@
 // Scan build
 // Dead store	Dead assignment	class/Server.cpp	fonction :run	line :130
 // ret set but never used
+//enlever Kill
+
+// when no password nothing can be done to connect

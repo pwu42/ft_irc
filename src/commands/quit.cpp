@@ -21,6 +21,7 @@ void Server::cmdQuit(Client * sender, SplitMsg & message)
 		reply += message.getParams()[0];
 	reply += "\r\n";
 	message.addReply(reply, NULL);
+	// leaveAllChannels(sender);
 	sender->addStatus(CLIENT_HAS_QUIT);
 }
 

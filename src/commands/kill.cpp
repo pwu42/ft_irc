@@ -21,6 +21,9 @@ void Server::cmdKill(Client * sender, SplitMsg & message)
 	else if (!(target = dynamic_cast<Client *>(findTarget(message.getParams()[0]))))
 		message.addReply(':' + hostname + ' ' + ERR_NOSUCHNICK + ' ' + sender->getNick() + ' ' + replies[ERR_NOSUCHNICK], sender);
 	else if (!(target->getStatus() & CLIENT_OPERATOR))
+	{
+		// leaveAllChannels(sender);
 		deleteClient(findIndex(target->getSock(), fds, fdCount), "QUIT :Killed (" + sender->getName() + " (" + message.getParams()[1] + "))\r\n");
+	}
 }
-// quit all chan before 
+// quit all chan before
