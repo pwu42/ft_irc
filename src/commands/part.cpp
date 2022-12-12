@@ -17,7 +17,11 @@ void Server::cmdPart(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_NOTONCHANNEL + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NOTONCHANNEL], sender);
 		return ;
 	}
-	_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + " :" + message.getParams()[0] + "\r\n");
+	if (message.getParams().size() < 2)
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + " :" + message.getParams()[0] + "\r\n");
+	else
+		_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + " " + message.getParams()[0]  + " :" + message.getParams()[1]+ "\r\n");
+
 	sender->removeChannel(message.getParams()[0]);
 	((_channels[strlower((message.getParams()[0]))])->removeClient(sender));
 	if (((_channels[strlower((message.getParams()[0]))])->empty()))

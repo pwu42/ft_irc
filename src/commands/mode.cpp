@@ -11,7 +11,7 @@ void Server::channelMode(Client * sender, SplitMsg & message)
 	{
 		message.addReply(':' + hostname + ' ' + RPL_CHANNELMODEIS + ' ' + sender->getNick() + ' ' + message.getParams()[0] + " +-o O" + " userNick\r\n" , sender);
 	}
-	else if (message.getParams()[1] != "O")
+	else if (message.getParams()[1] == "+O")
 	{
 		if (!(_channels[strlower(message.getParams()[0])]->getCreator()))
 			message.addReply(':' + hostname + ' ' + sender->getNick() + ' ' + message.getParams()[0] + " :Creator has leave the channel\r\n", sender);
@@ -21,7 +21,7 @@ void Server::channelMode(Client * sender, SplitMsg & message)
 	else if (!(_channels[strlower(message.getParams()[0])]->clientIsOp(sender->getSock())))
 		message.addReply(':' + hostname + ' ' + ERR_CHANOPRIVSNEEDED + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_CHANOPRIVSNEEDED], sender);
 	else if (message.getParams().size() < 3)
-		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], sender);
+		message.addReply(':' + hostname + ' ' + ERR_UMODEUNKNOWNFLAG + ' ' + sender->getNick() + ' ' + replies[ERR_UMODEUNKNOWNFLAG], sender);
 	else if (message.getParams()[1] != "+o")
 	{
 		if (!(to_mode = _channels[strlower((message.getParams()[0]))]->isIn(message.getParams()[2])))
