@@ -35,8 +35,8 @@ std::string Channel::getTopicSetat() const
 
 std::string Channel::getNumberOfClient() const
 {
-
 	std::stringstream sstream;
+
 	sstream << _clients.size();
 	std::string str = sstream.str();
 	return(str);
@@ -45,13 +45,12 @@ std::string Channel::getNumberOfClient() const
 void Channel::setTopic(std::string topic, Client *ops)
 {
 	time_t tmp;
-	struct tm * timeinfo;
+	std::stringstream sstream;
 
 	_topic = topic;
-	time(&tmp);
-	timeinfo = localtime(&tmp);
-	_topicSetat = asctime(timeinfo);
 	_topicOps = ops->getNick();
+	sstream << time(&tmp);
+	_topicSetat = sstream.str();
 }
 
 bool Channel::empty()

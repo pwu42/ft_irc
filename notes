@@ -1,37 +1,3 @@
-// # ifndef CHANNEL_HPP
-// # define CHANNEL_HPP
-// # include "Irc.hpp"
-//
-// fct send to all users in channel
-// class Channel
-// {
-// 		private :
-// 			std::string _name;
-			// std::string _topic;
-			// std::map<int sock, Client *> _ops;
-// 			std::map<int sock, Client *> _users;
-//
-// 		public :
-			// Channel(std::string name);
-// 			void addUser(User *user, std::string nick);
-// 			bool UserIsIn();
-// 			bool UserIsOp();
-// 			void deleteUser(std::string nick);
-			// setUsers
-			// setOps
-			// setTopic
-
-			// ~Channel();
-
-// };
-//add send all pwu
-// #endif
-
-
-
-
-// URGENT
-
 // join
 
 // ==> JOIN #okij
@@ -82,7 +48,6 @@
    // MODE #Finnish +o Kilroy         ; Command to give 'chanop' privileges
    //                                 to Kilroy on channel #Finnish.
 
-// invite ?
 // kick
 // <== :ereali!~ereali@62.A6858496 KICK #plop ereali_ :ereali
 // <== :ereali!~ereali@62.A6858496 KICK #plop ereali_ :ereali
@@ -91,53 +56,10 @@
 // 18:33 -!- Irssi: Doing this is not a good idea. Add -YES option to command if you really mean it
 // because this can make leave the client by an overflow buffer on old machine or by stopping the ping answer
 
-
-
-// Tester send all  fulName became
-// ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname +
-
-
-
-// Scan build
-// Dead store	Dead assignment	class/Server.cpp	fonction :run	line :130
-// ret set but never used
-//enlever Kill
-
-// when no password nothing can be done to connect
-
-// leaveallchannels like that cause segfault
-
-
-
-
-
-
 // ==> JOIN #plop
 // <== :ereali!~ereali@62.D8180049 JOIN #plop
 // <== :celestin.fr.ircube.org 353 ereali = #plop :ereali @ereali_
 // <== :celestin.fr.ircube.org 366 ereali #plop :End of /NAMES list.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// incoherence quand join met bien 2 personne mais names 1 , quand part ne marque pas le leave
 
 
 // ./proxy.sh 4243 irc.ircube.org 6667

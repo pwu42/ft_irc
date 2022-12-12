@@ -34,14 +34,13 @@ void Server::cmdJoin(Client * sender, SplitMsg & message)
 		addNewChannel(message.getParams()[0], sender);
 	sender->addChannel(message.getParams()[0]);
 	(_channels[strlower((message.getParams()[0]))])->addClient(sender);
-	// message.addReply(':' + sender->getFullName() + ' ' + message.getCommand() + ' ' + message.getParams()[0] + "\r\n", _channels[strlower((message.getParams()[0]))]);
 	_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getFullName() + ' ' + message.getCommand() + " " + message.getParams()[0] + "\r\n");
 	if (((_channels[strlower((message.getParams()[0]))])->getTopic()).empty())
 		message.addReply(':' + hostname + ' ' + RPL_NOTOPIC + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[RPL_NOTOPIC], sender);
 	else
 	{
 		message.addReply(':' + hostname + ' ' + RPL_TOPIC + ' ' + sender->getNick() + ' ' + message.getParams()[0] + " :" + ((_channels[strlower((message.getParams()[0]))])->getTopic()) + "\r\n", sender);
-		message.addReply(':' + hostname + ' ' + RPL_TOPICWHOTIME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicOps()) + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicSetat()) + "\r\n", sender);
+		message.addReply(':' + hostname + ' ' + RPL_TOPICWHOTIME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicOps()) + " :" + ((_channels[strlower((message.getParams()[0]))])->getTopicSetat()) + "\r\n", sender);
 	}
 	cmdNames(sender, message);
 }

@@ -192,7 +192,6 @@ void Server::exit(bool except, const std::string & msg)
 	}
 }
 
-
 bool channelExist(const std::map<std::string , Channel *> & _channels, const std::string & channelName)
 {
 	for (std::map<std::string, Channel *>::const_iterator it = _channels.begin(); it != _channels.end(); it++)

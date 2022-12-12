@@ -12,7 +12,6 @@ void Server::leaveAllChannels(Client *sender)
 	sender->leaveAllChannels();
 }
 
-
 void Server::cmdQuit(Client * sender, SplitMsg & message)
 {
 	std::string reply = ':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + " QUIT :Quit: ";
@@ -23,5 +22,3 @@ void Server::cmdQuit(Client * sender, SplitMsg & message)
 	leaveAllChannels(sender);
 	sender->addStatus(CLIENT_HAS_QUIT);
 }
-
-// when quit quit all chann
