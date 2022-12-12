@@ -28,8 +28,8 @@ int main(int ac, char **av)
 		return 1;
 	}
 	signal(SIGQUIT, handler);
+	signal(SIGINT, handler);
 	Server server(atoi(av[1]), std::string(av[2]));
-	// signal(SIGINT, handler);
 	try
 	{
 		server.init();

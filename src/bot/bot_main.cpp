@@ -45,7 +45,7 @@ int main(int ac, char ** av)
 	password = av[2];
 
 	signal(SIGQUIT, handler);
-	// signal(SIGINT, handler);
+	signal(SIGINT, handler);
 
 	try
 	{
