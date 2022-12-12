@@ -121,13 +121,12 @@ int Server::exeMessage(Client * sender)
 
 void Server::run()
 {
-	int ret;
 	size_t currentSize;
 
 	while (on)
 	{
 		std::cerr << "Polling ... \n";
-		if ((ret = poll(fds, fdCount, POLL_TIMEOUT * 1000)) < 0)
+		if (poll(fds, fdCount, POLL_TIMEOUT * 1000) < 0)
 		{
 			if (on == true)
 				perror("poll()");

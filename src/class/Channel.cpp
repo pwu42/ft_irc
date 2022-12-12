@@ -71,7 +71,7 @@ void Channel::removeClient(Client * to_rmv)
 	_clients.erase(to_rmv->getSock());
 	if (clientIsOp(to_rmv->getSock()))
 		removeOper(to_rmv);
-	if (_creator->getSock() == to_rmv->getSock())
+	if (_creator == to_rmv)
 		_creator = NULL;
 }
 

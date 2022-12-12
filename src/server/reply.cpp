@@ -8,7 +8,7 @@ void Server::reply(Client * sender, SplitMsg & message)
 	{
 		std::cerr << "reply = [" << it->second << "]\n";
 		if (it->first)
-			it->first->sendMsg(it->second);
+			it->first->sendMsg(it->second, sender);
 		else
 		{	//send to all channels sender is in
 			for (std::map<int, Client *>::const_iterator it2 = clients.begin(); it2 != clients.end(); it2++)

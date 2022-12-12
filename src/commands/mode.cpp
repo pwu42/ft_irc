@@ -67,7 +67,7 @@ void Server::cmdMode(Client * sender, SplitMsg & message)
 	{
 		message.addReply(':' + hostname + ' ' + ERR_NEEDMOREPARAMS + ' ' + sender->getNick() + ' ' + replies[ERR_NEEDMOREPARAMS], sender);
 	}
-	else if ((message.getParams()[0].find_first_not_of("&#+!", 0, 1)) != std::string::npos)
+	else if (strchr("&#+!", message.getParams()[0][0]))
 		channelMode(sender, message);
 	else if (message.getParams()[0] == sender->getNick())
 		userMode(sender, message);

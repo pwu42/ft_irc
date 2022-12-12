@@ -1,6 +1,5 @@
 #include "Server.hpp"
 
-
 void Server::leaveAllChannels(Client *sender)
 {
 	std::list<std::string> chanNames = sender->getList();
@@ -21,7 +20,7 @@ void Server::cmdQuit(Client * sender, SplitMsg & message)
 		reply += message.getParams()[0];
 	reply += "\r\n";
 	message.addReply(reply, NULL);
-	// leaveAllChannels(sender);
+	leaveAllChannels(sender);
 	sender->addStatus(CLIENT_HAS_QUIT);
 }
 
