@@ -64,6 +64,7 @@ void Server::deleteClient(int index, const std::string & quitMsg)
 {
 	if (!(clients[fds[index].fd]->getStatus() & CLIENT_HAS_QUIT))
 		clientDisconnect(clients[fds[index].fd], quitMsg);
+	leaveAllChannels(clients[fds[index].fd]);
 	std::cerr << "Client " << fds[index].fd << " has left\n";
 	delete clients[fds[index].fd];
 	clients.erase(fds[index].fd);

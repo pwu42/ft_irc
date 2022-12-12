@@ -9,16 +9,6 @@ static bool nickIsValid(const std::string & nick)
 	return true;
 }
 
-static std::string nickReply(Client * sender, const std::string & newNick)
-{
-	std::string reply;
-
-	if (sender->getStatus() & CLIENT_HAS_NICK)
-		reply += ":" + sender->getFullName() + " NICK " + newNick + "\r\n";
-	sender->setNick(newNick);
-	return reply;
-}
-
 void Server::cmdNick(Client * sender, SplitMsg & message)
 {
 	if ((sender->getStatus() & CLIENT_HAS_PASS) == 0)
@@ -30,7 +20,11 @@ void Server::cmdNick(Client * sender, SplitMsg & message)
 	else if (findTarget(message.getParams()[0]))
 		message.addReply(':' + hostname + ' ' + ERR_NICKNAMEINUSE + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NICKNAMEINUSE], sender);
 	else
-		message.addReply(nickReply(sender, message.getParams()[0]), NULL);
+	{
+		if (sender->getStatus() & CLIENT_HAS_NICK)
+			message.addReply(":" + sender->getFullName() + " NICK " + message.getParams()[0] + "\r\n", NULL);
+		sender->setNick(message.getParams()[0]);
+	}
 	if (sender->getStatus() == 7)
 		welcome(sender, message);
 }

@@ -47,4 +47,5 @@ public:
 	int getSock() { return sock; }
 	std::string & getMessage() { return message; }
 	std::string getMode() { return (status & CLIENT_OPERATOR) ? "+o":""; }
+	std::list<std::string> & getChannels() { return _channels; }
 };

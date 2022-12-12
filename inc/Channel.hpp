@@ -24,6 +24,7 @@ public:
 	std::string getTopicOps() const;
 	std::string getTopicSetat() const;
 	std::string getNumberOfClient() const;
+	std::map<int, Client *> & getClients();
 
 	bool empty();
 	void setTopic(std::string topic, Client *ops);

@@ -42,6 +42,11 @@ std::string Channel::getNumberOfClient() const
 	return(str);
 }
 
+std::map<int, Client *> & Channel::getClients()
+{
+	return (_clients);
+}
+
 void Channel::setTopic(std::string topic, Client *ops)
 {
 	time_t tmp;

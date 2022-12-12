@@ -2,17 +2,24 @@
 
 void Server::reply(Client * sender, SplitMsg & message)
 {
-	(void)sender;
 	const std::map<IMsgTarget *, std::string> replies = message.getReplies();
-	for (std::map<IMsgTarget *, std::string>::const_iterator it = replies.begin(); it != replies.end(); it++)
+	for (std::map<IMsgTarget *, std::string>::const_iterator reply_it = replies.begin(); reply_it != replies.end(); reply_it++)
 	{
-		std::cerr << "reply = [" << it->second << "]\n";
-		if (it->first)
-			it->first->sendMsg(it->second, sender);
+		std::cerr << "reply to " << reply_it->first << " = [" << reply_it->second << "]\n";
+		if (reply_it->first)
+			reply_it->first->sendMsg(reply_it->second, sender);
 		else
-		{	//send to all channels sender is in
-			for (std::map<int, Client *>::const_iterator it2 = clients.begin(); it2 != clients.end(); it2++)
-				send(it2->second->getSock(), it->second.c_str(), it->second.length(), MSG_NOSIGNAL);
+		{
+			std::set<Client *> targets;
+			targets.insert(sender);
+			for (std::list<std::string>::const_iterator chan_it = sender->getChannels().begin(); chan_it != sender->getChannels().end(); chan_it++)
+			{
+				for (std::map<int, Client *>::const_iterator chan_client_it = reinterpret_cast<Channel *>(findTarget(*chan_it))->getClients().begin(); chan_client_it != reinterpret_cast<Channel *>(findTarget(*chan_it))->getClients().end(); chan_client_it++)
+					targets.insert(chan_client_it->second);
+			}
+			std::cerr << targets.size() << '\n';
+			for (std::set<Client *>::const_iterator target_it = targets.begin(); target_it != targets.end(); target_it++)
+				(*target_it)->sendMsg(reply_it->second);
 		}
 	}
 }
