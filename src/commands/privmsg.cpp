@@ -10,6 +10,6 @@ void Server::cmdPrivmsg(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + ERR_NOTEXTTOSEND + ' ' + sender->getNick() + ' ' + replies[ERR_NOTEXTTOSEND], sender);
 	else if (!(target = findTarget(message.getParams()[0])))
 		message.addReply(':' + hostname + ' ' + ERR_NOSUCHNICK + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + replies[ERR_NOSUCHNICK], sender);
-	else // send to client/channel
+	else
 		message.addReply(':' + sender->getFullName() + ' ' + message.getCommand() + ' ' + target->getName() + " :" + message.getParams()[1] + "\r\n", target);
 }
