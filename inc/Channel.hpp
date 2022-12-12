@@ -35,5 +35,5 @@ public:
 	std::string clientsNames();
 	Client *isIn(std::string clientName);
 	bool clientIsOp(int sock) const;
-	void sendMsg(const std::string & message);
+	void sendMsg(const std::string & message, IMsgTarget *exception = NULL);
 };

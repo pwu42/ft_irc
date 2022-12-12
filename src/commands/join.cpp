@@ -41,6 +41,7 @@ void Server::cmdJoin(Client * sender, SplitMsg & message)
 		message.addReply(':' + hostname + ' ' + RPL_TOPIC + ' ' + sender->getNick() + ' ' + message.getParams()[0] + " :" + ((_channels[strlower((message.getParams()[0]))])->getTopic()) + "\r\n", sender);
 		message.addReply(':' + hostname + ' ' + RPL_TOPICWHOTIME + ' ' + sender->getNick() + ' ' + message.getParams()[0] + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicOps()) + ' ' + ((_channels[strlower((message.getParams()[0]))])->getTopicSetat()) + "\r\n", sender);
 	}
-	cmdNames(sender, message);
+	// message.addReply(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + " " + message.getParams()[0] + "\r\n", _channels[strlower((message.getParams()[0]))])
 	_channels[strlower((message.getParams()[0]))]->sendMsg(':' + sender->getNick() + '!' + sender->getUser() + '@' + hostname + ' ' + message.getCommand() + " " + message.getParams()[0] + "\r\n");
+	cmdNames(sender, message);
 }

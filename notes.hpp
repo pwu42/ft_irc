@@ -112,6 +112,10 @@
 
 
 
+// ==> JOIN #plop
+// <== :ereali!~ereali@62.D8180049 JOIN #plop
+// <== :celestin.fr.ircube.org 353 ereali = #plop :ereali @ereali_
+// <== :celestin.fr.ircube.org 366 ereali #plop :End of /NAMES list.
 
 
 
@@ -133,7 +137,7 @@
 
 
 
-// incoherence quand join met bien 2 personne mais names 1 , quand part ne marque pas le leave 
+// incoherence quand join met bien 2 personne mais names 1 , quand part ne marque pas le leave
 
 
 // ./proxy.sh 4243 irc.ircube.org 6667

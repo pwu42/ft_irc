@@ -38,7 +38,7 @@ public:
 	void pong(const std::string & token);
 
 	std::string & getName() { return getNick(); }
-	void sendMsg(const std::string & msg);
+	void sendMsg(const std::string & message, IMsgTarget *exception = NULL);
 
 	unsigned char getStatus() { return status; }
 	std::string & getNick() { return nickname; }

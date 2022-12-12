@@ -90,7 +90,8 @@ std::string Channel::clientsNames()
 	std::string ret;
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
 	{
-		ret += " ";
+		if (ret.size() != 0)
+			ret += " ";
 		if (clientIsOp(it->first))
 			ret += "@";
 		ret += it->second->getNick();
@@ -98,12 +99,12 @@ std::string Channel::clientsNames()
 	return ret;
 }
 
-void Channel::sendMsg(const std::string & message)
+void Channel::sendMsg(const std::string & message, IMsgTarget *exception)
 {
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
 	{
-		// send(it->first, message.c_str(), message.length(), 0);
-		it->second->sendMsg(message);
+		if (exception != it->second)
+			send(it->first, message.c_str(), message.length(), 0);
 	}
 }
 

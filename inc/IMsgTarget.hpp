@@ -9,5 +9,6 @@ public:
 	virtual ~IMsgTarget() {}
 
 	virtual std::string & getName() = 0;
-	virtual void sendMsg(const std::string & msg) = 0;
+	virtual void sendMsg(const std::string & message, IMsgTarget *exception = NULL) = 0;
+
 };

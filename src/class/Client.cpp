@@ -103,7 +103,8 @@ void Client::leaveAllChannels()
 }
 
 
-void Client::sendMsg(const std::string & msg)
+void Client::sendMsg(const std::string & message, IMsgTarget *exception)
 {
-	send(sock, msg.c_str(), msg.length(), MSG_NOSIGNAL);
+	(void)exception;
+	send(sock, message.c_str(), message.length(), MSG_NOSIGNAL);
 }
