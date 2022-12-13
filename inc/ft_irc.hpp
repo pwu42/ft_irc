@@ -43,6 +43,7 @@ enum clientStatus
 #define ALNUMSPHY "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789[]\\`_^{|}-"
 #define SPECIAL "[]\\`_^{|}"
 #define NULSPCRLFAT "\0\r\n @"
+#define PRINTABLE " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
 #define RPL_WELCOME "001"
 #define RPL_YOURHOST "002"

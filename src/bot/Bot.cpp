@@ -110,7 +110,7 @@ void Bot::run()
 
 void Bot::sendMsg(const std::string & msg)
 {
-	std::cerr << "reply = [" << msg << "]\n";
+	// std::cerr << "reply = [" << msg << "]\n";
 	send(sock.fd, msg.c_str(),msg.length(), MSG_NOSIGNAL);
 }
 
@@ -131,7 +131,7 @@ int Bot::recvMsg()
 		return 1;
 	}
 	buffer[recvCount] = 0;
-	std::cerr << "buffer = [" << buffer << "]\n";
+	// std::cerr << "buffer = [" << buffer << "]\n";
 	message = buffer;
 	return 0;
 }

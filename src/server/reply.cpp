@@ -5,7 +5,7 @@ void Server::reply(Client * sender, SplitMsg & message)
 	const std::map<IMsgTarget *, std::string> replies = message.getReplies();
 	for (std::map<IMsgTarget *, std::string>::const_iterator reply_it = replies.begin(); reply_it != replies.end(); reply_it++)
 	{
-		std::cerr << "reply to " << reply_it->first << " = [" << reply_it->second << "]\n";
+		// std::cerr << "reply to " << reply_it->first << " = [" << reply_it->second << "]\n";
 		if (reply_it->first)
 			reply_it->first->sendMsg(reply_it->second, sender);
 		else
@@ -17,7 +17,7 @@ void Server::reply(Client * sender, SplitMsg & message)
 				for (std::map<int, Client *>::const_iterator chan_client_it = reinterpret_cast<Channel *>(findTarget(*chan_it))->getClients().begin(); chan_client_it != reinterpret_cast<Channel *>(findTarget(*chan_it))->getClients().end(); chan_client_it++)
 					targets.insert(chan_client_it->second);
 			}
-			std::cerr << targets.size() << '\n';
+			// std::cerr << "Targets: " << targets.size() << '\n';
 			for (std::set<Client *>::const_iterator target_it = targets.begin(); target_it != targets.end(); target_it++)
 				(*target_it)->sendMsg(reply_it->second);
 		}

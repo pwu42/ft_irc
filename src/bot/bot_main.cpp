@@ -19,12 +19,14 @@ int checkArgs(int ac, char ** av)
 		std::cerr << "bot: usage: ./bot <port> <password>\n";
 		return -1;
 	}
-	if (std::atoi(av[1]) > 65535 || std::atoi(av[1]) < 1)
+	std::string port(av[1]);
+	if (std::atoi(av[1]) > 65535 || std::atoi(av[1]) < 1 || port.find_first_not_of("0123456789") != std::string::npos)
 	{
-		std::cerr << "bot: invalid port number: " << std::atoi(av[1]) << '\n';
+		std::cerr << "bot: invalid port number: " << av[1] << '\n';
 		return -1;
 	}
-	if (std::string(av[2]).length() > 128 || std::string(av[2]).length() < 1)
+	std::string password(av[2]);
+	if (password.length() > 128 || password.length() < 1 || password.find_first_not_of(PRINTABLE) != std::string::npos)
 	{
 		std::cerr << "bot: invalid password\n";
 		return -1;

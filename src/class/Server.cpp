@@ -89,7 +89,7 @@ int Server::recvMessage(Client * sender)
 		return 1;
 	}
 	buffer[recvCount] = 0;
-	std::cerr << "buffer = [" << buffer << "]\n";
+	// std::cerr << "buffer = [" << buffer << "]\n";
 	sender->addMessage(buffer);
 	return 0;
 }
