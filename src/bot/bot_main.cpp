@@ -19,14 +19,14 @@ int checkArgs(int ac, char ** av)
 		std::cerr << "bot: usage: ./bot <port> <password>\n";
 		return -1;
 	}
-	if (atoi(av[1]) > 65535 || atoi(av[1]) < 1)
+	if (std::atoi(av[1]) > 65535 || std::atoi(av[1]) < 1)
 	{
-		std::cerr << "bot: invalid port number: " << atoi(av[1]) << '\n';
+		std::cerr << "bot: invalid port number: " << std::atoi(av[1]) << '\n';
 		return -1;
 	}
-	if (strlen(av[2]) > 128)
+	if (std::string(av[2]).length() > 128 || std::string(av[2]).length() < 1)
 	{
-		std::cerr << "bot: password too long\n";
+		std::cerr << "bot: invalid password\n";
 		return -1;
 	}
 	return 0;
@@ -41,7 +41,7 @@ int main(int ac, char ** av)
 
 	if (checkArgs(ac, av) == -1)
 		return 1;
-	port = atoi(av[1]);
+	port = std::atoi(av[1]);
 	password = av[2];
 
 	signal(SIGQUIT, handler);

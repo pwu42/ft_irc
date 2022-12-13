@@ -17,19 +17,19 @@ int main(int ac, char **av)
 		std::cerr << "ircserv: usage: ./ircserv <port> <password>\n";
 		return 1;
 	}
-	if (atoi(av[1]) > 65535 || atoi(av[1]) < 1)
+	if (std::atoi(av[1]) > 65535 || std::atoi(av[1]) < 1)
 	{
-		std::cerr << "ircserv: invalid port number: " << atoi(av[1]) << '\n';
+		std::cerr << "ircserv: invalid port number: " << std::atoi(av[1]) << '\n';
 		return 1;
 	}
-	if (strlen(av[2]) > 128)
+	if (std::string(av[2]).length() > 128 || std::string(av[2]).length() < 1)
 	{
-		std::cerr << "ircserv: password too long\n";
+		std::cerr << "ircserv: invalid password\n";
 		return 1;
 	}
 	signal(SIGQUIT, handler);
 	signal(SIGINT, handler);
-	Server server(atoi(av[1]), std::string(av[2]));
+	Server server(std::atoi(av[1]), std::string(av[2]));
 	try
 	{
 		server.init();

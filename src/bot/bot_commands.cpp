@@ -43,6 +43,6 @@ void Bot::cmdPrivmsg(SplitMsg & msg)
 	{
 		strtok(const_cast<char *>(msg.getParams()[1].c_str()), " ");
 		if (char * number = strtok(NULL, " "))
-			sendMsg("NOTICE " + msg.getPrefix().substr(0, msg.getPrefix().find('!')) + ' ' + roll(atoi(number)) + "\r\n");
+			sendMsg("NOTICE " + msg.getPrefix().substr(0, msg.getPrefix().find('!')) + ' ' + roll(std::atoi(number)) + "\r\n");
 	}
 }
